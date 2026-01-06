@@ -1,7 +1,8 @@
+// src/Components/Admin/AdjustmentsTable.jsx
 import React from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
-const AdjustmentsTable = ({ items, loading, onEdit }) => {
+const AdjustmentsTable = ({ items, loading, onEdit, onDelete }) => {
   if (loading) {
     return (
       <div className="p-8 text-center">
@@ -82,6 +83,14 @@ const AdjustmentsTable = ({ items, loading, onEdit }) => {
                       title="Edit Adjustment"
                     >
                       <Pencil className="w-5 h-5 text-[#6F9C3D] group-hover:scale-110 transition-transform" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(item)}
+                      className="transition-colors group"
+                      title="Delete Adjustment"
+                    >
+                      <Trash2 className="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform" />
                     </button>
                   </div>
                 </td>

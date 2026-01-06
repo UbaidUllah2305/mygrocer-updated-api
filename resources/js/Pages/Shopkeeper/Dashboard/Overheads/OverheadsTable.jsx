@@ -1,7 +1,8 @@
+// src/Components/Admin/OverheadsTable.jsx
 import React from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
-const OverheadsTable = ({ items, loading, onEdit }) => {
+const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
   if (loading) {
     return (
       <div className="p-8 text-center">
@@ -55,14 +56,24 @@ const OverheadsTable = ({ items, loading, onEdit }) => {
                 <div className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 mx-auto" />
               </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
-                <button
-                  type="button"
-                  onClick={() => onEdit(item)}
-                  className="transition-colors group"
-                  title="Edit Overhead"
-                >
-                  <Pencil className="w-5 h-5 text-[#6F9C3D] group-hover:scale-110 transition-transform" />
-                </button>
+                <div className="flex justify-center items-center flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onEdit(item)}
+                    className="transition-colors group"
+                    title="Edit Overhead"
+                  >
+                    <Pencil className="w-5 h-5 text-[#6F9C3D] group-hover:scale-110 transition-transform" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(item)}
+                    className="transition-colors group"
+                    title="Delete Overhead"
+                  >
+                    <Trash2 className="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

@@ -5,7 +5,8 @@ import { Plus, ChevronDown } from "lucide-react";
 import axios from "axios";
 import Pagination from "@/Components/Pagination";
 import OverheadsTable from "./OverheadsTable";
-import OverheadsModal from "./OverheadsModal";
+import OverheadsModal from "./AddOverheadsModal";
+import OverheadsDeleteModal from "./OverheadsDeleteModal";
 
 const fallbackData = [
   { exp: "Shop Rent", amt: "1,300", date: "12/07/2025", payment: "Cash", status: "Paid", fre: "Monthly", receipt: "" },
@@ -34,6 +35,7 @@ const OverheadsPage = () => {
   // Modal
   const [modalMode, setModalMode] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
   // Refs for dropdowns
   const filter1Ref = useRef(null);
@@ -158,6 +160,22 @@ const OverheadsPage = () => {
     closeModal();
   };
 
+  const handleDelete = (item) => {
+    setDeleteConfirmation(item);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteConfirmation) return;
+    console.log("Deleting overhead:", deleteConfirmation.exp);
+    // TODO: API call
+    setItems((prev) => prev.filter(i => i.exp !== deleteConfirmation.exp && i.date !== deleteConfirmation.date)); // or use unique ID if available
+    setDeleteConfirmation(null);
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirmation(null);
+  };
+
   const handleExportPDF = () => console.log("Export PDF");
   const handleExportExcel = () => console.log("Export Excel");
 
@@ -225,8 +243,8 @@ const OverheadsPage = () => {
                     setIsFilter1Open(false);
                   }}
                   className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFilterValue === option
-                      ? "bg-[#f0f7ed] text-[#161c2b]"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
+                    ? "bg-[#f0f7ed] text-[#161c2b]"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                     } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
                 >
                   {option}
@@ -266,8 +284,8 @@ const OverheadsPage = () => {
                     setIsFilter2Open(false);
                   }}
                   className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFrequency === freq
-                      ? "bg-[#f0f7ed] text-[#161c2b]"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
+                    ? "bg-[#f0f7ed] text-[#161c2b]"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                     } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
                 >
                   {freq}
@@ -290,6 +308,7 @@ const OverheadsPage = () => {
         items={paginatedItems}
         loading={loading}
         onEdit={openEditModal}
+        onDelete={handleDelete}
       />
 
       {/* Pagination */}
@@ -312,6 +331,15 @@ const OverheadsPage = () => {
           onClose={closeModal}
           onCreate={handleCreate}
           onUpdate={handleUpdate}
+        />
+      )}
+
+      {deleteConfirmation && (
+        <OverheadsDeleteModal
+          isOpen={true}
+          item={deleteConfirmation}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
         />
       )}
     </>

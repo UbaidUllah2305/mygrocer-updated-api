@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { router } from "@inertiajs/react";
 import axios from "axios";
 import AdjustmentsTable from "./AdjustmentsTable";
-import AdjustmentsModal from "./AdjustmentsModal";
+import AdjustmentsModal from "./AddAdjustmentsModal";
+import AdjustmentsDeleteModal from "./AdjustmentsDeleteModal";
 import Pagination from "@/Components/Pagination";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Plus } from "lucide-react";
@@ -28,6 +29,7 @@ const AdjustmentsPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -88,6 +90,22 @@ const AdjustmentsPage = () => {
   const closeModal = () => {
     setModalMode(null);
     setSelectedItem(null);
+  };
+
+  // Add delete handlers:
+  const handleDelete = (item) => {
+    setDeleteConfirmation(item);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteConfirmation) return;
+    console.log("Deleting adjustment:", deleteConfirmation.code);
+    setItems((prev) => prev.filter(i => i.code !== deleteConfirmation.code));
+    setDeleteConfirmation(null);
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirmation(null);
   };
 
   const handleExportPDF = () => {
@@ -153,6 +171,7 @@ const AdjustmentsPage = () => {
         items={paginatedItems}
         loading={loading}
         onEdit={openEditModal}
+        onDelete={handleDelete}
       />
 
       {/* Pagination */}
@@ -175,6 +194,15 @@ const AdjustmentsPage = () => {
           onClose={closeModal}
           onCreate={handleCreateAdjustment}
           onUpdate={handleUpdateAdjustment}
+        />
+      )}
+
+      {deleteConfirmation && (
+        <AdjustmentsDeleteModal
+          isOpen={!!deleteConfirmation}
+          item={deleteConfirmation}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
         />
       )}
     </>

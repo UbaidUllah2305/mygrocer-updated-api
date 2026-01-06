@@ -1,4 +1,3 @@
-// resources/js/Components/OrderDetailModal.jsx
 import React, { useState, useEffect } from 'react';
 
 const OrderDetailModal = ({ order, onClose, onAcceptOrder, onRejectOrder }) => {

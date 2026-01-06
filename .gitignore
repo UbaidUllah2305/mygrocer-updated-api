@@ -1,0 +1,51 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.*
+.env.backup
+.env.production
+
+# Laravel
+/vendor/
+storage/*.key
+storage/logs/
+storage/logs/*
+storage/framework/
+storage/framework/*
+storage/pail
+bootstrap/cache/
+bootstrap/cache/*
+laravel.log
+
+# Build assets (generated files - can be recreated with npm run build)
+/public/build/assets/
+/public/build/manifest.json
+/public/hot
+/public/storage
+
+# IDE & Editor
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+/.phpunit.cache
+.phpunit.result.cache
+
+# Homestead
+Homestead.json
+Homestead.yaml
+
+# Composer
+auth.json

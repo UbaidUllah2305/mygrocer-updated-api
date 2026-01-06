@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import DateInput from "@/Components/Admin/DateInput";
 import AnalyticsGraph from "./AnalyticsGraph";
 import AnalyticsTable from "./AnalyticsTable";
@@ -71,30 +70,14 @@ const Analytics = () => {
       .slice(0, 10);
   }, [productsData, tableFromDate, tableToDate]);
 
-  const handleExportPDF = () => console.log("Export PDF");
-  const handleExportExcel = () => console.log("Export Excel");
-
   return (
-    <>
+    <div className="max-w-[1099px]">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Analytics Overview</h1>
           <p className="text-sm sm:text-base text-gray-600">Track sales, orders, and performance metrics</p>
         </div>
-        <div className="flex items-center gap-4">
-          <button onClick={handleExportPDF} className="hover:scale-110 transition-transform">
-            <FaFilePdf className="w-8 h-8 text-red-600 hover:text-red-700" />
-          </button>
-          <button onClick={handleExportExcel} className="hover:scale-110 transition-transform">
-            <FaFileExcel className="h-8 w-8 text-green-600 hover:text-green-700" />
-          </button>
-        </div>
-      </div>
-
-      {/* Graph Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-        <h2 className="text-xl font-medium">Sales & Orders Trends</h2>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <DateInput label="From" value={graphFromDate} onChange={setGraphFromDate} />
           <DateInput label="To" value={graphToDate} onChange={setGraphToDate} />
@@ -126,7 +109,7 @@ const Analytics = () => {
           loading={false}
         />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ import AddProducts from "./Dashboard/Inventory/AddProducts";
 import Orders from "./Dashboard/OrderReceived/Orders";
 import Adjustments from "./Dashboard/Adjustments/Adjustments";
 import Analytics from "./Dashboard/Analytics/Analytics";
-// import Trends from "../Admin/Trends";
+import Trends from "./Dashboard/Trends/Trends";
 import Overheads from "./Dashboard/Overheads/Overheads";
 // import Accounts from "../Admin/Accounts";
 // import Events from "../Admin/Events";
@@ -37,7 +37,7 @@ export default function Dashboard({ auth, page: pageName }) {
         
         // // Analytics & Reports
         "Analytics": Analytics,
-        // "Trends": Trends,
+        "Trends": Trends,
         
         // // Financial Management
         "Overheads": Overheads,
@@ -74,7 +74,7 @@ export default function Dashboard({ auth, page: pageName }) {
             "Orders": "Orders",
             "Adjustments": "Adjustments",
             "Analytics": "Analytics",
-            // "Trends": "Trends",
+            "Trends": "Trends",
             "Overheads": "Overheads",
             // "Accounts": "Accounts",
             // "Events": "Events",

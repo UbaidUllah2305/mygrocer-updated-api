@@ -196,7 +196,7 @@ const OverheadsPage = () => {
       </div>
 
       {/* Custom Filter Dropdowns */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full mb-6">
+      <div className="flex flex-col sm:flex-row items-stretch justify-end sm:items-center gap-2 w-full mb-6">
         {/* Filter 1: Dynamic Value */}
         <div className="relative w-full sm:w-44" ref={filter1Ref}>
           <button

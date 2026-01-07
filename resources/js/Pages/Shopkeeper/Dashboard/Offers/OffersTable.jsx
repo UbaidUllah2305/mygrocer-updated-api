@@ -86,7 +86,7 @@ const OffersTable = ({ offers, onViewOffer, onEditOffer }) => {
               className="text-base md:text-lg bg-[#D8D8D83B] border-b-2"
             >
               {/* Checkbox */}
-              <td className="p-4 text-center rounded-tl-xl rounded-bl-xl">
+              <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 <input
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 accent-[#6F9C3D] focus:ring-[#6F9C3D]"
@@ -132,7 +132,7 @@ const OffersTable = ({ offers, onViewOffer, onEditOffer }) => {
               </td>
 
               {/* Actions */}
-              <td className="p-4 text-center rounded-tr-xl rounded-br-xl">
+              <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">
                   <button
                     type="button"

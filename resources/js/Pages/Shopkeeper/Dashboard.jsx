@@ -24,6 +24,7 @@ import CreateOffers from "./Dashboard/Offers/CreateOffers";
 // import VendorDashboard from "../Admin/Settings/VendorDashboard";
 // import HelpCenter from "../Admin/Settings/HelpCenter";
 // import ReminderPage from "../Admin/Settings/ReminderPage";
+import Notifications from "./Dashboard/Notifications/Notifications";
 
 export default function Dashboard({ auth, page: pageName }) {
     // Component mapping
@@ -59,6 +60,8 @@ export default function Dashboard({ auth, page: pageName }) {
         // "Settings/VendorDashboard": VendorDashboard,
         // "Settings/HelpCenter": HelpCenter,
         // "Settings/Reminder": ReminderPage,
+        "Notifications": Notifications,
+
     };
 
     // Get the current component
@@ -88,6 +91,7 @@ export default function Dashboard({ auth, page: pageName }) {
             // "Settings/VendorDashboard": "Vendor Dashboard",
             // "Settings/HelpCenter": "Help Center",
             // "Settings/Reminder": "Reminder",
+            "Notifications": "Notifications"
         };
         return titleMap[pageName] || "MyGrocer";
     };

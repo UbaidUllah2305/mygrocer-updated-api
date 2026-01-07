@@ -16,8 +16,7 @@ import Overheads from "./Dashboard/Overheads/Overheads";
 // import AddEvents from "../Admin/AddEvents";
 import Offers from "./Dashboard/Offers/Offers";
 import CreateOffers from "./Dashboard/Offers/CreateOffers";
-// import Orders from "../Admin/Orders";
-// import Messages from "../Admin/Messages";
+import Messages from "./Dashboard/Messages/Messages";
 // import Subscription from "../Admin/Settings/Subscription";
 // import DeliverySettings from "../Admin/Settings/DeliverySettings";
 // import Vouchers from "../Admin/Settings/Vouchers";
@@ -51,7 +50,7 @@ export default function Dashboard({ auth, page: pageName }) {
         "CreateOffers": CreateOffers,
         
         // // Orders & Communication
-        // "Messages": Messages,
+        "Messages": Messages,
         
         // // Settings
         // "Settings/Subscription": Subscription,
@@ -84,7 +83,7 @@ export default function Dashboard({ auth, page: pageName }) {
             // "AddEvents": "Add Event",
             "Offers": "Offers",
             "CreateOffers": "Create Offer",
-            // "Messages": "Messages",
+            "Messages": "Messages",
             // "Settings/Subscription": "Subscription",
             // "Settings/DeliverySettings": "Delivery Settings",
             // "Settings/Vouchers": "Vouchers",

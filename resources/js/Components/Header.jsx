@@ -115,6 +115,7 @@ const Header = ({ isMobile = false, isSidebarOpen = false, onToggleSidebar, auth
                                 type="button"
                                 className="hidden sm:flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-[#fff3e0] text-[#ff8b2c] transition-all hover:bg-[#ff8b2c] hover:text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#ff8b2c]/40 active:scale-95 relative"
                                 aria-label="Notifications"
+                                onClick={() => router.visit('/notifications')}
                             >
                                 <FaBell className="h-6 w-6" />
                             </button>

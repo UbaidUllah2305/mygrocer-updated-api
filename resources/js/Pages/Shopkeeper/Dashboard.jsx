@@ -7,10 +7,10 @@ import ShopkeeperDashboard from "./Dashboard/ShopkeeperDashboard";
 import InventoryPage from "./Dashboard/Inventory/Inventory";
 import AddProducts from "./Dashboard/Inventory/AddProducts";
 import Orders from "./Dashboard/OrderReceived/Orders";
-// import Adjustments from "../Admin/Adjustments";
-// import Analytics from "../Admin/Analytics";
-// import Trends from "../Admin/Trends";
-// import Overheads from "../Admin/Overheads";
+import Adjustments from "./Dashboard/Adjustments/Adjustments";
+import Analytics from "./Dashboard/Analytics/Analytics";
+import Trends from "./Dashboard/Trends/Trends";
+import Overheads from "./Dashboard/Overheads/Overheads";
 // import Accounts from "../Admin/Accounts";
 // import Events from "../Admin/Events";
 // import AddEvents from "../Admin/AddEvents";
@@ -33,14 +33,14 @@ export default function Dashboard({ auth, page: pageName }) {
         "AddProducts": AddProducts,
         "EditProducts": AddProducts,
         "Orders": Orders,
-        // "Adjustments": Adjustments,
+        "Adjustments": Adjustments,
         
         // // Analytics & Reports
-        // "Analytics": Analytics,
-        // "Trends": Trends,
+        "Analytics": Analytics,
+        "Trends": Trends,
         
         // // Financial Management
-        // "Overheads": Overheads,
+        "Overheads": Overheads,
         // "Accounts": Accounts,
         
         // // Marketing & Promotions
@@ -72,10 +72,10 @@ export default function Dashboard({ auth, page: pageName }) {
             "AddProducts": "Add Product",
             "EditProducts": "Edit Product",
             "Orders": "Orders",
-            // "Adjustments": "Adjustments",
-            // "Analytics": "Analytics",
-            // "Trends": "Trends",
-            // "Overheads": "Overheads",
+            "Adjustments": "Adjustments",
+            "Analytics": "Analytics",
+            "Trends": "Trends",
+            "Overheads": "Overheads",
             // "Accounts": "Accounts",
             // "Events": "Events",
             // "AddEvents": "Add Event",

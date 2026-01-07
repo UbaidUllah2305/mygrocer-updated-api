@@ -122,6 +122,10 @@ Route::middleware('auth:customer')->prefix('customer')->name('customer.')->group
         return Inertia::render('Customer/ReminderPage');
     })->name('reminder');
 
+    Route::get('/user-manual', function () {
+        return Inertia::render('Customer/UserManualPage');
+    })->name('user_manual');
+
     Route::get('/offers-alerts', function () {
         return Inertia::render('Customer/OffersAlertsPage');
     })->name('offers.alerts');
@@ -249,6 +253,10 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
     Route::get('/messages', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Messages']);
     })->name('messages');
+
+    Route::get('/notifications', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Notifications']);
+    })->name('notifications');
 
     // Settings
     Route::prefix('settings')->name('settings.')->group(function () {

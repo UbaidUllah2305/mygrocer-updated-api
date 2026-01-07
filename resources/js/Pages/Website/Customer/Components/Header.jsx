@@ -71,13 +71,14 @@ export default function Header({ auth }) {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center gap-1">
-                        {/* For Shopkeepers Button */}
-                        <Link
-                            href="/shopkeeper"
-                            className="flex items-center justify-center bg-[#6F9C3D] text-white px-4 xl:px-6 py-2.5 rounded-xl font-medium text-sm xl:text-base hover:bg-[#5d8a32] transition-colors whitespace-nowrap"
-                        >
-                            For Shopkeepers
-                        </Link>
+                        {!user ? (
+                            <Link
+                                href="/shopkeeper"
+                                className="flex items-center justify-center bg-[#6F9C3D] text-white px-4 xl:px-6 py-2.5 rounded-xl font-medium text-sm xl:text-base hover:bg-[#5d8a32] transition-colors whitespace-nowrap"
+                            >
+                                For Shopkeepers
+                            </Link>
+                        ) : null}
 
                         {/* Show Login/Register OR User Menu */}
                         {!user ? (
@@ -218,13 +219,15 @@ export default function Header({ auth }) {
                 >
                     <nav className="py-4 space-y-3 border-t border-gray-200">
                         {/* For Shopkeepers Button */}
-                        <Link
-                            href="/shopkeeper"
-                            className="flex items-center justify-center bg-[#6F9C3D] text-white px-4 py-3 rounded-xl font-medium hover:bg-[#5d8a32] transition-colors"
-                            onClick={toggleMenu}
-                        >
-                            For Shopkeepers
-                        </Link>
+                        {!user ? (
+                            <Link
+                                href="/shopkeeper"
+                                className="flex items-center justify-center bg-[#6F9C3D] text-white px-4 xl:px-6 py-2.5 rounded-xl font-medium text-sm xl:text-base hover:bg-[#5d8a32] transition-colors whitespace-nowrap"
+                                onClick={toggleMenu}
+                            >
+                                For Shopkeepers
+                            </Link>
+                        ) : null}
 
                         {!user ? (
                             <>

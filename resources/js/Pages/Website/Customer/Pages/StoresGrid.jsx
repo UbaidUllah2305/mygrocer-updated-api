@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "@inertiajs/react";
 import {
     FaBiking,
     FaTag,
@@ -91,6 +92,7 @@ export default function StoresGrid() {
 
     const toggleFavorite = (e, storeId) => {
         e.preventDefault();
+        e.stopPropagation(); // Prevent navigation when clicking favorite button
         setFavorites((prev) =>
             prev.includes(storeId)
                 ? prev.filter((id) => id !== storeId)
@@ -127,10 +129,10 @@ export default function StoresGrid() {
                     const hasDiscount = store.discount && store.promoCode;
 
                     return (
-                        <a
+                        <Link
                             key={uniqueId}
-                            href="#"
-                            className="bg-white rounded-xl border border-[#0000001F] overflow-hidden hover:shadow-lg transition-all duration-300 group"
+                            href={`/customer/stores/${store.id}`}
+                            className="bg-white rounded-xl border border-[#0000001F] overflow-hidden hover:shadow-lg transition-all duration-300 group block"
                         >
                             {/* Store Image */}
                             <div className="relative">
@@ -162,7 +164,7 @@ export default function StoresGrid() {
                                 {/* Favorite Icon (Right Top) */}
                                 <button
                                     onClick={(e) => toggleFavorite(e, uniqueId)}
-                                    className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#FF8E33] p-1.5 sm:p-2 rounded-full shadow-md transition-all duration-200 hover:scale-110"
+                                    className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#FF8E33] p-1.5 sm:p-2 rounded-full shadow-md transition-all duration-200 hover:scale-110 z-10"
                                     aria-label={
                                         isFavorite
                                             ? "Remove from favorites"
@@ -228,7 +230,7 @@ export default function StoresGrid() {
                                     )}
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     );
                 })}
             </div>

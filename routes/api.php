@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomerAuthController;
+use App\Http\Controllers\Api\CustomerBusinessController;
 use App\Http\Controllers\Api\ShopkeeperAuthController;
 use App\Http\Controllers\Api\ShopkeeperBusinessController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::prefix('v1')->middleware(['web'])->group(function () {
         // Protected routes
         Route::middleware('auth:customer')->group(function () {
             Route::get('/user', [CustomerAuthController::class, 'user']);
+            
+            // Customer Profile Setup
+            Route::post('/profile/save-step', [CustomerBusinessController::class, 'saveStep']);
         });
     });
     

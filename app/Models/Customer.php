@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use App\Notifications\CustomerResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\CustomerResetPasswordNotification;
 
 class Customer extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
-
-    protected $table = 'customers';
 
     protected $fillable = [
         'name',
@@ -32,6 +30,30 @@ class Customer extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the Customer Business profile for the customer
+     */
+    public function business()
+    {
+        return $this->hasOne(CustomerBusiness::class);
+    }
+
+    /**
+     * Check if profile is completed
+     */
+    public function hasCompletedProfile(): bool
+    {
+        return $this->business && $this->business->profile_completed;
+    }
+
+    /**
+     * Get current profile step
+     */
+    public function getCurrentProfileStep(): int
+    {
+        return $this->business ? $this->business->profile_step : 0;
+    }
 
     /**
      * Send the password reset notification.

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\CustomerBusiness;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,14 +28,22 @@ class CustomerAuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        // Create business profile - ensure it's created
+        $business = CustomerBusiness::create([
+            'customer_id' => $customer->id,
+            'email' => $customer->email,
+            'profile_step' => 0,
+            'profile_completed' => false,
+        ]);
+
         Auth::guard('customer')->login($customer);
         $request->session()->regenerate();
 
         return response()->json([
             'success' => true,
-            'message' => 'Registration successful!',
+            'message' => 'Registration successful! Please complete your profile.',
             'user' => $customer,
-            'redirect' => route('customer.home'),
+            'redirect' => route('profile'),
         ]);
     }
 
@@ -52,12 +61,24 @@ class CustomerAuthController extends Controller
         }
 
         $request->session()->regenerate();
+        
+        $customer = Auth::guard('customer')->user();
+        
+        // Check if profile is completed
+        if (!$customer->hasCompletedProfile()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Please complete your profile setup.',
+                'user' => $customer,
+                'redirect' => route('profile'),
+            ]);
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Login successful!',
-            'user' => Auth::guard('customer')->user(),
-            'redirect' => url('/'),
+            'user' => $customer,
+            'redirect' => route('customer.dashboard'),
         ]);
     }
 
@@ -76,8 +97,12 @@ class CustomerAuthController extends Controller
 
     public function user(Request $request)
     {
+        $customer = Auth::guard('customer')->user();
+        $customer->load('business');
+        
         return response()->json([
-            'user' => Auth::guard('customer')->user(),
+            'success' => true,
+            'user' => $customer,
         ]);
     }
 
@@ -87,7 +112,6 @@ class CustomerAuthController extends Controller
             'email' => 'required|email|exists:customers,email',
         ]);
 
-        // Find the customer
         $customer = Customer::where('email', $request->email)->first();
 
         if (!$customer) {
@@ -97,14 +121,11 @@ class CustomerAuthController extends Controller
         }
 
         try {
-            // Send password reset notification
             $status = Password::broker('customers')->sendResetLink(
                 $request->only('email')
             );
 
-            // Update the token record with guard_type after Laravel creates it
             if ($status === Password::RESET_LINK_SENT) {
-                // Update the most recent token for this email
                 DB::table('password_reset_tokens')
                     ->where('email', $request->email)
                     ->where(function($query) {
@@ -125,7 +146,6 @@ class CustomerAuthController extends Controller
                 'email' => [__($status)],
             ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
             \Log::error('Password reset error: ' . $e->getMessage());
             
             throw ValidationException::withMessages([
@@ -142,7 +162,6 @@ class CustomerAuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Find token with guard_type
         $tokenRecord = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->where('token', hash('sha256', $request->token))
@@ -163,12 +182,10 @@ class CustomerAuthController extends Controller
             ]);
         }
 
-        // Update password
         $customer->forceFill([
             'password' => Hash::make($request->password)
         ])->save();
 
-        // Delete the token
         DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->where('guard_type', 'customer')

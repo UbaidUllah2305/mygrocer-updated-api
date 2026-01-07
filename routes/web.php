@@ -76,15 +76,37 @@ Route::middleware('guest:shopkeeper')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Customer Profile Setup
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:customer')->group(function () {
+    Route::get('/profile', function () {
+        return Inertia::render('Customer/Profile/ProfileSetup');
+    })->name('profile');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Customer Dashboard & Protected Routes
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:customer')->prefix('customer')->name('customer.')->group(function () {
+Route::middleware(['auth:customer'])->prefix('customer')->name('customer.')->group(function () {
     // Customer Dashboard
     Route::get('/dashboard', function () {
-        return Inertia::render('Customer/Dashboard');
+        return Inertia::render('Customer/Dashboard/CustomerDashboard');
     })->name('dashboard');
+
+    // Stores List
+    Route::get('/stores', function () {
+        return Inertia::render('Customer/StoresList');
+    })->name('stores');
+    
+    // Individual Store Preview
+    Route::get('/stores/{id}', function ($id) {
+        return Inertia::render('Customer/Stores/StoreDetails', ['storeId' => $id]);
+    })->name('store.preview');
     
     Route::get('/profile', function () {
         return Inertia::render('Customer/ProfilePage');
@@ -138,26 +160,23 @@ Route::middleware('auth:customer')->prefix('customer')->name('customer.')->group
 */
 
 Route::prefix('customer')->name('customer.')->group(function () {
-    Route::get('/stores', function () {
-        return Inertia::render('Customer/StoresList');
-    })->name('stores');
     
-    Route::get('/stores/{id}', function ($id) {
-        return Inertia::render('Customer/StorePreview', ['storeId' => $id]);
-    })->name('store.preview');
-    
+    // Checkout Page
     Route::get('/checkout', function () {
         return Inertia::render('Customer/Checkout');
     })->name('checkout');
     
+    // Order Tracking
     Route::get('/order-tracking', function () {
         return Inertia::render('Customer/OrderTracking');
     })->name('order.tracking');
     
+    // Favourites Page
     Route::get('/favourites', function () {
         return Inertia::render('Customer/FavouritesPage');
     })->name('favourites');
     
+    // Vouchers and Offers
     Route::get('/vouchers-and-offers', function () {
         return Inertia::render('Customer/VouchersAndOffersPage');
     })->name('vouchers');

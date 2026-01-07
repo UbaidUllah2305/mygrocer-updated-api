@@ -14,16 +14,16 @@ import Overheads from "./Dashboard/Overheads/Overheads";
 // import Accounts from "../Admin/Accounts";
 // import Events from "../Admin/Events";
 // import AddEvents from "../Admin/AddEvents";
-// import Offers from "../Admin/Offers";
-// import CreateOffers from "../Admin/CreateOffers";
-// import Orders from "../Admin/Orders";
-// import Messages from "../Admin/Messages";
+import Offers from "./Dashboard/Offers/Offers";
+import CreateOffers from "./Dashboard/Offers/CreateOffers";
+import Messages from "./Dashboard/Messages/Messages";
 // import Subscription from "../Admin/Settings/Subscription";
 // import DeliverySettings from "../Admin/Settings/DeliverySettings";
 // import Vouchers from "../Admin/Settings/Vouchers";
 // import VendorDashboard from "../Admin/Settings/VendorDashboard";
 // import HelpCenter from "../Admin/Settings/HelpCenter";
 // import ReminderPage from "../Admin/Settings/ReminderPage";
+import Notifications from "./Dashboard/Notifications/Notifications";
 
 export default function Dashboard({ auth, page: pageName }) {
     // Component mapping
@@ -46,11 +46,11 @@ export default function Dashboard({ auth, page: pageName }) {
         // // Marketing & Promotions
         // "Events": Events,
         // "AddEvents": AddEvents,
-        // "Offers": Offers,
-        // "CreateOffers": CreateOffers,
+        "Offers": Offers,
+        "CreateOffers": CreateOffers,
         
         // // Orders & Communication
-        // "Messages": Messages,
+        "Messages": Messages,
         
         // // Settings
         // "Settings/Subscription": Subscription,
@@ -59,6 +59,8 @@ export default function Dashboard({ auth, page: pageName }) {
         // "Settings/VendorDashboard": VendorDashboard,
         // "Settings/HelpCenter": HelpCenter,
         // "Settings/Reminder": ReminderPage,
+        "Notifications": Notifications,
+
     };
 
     // Get the current component
@@ -79,15 +81,16 @@ export default function Dashboard({ auth, page: pageName }) {
             // "Accounts": "Accounts",
             // "Events": "Events",
             // "AddEvents": "Add Event",
-            // "Offers": "Offers",
-            // "CreateOffers": "Create Offer",
-            // "Messages": "Messages",
+            "Offers": "Offers",
+            "CreateOffers": "Create Offer",
+            "Messages": "Messages",
             // "Settings/Subscription": "Subscription",
             // "Settings/DeliverySettings": "Delivery Settings",
             // "Settings/Vouchers": "Vouchers",
             // "Settings/VendorDashboard": "Vendor Dashboard",
             // "Settings/HelpCenter": "Help Center",
             // "Settings/Reminder": "Reminder",
+            "Notifications": "Notifications"
         };
         return titleMap[pageName] || "MyGrocer";
     };

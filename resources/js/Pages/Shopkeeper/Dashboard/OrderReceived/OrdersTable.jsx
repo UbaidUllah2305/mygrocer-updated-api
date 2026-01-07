@@ -15,14 +15,14 @@ const OrdersTable = ({ orders, onViewOrder, onCallCustomer, onPrintOrder, getSta
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium text-center">
-            <th className="p-4 rounded-tl-xl">#</th>
-            <th className="p-4 truncate">Order #</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">#</th>
+            <th className="p-4">Order #</th>
             <th className="p-4">Customer</th>
             <th className="p-4">Phone #</th>
-            <th className="p-4 truncate">Payment Terms</th>
-            <th className="p-4 truncate">Total Amount</th>
+            <th className="p-4">Payment Terms</th>
+            <th className="p-4">Total Amount</th>
             <th className="p-4">Status</th>
-            <th className="p-4 truncate rounded-tr-xl">Order Details</th>
+            <th className="p-4 rounded-tr-xl rounded-br-xl">Order Details</th>
           </tr>
         </thead>
 

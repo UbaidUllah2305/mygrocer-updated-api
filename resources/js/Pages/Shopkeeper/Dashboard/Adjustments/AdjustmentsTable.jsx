@@ -1,6 +1,6 @@
 // src/Components/Admin/AdjustmentsTable.jsx
 import React from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Package } from "lucide-react";
 
 const AdjustmentsTable = ({ items, loading, onEdit, onDelete }) => {
   if (loading) {
@@ -17,16 +17,16 @@ const AdjustmentsTable = ({ items, loading, onEdit, onDelete }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium text-center">
-            <th className="p-4 truncate rounded-tl-xl">Main Category</th>
-            <th className="p-4 truncate">Sub Category</th>
-            <th className="p-4 truncate">Code</th>
-            <th className="p-4 truncate">Product Name</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">Main Category</th>
+            <th className="p-4">Sub Category</th>
+            <th className="p-4">Code</th>
+            <th className="p-4">Product Name</th>
             <th className="p-4">BP</th>
             <th className="p-4">SP</th>
             <th className="p-4">Quantity</th>
             <th className="p-4">Unit</th>
             <th className="p-4">Image</th>
-            <th className="p-4 rounded-tr-xl">Actions</th>
+            <th className="p-4 rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
 
@@ -53,13 +53,12 @@ const AdjustmentsTable = ({ items, loading, onEdit, onDelete }) => {
                 <td className="p-4">{item.sp}</td>
                 <td className="p-4">
                   <span
-                    className={`font-medium ${
-                      parseInt(item.qty) < 100
+                    className={`font-medium ${parseInt(item.qty) < 100
                         ? "text-red-600"
                         : parseInt(item.qty) < 500
-                        ? "text-yellow-600"
-                        : "text-green-600"
-                    }`}
+                          ? "text-yellow-600"
+                          : "text-green-600"
+                      }`}
                   >
                     {item.qty}
                   </span>
@@ -67,10 +66,24 @@ const AdjustmentsTable = ({ items, loading, onEdit, onDelete }) => {
                 <td className="p-4">{item.unit}</td>
                 <td className="p-4">
                   <div className="flex justify-center">
-                    <div className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 overflow-hidden">
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="bg-gray-300 h-6 w-6 rounded" />
-                      </div>
+                    <div
+                      className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 overflow-hidden"
+                      title="Product image"
+                    >
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Package className="w-5 h-5 text-gray-400" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </td>

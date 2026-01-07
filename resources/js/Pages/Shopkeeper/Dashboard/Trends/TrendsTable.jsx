@@ -23,16 +23,16 @@ const TrendsTable = ({ items, loading }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium text-center">
-            <th className="p-4 truncate rounded-tl-xl">Main Category</th>
-            <th className="p-4 truncate">Sub Category</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">Main Category</th>
+            <th className="p-4">Sub Category</th>
             <th className="p-4">Code</th>
-            <th className="p-4 truncate">Product Name</th>
+            <th className="p-4">Product Name</th>
             <th className="p-4">BP</th>
             <th className="p-4">SP</th>
             <th className="p-4">Quantity</th>
-            <th className="p-4 truncate">Sold out</th>
-            <th className="p-4 truncate">In stock</th>
-            <th className="p-4 rounded-tr-xl">Image</th>
+            <th className="p-4">Sold out</th>
+            <th className="p-4">In stock</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">Image</th>
           </tr>
         </thead>
 

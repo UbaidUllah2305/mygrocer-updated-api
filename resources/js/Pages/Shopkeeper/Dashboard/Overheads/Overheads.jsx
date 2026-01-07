@@ -1,12 +1,11 @@
 // src/Pages/Admin/OverheadsPage.jsx
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Plus, ChevronDown } from "lucide-react";
 import axios from "axios";
 import Pagination from "@/Components/Pagination";
 import OverheadsTable from "./OverheadsTable";
 import OverheadsModal from "./AddOverheadsModal";
-import OverheadsDeleteModal from "./OverheadsDeleteModal";
+import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
 
 const fallbackData = [
   { exp: "Shop Rent", amt: "1,300", date: "12/07/2025", payment: "Cash", status: "Paid", fre: "Monthly", receipt: "" },
@@ -176,36 +175,102 @@ const OverheadsPage = () => {
     setDeleteConfirmation(null);
   };
 
-  const handleExportPDF = () => console.log("Export PDF");
-  const handleExportExcel = () => console.log("Export Excel");
-
   return (
     <>
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        {/* Left: Title */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Overheads</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Overheads</h1>
           <p className="text-sm sm:text-base text-gray-600">Manage your recurring expenses</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <button
-            onClick={handleExportPDF}
-            title="Export PDF"
-            className="hover:scale-110 transition-transform"
-          >
-            <FaFilePdf className="w-8 h-8 text-red-600 hover:text-red-700" />
-          </button>
-          <button
-            onClick={handleExportExcel}
-            title="Export Excel"
-            className="hover:scale-110 transition-transform"
-          >
-            <FaFileExcel className="h-8 w-8 text-green-600 hover:text-green-700" />
-          </button>
+        {/* Right: Filters + Add Button */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+          {/* Filter 1: Dynamic Value */}
+          <div className="relative w-full sm:w-44" ref={filter1Ref}>
+            <button
+              type="button"
+              className="w-full h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
+              onClick={() => setIsFilter1Open(!isFilter1Open)}
+            >
+              {selectedFilterValue}
+              <ChevronDown
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-transform ${isFilter1Open ? "rotate-180" : ""}`}
+                size={18}
+              />
+            </button>
+
+            {isFilter1Open && (
+              <div
+                className="absolute right-0 mt-1 w-full bg-white border-2 border-gray-300 rounded-xl shadow-lg z-10 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {getFirstFilterOptions().map((option, index, arr) => (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => {
+                      setSelectedFilterValue(option);
+                      setIsFilter1Open(false);
+                    }}
+                    className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFilterValue === option
+                      ? "bg-[#f0f7ed] text-[#161c2b]"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Filter 2: Frequency */}
+          <div className="relative w-full sm:w-44" ref={filter2Ref}>
+            <button
+              type="button"
+              className="w-full h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
+              onClick={() => setIsFilter2Open(!isFilter2Open)}
+            >
+              {selectedFrequency}
+              <ChevronDown
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-transform ${isFilter2Open ? "rotate-180" : ""}`}
+                size={18}
+              />
+            </button>
+
+            {isFilter2Open && (
+              <div
+                className="absolute right-0 mt-1 w-full bg-white border-2 border-gray-300 rounded-xl shadow-lg z-10 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {["Weekly", "Monthly", "Yearly"].map((freq, index, arr) => (
+                  <button
+                    key={freq}
+                    type="button"
+                    onClick={() => {
+                      setSelectedFrequency(freq);
+                      setSelectedFilterValue("All");
+                      setCurrentPage(1);
+                      setIsFilter2Open(false);
+                    }}
+                    className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFrequency === freq
+                      ? "bg-[#f0f7ed] text-[#161c2b]"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
+                  >
+                    {freq}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Add Button */}
           <button
             onClick={openAddModal}
-            className="flex items-center gap-2 rounded-xl bg-[#6F9C3D] px-4 sm:px-6 py-2.5 text-sm sm:text-base font-medium text-white shadow-sm hover:bg-[#5d8a32] transition"
+            className="flex items-center justify-center gap-2 h-12 rounded-xl bg-[#6F9C3D] px-4 text-sm sm:text-base font-medium text-white shadow-sm hover:bg-[#5d8a32] transition w-full sm:w-auto"
           >
             <Plus className="h-4 w-4" />
             <span>Add Overheads</span>
@@ -213,95 +278,12 @@ const OverheadsPage = () => {
         </div>
       </div>
 
-      {/* Custom Filter Dropdowns */}
-      <div className="flex flex-col sm:flex-row items-stretch justify-end sm:items-center gap-2 w-full mb-6">
-        {/* Filter 1: Dynamic Value */}
-        <div className="relative w-full sm:w-44" ref={filter1Ref}>
-          <button
-            type="button"
-            className="w-full h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
-            onClick={() => setIsFilter1Open(!isFilter1Open)}
-          >
-            {selectedFilterValue}
-            <ChevronDown
-              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-transform ${isFilter1Open ? "rotate-180" : ""}`}
-              size={18}
-            />
-          </button>
-
-          {isFilter1Open && (
-            <div
-              className="absolute right-0 mt-1 w-full bg-white border-2 border-gray-300 rounded-xl shadow-lg z-10 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {getFirstFilterOptions().map((option, index, arr) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => {
-                    setSelectedFilterValue(option);
-                    setIsFilter1Open(false);
-                  }}
-                  className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFilterValue === option
-                    ? "bg-[#f0f7ed] text-[#161c2b]"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                    } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Filter 2: Frequency */}
-        <div className="relative w-full sm:w-44" ref={filter2Ref}>
-          <button
-            type="button"
-            className="w-full h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
-            onClick={() => setIsFilter2Open(!isFilter2Open)}
-          >
-            {selectedFrequency}
-            <ChevronDown
-              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-transform ${isFilter2Open ? "rotate-180" : ""}`}
-              size={18}
-            />
-          </button>
-
-          {isFilter2Open && (
-            <div
-              className="absolute right-0 mt-1 w-full bg-white border-2 border-gray-300 rounded-xl shadow-lg z-10 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {["Weekly", "Monthly", "Yearly"].map((freq, index, arr) => (
-                <button
-                  key={freq}
-                  type="button"
-                  onClick={() => {
-                    setSelectedFrequency(freq);
-                    setSelectedFilterValue("All");
-                    setCurrentPage(1);
-                    setIsFilter2Open(false);
-                  }}
-                  className={`block w-full text-left px-4 py-3 text-base font-normal ${selectedFrequency === freq
-                    ? "bg-[#f0f7ed] text-[#161c2b]"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                    } ${index !== arr.length - 1 ? "border-b border-gray-300" : ""}`}
-                >
-                  {freq}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Error Banner */}
-      {error && (
+      {/* {error && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-sm text-red-800">{error}</p>
         </div>
-      )}
+      )} */}
 
       {/* Table */}
       <OverheadsTable
@@ -334,14 +316,15 @@ const OverheadsPage = () => {
         />
       )}
 
-      {deleteConfirmation && (
-        <OverheadsDeleteModal
-          isOpen={true}
-          item={deleteConfirmation}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
-        />
-      )}
+      <DeleteConfirmationModal
+        isOpen={!!deleteConfirmation}
+        onClose={() => setDeleteConfirmation(null)}
+        onConfirm={confirmDelete}
+        title="Delete Overhead?"
+        itemName={deleteConfirmation?.exp}
+        details={`Amount: ${deleteConfirmation?.amt} • ${deleteConfirmation?.date}`}
+        warningMessage="This action cannot be undone. The overhead record will be permanently removed."
+      />
     </>
   );
 };

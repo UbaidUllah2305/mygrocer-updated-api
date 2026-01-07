@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { router } from "@inertiajs/react";
 import axios from "axios";
 import InventoryTable from "./InventoryTable";
-import InventoryDeleteModal from "./InventoryDeleteModal";
+import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
 import Pagination from "@/Components/Pagination";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
@@ -82,8 +82,8 @@ const Inventory = () => {
     setError("");
 
     try {
-      const response = await axios.get("/api/inventory", { 
-        signal: controller.signal 
+      const response = await axios.get("/api/inventory", {
+        signal: controller.signal
       });
       const data = Array.isArray(response.data) ? response.data : [];
       setItems(data.length ? data : fallbackData);
@@ -120,7 +120,7 @@ const Inventory = () => {
     try {
       await axios.delete(`/api/inventory/${deleteConfirmation.code}`);
       setItems((prev) => prev.filter((i) => i.code !== deleteConfirmation.code));
-      
+
       const newTotalPages = Math.max(1, Math.ceil((items.length - 1) / itemsPerPage));
       if (currentPage > newTotalPages) {
         setCurrentPage(newTotalPages);
@@ -170,9 +170,9 @@ const Inventory = () => {
         </div>
 
         <div className="flex items-center gap-4 flex-shrink-0">
-          <button 
-            type="button" 
-            onClick={handleExportPDF} 
+          <button
+            type="button"
+            onClick={handleExportPDF}
             title="Export PDF"
             className="hover:scale-110 transition-transform"
           >
@@ -224,12 +224,14 @@ const Inventory = () => {
       )}
 
       {/* Delete Confirmation Modal */}
-      <InventoryDeleteModal
+      <DeleteConfirmationModal
         isOpen={!!deleteConfirmation}
-        item={deleteConfirmation}
+        onClose={() => setDeleteConfirmation(null)}
         onConfirm={confirmDelete}
-        onCancel={cancelDelete}
-        isDeleting={isDeleting}
+        title="Delete Product?"
+        itemName={deleteConfirmation?.name}
+        details={`Product Code: ${deleteConfirmation?.code}`}
+        warningMessage="This action cannot be undone. The product will be permanently removed from your inventory."
       />
     </>
   );

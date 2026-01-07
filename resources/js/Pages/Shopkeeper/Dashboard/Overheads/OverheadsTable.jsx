@@ -1,6 +1,6 @@
 // src/Components/Admin/OverheadsTable.jsx
 import React from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Package } from "lucide-react";
 
 const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
   if (loading) {
@@ -25,14 +25,14 @@ const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium">
-            <th className="p-4 truncate text-left rounded-tl-xl">Expense Name</th>
+            <th className="p-4 truncate text-left rounded-tl-xl rounded-bl-xl">Expense Name</th>
             <th className="p-4 text-left">Amount</th>
             <th className="p-4 text-center">Date</th>
             <th className="p-4 truncate text-center">Payment Method</th>
             <th className="p-4 text-center">Status</th>
             <th className="p-4 text-center">Frequency</th>
             <th className="p-4 text-center">Receipt</th>
-            <th className="p-4 text-center rounded-tr-xl">Actions</th>
+            <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
 
@@ -53,8 +53,27 @@ const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
               <td className="p-4 text-center">{item.status}</td>
               <td className="p-4 text-center">{item.fre}</td>
               <td className="p-4 text-center">
-                <div className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 mx-auto" />
-              </td>
+                <div className="flex justify-center">
+                  <div
+                    className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 overflow-hidden"
+                    title="Product image"
+                  >
+                    {item.receipt ? (
+                      <img
+                        src={item.receipt}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Package className="w-5 h-5 text-gray-400" />
+                      </div>
+                    )}
+                  </div>
+                </div>              </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex justify-center items-center flex-wrap gap-2">
                   <button

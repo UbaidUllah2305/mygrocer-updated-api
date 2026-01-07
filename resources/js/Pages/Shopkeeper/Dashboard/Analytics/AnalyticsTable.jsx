@@ -15,16 +15,16 @@ const AnalyticsTable = ({ items, fromDate, toDate, loading }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium text-center">
-            <th className="p-4 truncate rounded-tl-xl">Main Category</th>
-            <th className="p-4 truncate">Sub Category</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">Main Category</th>
+            <th className="p-4">Sub Category</th>
             <th className="p-4">Code</th>
-            <th className="p-4 truncate">Product Name</th>
+            <th className="p-4">Product Name</th>
             <th className="p-4">Sold</th>
             <th className="p-4">Amount</th>
             <th className="p-4">Orders</th>
             <th className="p-4">Discount</th>
             <th className="p-4">Profit</th>
-            <th className="p-4 truncate rounded-tr-xl">Date Range</th>
+            <th className="p-4 rounded-tr-xl rounded-br-xl">Date Range</th>
           </tr>
         </thead>
 
@@ -54,7 +54,7 @@ const AnalyticsTable = ({ items, fromDate, toDate, loading }) => {
                 <td className="p-4">{p.discount}</td>
                 <td className="p-4">{p.profit}</td>
                 <td className={`p-4 ${index === 0 ? "rounded-tr-xl" : ""}`}>
-                  <div className="text-xs">
+                  <div className="text-sm">
                     <div>From: {fromDate.split('-').slice(1).join('-')}</div>
                     <div>To: {toDate.split('-').slice(1).join('-')}</div>
                   </div>

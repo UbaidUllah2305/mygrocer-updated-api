@@ -3,7 +3,7 @@ import { router } from "@inertiajs/react";
 import axios from "axios";
 import AdjustmentsTable from "./AdjustmentsTable";
 import AdjustmentsModal from "./AddAdjustmentsModal";
-import AdjustmentsDeleteModal from "./AdjustmentsDeleteModal";
+import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
 import Pagination from "@/Components/Pagination";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Plus } from "lucide-react";
@@ -197,14 +197,15 @@ const AdjustmentsPage = () => {
         />
       )}
 
-      {deleteConfirmation && (
-        <AdjustmentsDeleteModal
-          isOpen={!!deleteConfirmation}
-          item={deleteConfirmation}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
-        />
-      )}
+      <DeleteConfirmationModal
+        isOpen={!!deleteConfirmation}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        title="Delete Adjustment?"
+        itemName={deleteConfirmation?.name || deleteConfirmation?.code || "this item"}
+        details={`Code: ${deleteConfirmation?.code} • Category: ${deleteConfirmation?.main} / ${deleteConfirmation?.sub}`}
+        warningMessage="This action cannot be undone. The inventory adjustment record will be permanently removed."
+      />
     </>
   );
 };

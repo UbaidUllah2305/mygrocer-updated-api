@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import DateInput from "@/Components/Admin/DateInput";
 import AnalyticsGraph from "./AnalyticsGraph";
 import AnalyticsTable from "./AnalyticsTable";
+import Pagination from "@/Components/Pagination"; // 👈 Import Pagination
 
 const baseData = [
   { month: "Jan", today: 25, hourly1: 22, hourly2: 15, items: 28, total: 5 },
@@ -28,20 +29,10 @@ const Analytics = () => {
   const [selectedSeries, setSelectedSeries] = useState(new Set([
     "today", "hourly1", "hourly2", "items", "total"
   ]));
-  const generateSmoothPath = (points) => {
-    if (points.length < 2) return "";
-    let path = `M${points[0].x},${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1];
-      const curr = points[i];
-      const cp1x = prev.x + (curr.x - prev.x) / 3;
-      const cp1y = prev.y;
-      const cp2x = curr.x - (curr.x - prev.x) / 3;
-      const cp2y = curr.y;
-      path += ` C${cp1x},${cp1y} ${cp2x},${cp2y} ${curr.x},${curr.y}`;
-    }
-    return path;
-  };
+
+  // ✅ Pagination state for table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Show 10 products per page
 
   const productsData = useMemo(() => {
     const cats = ["Beauty", "Cleaning", "Food", "Beverage"];
@@ -61,14 +52,27 @@ const Analytics = () => {
     }));
   }, []);
 
-  const topProducts = useMemo(() => {
+  // ✅ Filtered & sorted data
+  const filteredProducts = useMemo(() => {
     const start = new Date(tableFromDate);
     const end = new Date(tableToDate);
     return productsData
       .filter(p => p.date >= start && p.date <= end)
-      .sort((a, b) => b.sold - a.sold)
-      .slice(0, 10);
+      .sort((a, b) => b.sold - a.sold);
   }, [productsData, tableFromDate, tableToDate]);
+
+  // ✅ Paginated data
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProducts.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProducts, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="max-w-[1099px]">
@@ -103,11 +107,22 @@ const Analytics = () => {
         </div>
 
         <AnalyticsTable
-          items={topProducts}
+          items={paginatedProducts}
           fromDate={tableFromDate}
           toDate={tableToDate}
           loading={false}
         />
+
+        {/* ✅ Pagination — always visible when there's data */}
+        {filteredProducts.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredProducts.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );

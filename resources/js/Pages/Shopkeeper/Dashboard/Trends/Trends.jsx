@@ -1,8 +1,8 @@
-// src/Pages/Admin/TrendsPage.jsx
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import TrendsChart from "./TrendsChart";
 import TrendsTable from "./TrendsTable";
+import Pagination from "@/Components/Pagination";
 
 const TrendsPage = () => {
   const [activeTab, setActiveTab] = useState("items");
@@ -20,6 +20,10 @@ const TrendsPage = () => {
   const topSellingFilterRef = useRef(null);
   const [isItemFilterOpen, setIsItemFilterOpen] = useState(false);
   const [isTopSellingFilterOpen, setIsTopSellingFilterOpen] = useState(false);
+
+  // Add state for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -69,6 +73,19 @@ const TrendsPage = () => {
     }
     return true;
   });
+
+  // Compute paginated data
+  const paginatedTableData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredTableData.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredTableData, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredTableData.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="max-w-[1099px]">
@@ -214,7 +231,17 @@ const TrendsPage = () => {
             </div>
           </div>
 
-          <TrendsTable items={filteredTableData} loading={false} />
+          <TrendsTable items={paginatedTableData} loading={false} />
+
+          {filteredTableData.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={filteredTableData.length}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          )}
         </>
       )}
     </div>

@@ -254,6 +254,10 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Messages']);
     })->name('messages');
 
+    Route::get('/notifications', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Notifications']);
+    })->name('notifications');
+
     // Settings
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/subscription', function () {

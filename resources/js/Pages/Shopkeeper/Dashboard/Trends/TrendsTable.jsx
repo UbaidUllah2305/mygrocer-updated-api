@@ -1,4 +1,3 @@
-// src/Components/Admin/TrendsTable.jsx
 import React from "react";
 
 const TrendsTable = ({ items, loading }) => {

@@ -32,7 +32,7 @@ const TrendsTable = ({ items, loading }) => {
             <th className="p-4">Quantity</th>
             <th className="p-4">Sold out</th>
             <th className="p-4">In stock</th>
-            <th className="p-4 rounded-tr-xl rounded-br-xl">Image</th>
+            <th className="p-4 rounded-tl-xl rounded-bl-xl">Image</th>
           </tr>
         </thead>
 

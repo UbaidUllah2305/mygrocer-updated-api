@@ -1,5 +1,5 @@
-// resources/js/Components/OrderRejectedModal.jsx
 import React from 'react';
+import { X } from 'lucide-react';
 
 const OrderRejectedModal = ({ order, onClose }) => {
   const items = order.items || [
@@ -7,201 +7,124 @@ const OrderRejectedModal = ({ order, onClose }) => {
     { category: "Fresh Food", item: "Apples", quantity: "1 kg", loyaltyPoints: "00", price: "500" },
   ];
 
-  const subtotal = order.subtotal || "1500";
+  const subtotal = order.subtotal || "1,500";
   const deliveryFee = order.deliveryFee || "50";
-  const totalAmount = order.totalAmount || "1550";
+  const totalAmount = order.totalAmount || "1,550";
   const rejectionReason = order.rejectionReason || "Items are currently out of stock";
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 sm:p-4 z-50">
-      <div className="relative bg-white rounded-xl w-full max-w-[95vw] lg:max-w-[1131px] max-h-[95vh] overflow-y-auto shadow-xl">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="relative bg-white rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-xl">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute -top-2 -right-2 sm:top-0 sm:right-0 z-10"
+          className="absolute -top-2 -right-2 z-10 bg-[#DF3A3A] rounded-full text-white"
           aria-label="Close"
         >
-          <div className="w-[30px] h-[30px] flex items-center justify-center">
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="15" cy="15" r="15" fill="#DF3A3A"/>
-              <path d="M10 10L20 20M20 10L10 20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </div>
+          <X size={20} />
         </button>
 
-        {/* Main Content */}
-        <div className="p-4 sm:p-6 lg:p-7">
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6">
           
-          {/* Header Section: Avatar + Order Details + Customer Info */}
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 pb-3 lg:pb-4 mb-3 lg:mb-4 border-b-2 border-gray-200">
-            
-            {/* Avatar */}
+          {/* Header */}
+          <div className="flex flex-col lg:flex-row gap-6 pb-6 mb-6 border-b border-gray-200">
             <div className="flex justify-center lg:justify-start shrink-0">
-              <div className="w-20 h-20 sm:w-[100px] sm:h-[100px] lg:w-[130px] lg:h-[130px] bg-gray-200 rounded-full flex items-center justify-center">
-                <svg className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+              <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
+                <svg className="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
               </div>
             </div>
 
-            {/* Info Container */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 lg:gap-12 flex-1">
-              
-              {/* Order Details */}
+            <div className="flex flex-col sm:flex-row gap-8 flex-1">
               <div className="flex-1">
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#2c323c] mb-2" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-                  Order Details
-                </h2>
-                <div className="space-y-0.5 text-sm sm:text-base lg:text-xl font-medium text-[#3a3e47]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  <p>Order Details : {order.orderNumber || "ORD-02"}</p>
-                  <p>Date : {order.date || "12-09-2025"}</p>
-                  <p>Time : {order.time || "12:09 pm"}</p>
-                  <p>Status : <span className="text-[#df3a3a]">Cancelled</span></p>
+                <h2 className="text-xl font-bold text-[#2c323c] mb-3">Order Details</h2>
+                <div className="space-y-1 text-base font-medium text-[#3a3e47]">
+                  <p>Order #: {order.orderNumber || "ORD-02"}</p>
+                  <p>Date: {order.date || "12-09-2025"}</p>
+                  <p>Time: {order.time || "12:09 pm"}</p>
+                  <p>Status: <span className="text-[#df3a3a]">Cancelled</span></p>
                 </div>
               </div>
-
-              {/* Customer Information */}
               <div className="flex-1">
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#2c323c] mb-2" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-                  Customer Information
-                </h2>
-                <div className="space-y-0.5 text-sm sm:text-base lg:text-xl font-medium text-[#3a3e47]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  <p>Name : {order.customer || "Noor Fatima"}</p>
-                  <p>Phone : {order.phone || "0938437637"}</p>
-                  <p>Address : {order.address || "House 78,Garden Town, Lahore"}</p>
-                  <p>Payment : {order.paymentTerms || "Cash"}</p>
+                <h2 className="text-xl font-bold text-[#2c323c] mb-3">Customer Information</h2>
+                <div className="space-y-1 text-base font-medium text-[#3a3e47]">
+                  <p>Name: {order.customer || "Noor Fatima"}</p>
+                  <p>Phone: {order.phone || "0938437637"}</p>
+                  <p>Address: {order.address || "House 78, Garden Town, Lahore"}</p>
+                  <p>Payment: {order.paymentTerms || "Cash"}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Order Details Banner */}
-          <div className="bg-[rgba(111,156,61,0.31)] rounded-xl py-2 sm:py-3 lg:py-3 mb-3 lg:mb-4">
-            <h3 className="text-center text-[#3a3e47] font-semibold text-base sm:text-xl lg:text-2xl" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Order Details
-            </h3>
+          {/* Order Items Banner */}
+          <div className="bg-[#6F9C3D4F] rounded-xl py-2 mb-4 text-center font-semibold text-[#3a3e47]">
+            Order Items
           </div>
 
-          {/* Order Items Table */}
-          <div className="mb-4 lg:mb-6">
-            
-            {/* === DESKTOP HEADER === */}
-            <div className="hidden lg:block bg-[rgba(111,156,61,0.16)] rounded-xl px-7 py-[18px]">
-              <div className="grid grid-cols-5 gap-4 text-xl font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-                <div>Category</div>
-                <div>Item</div>
-                <div className="text-center">Quantity</div>
-                <div className="text-center">Loyalty Points</div>
-                <div className="text-right">Price</div>
-              </div>
-            </div>
+          {/* TABLE */}
+          <div className="overflow-x-auto mb-6">
+            <table className="w-full rounded-xl overflow-hidden">
+              <thead>
+                <tr className="bg-[#6F9C3D4F] text-[#3a3e47] text-base font-medium">
+                  <th className="p-3 text-left rounded-tl-xl rounded-bl-xl">Category</th>
+                  <th className="p-3 text-left">Item</th>
+                  <th className="p-3 text-center">Quantity</th>
+                  <th className="p-3 text-center">Loyalty Points</th>
+                  <th className="p-3 text-right rounded-tr-xl rounded-br-xl">Price</th>
+                </tr>
+              </thead>
 
-            {/* === TABLET HEADER === */}
-            <div className="hidden sm:block lg:hidden bg-[rgba(111,156,61,0.16)] rounded-xl px-4 py-3">
-              <div className="grid grid-cols-5 gap-2 text-sm font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-                <div>Category</div>
-                <div>Item</div>
-                <div className="text-center">Qty</div>
-                <div className="text-center">Loyalty</div>
-                <div className="text-right">Price</div>
-              </div>
-            </div>
+              <tbody>
+                <tr><td colSpan="5" className="h-2"></td></tr>
+              </tbody>
 
-            {/* === TABLE ROWS === */}
-            <div className="space-y-0">
-              {items.map((item, idx) => {
-                const isFirst = idx === 0;
-                const isLast = idx === items.length - 1;
-                
-                return (
-                  <div key={idx}>
-                    {/* Mobile View */}
-                    <div className={`sm:hidden bg-[rgba(216,216,216,0.23)] p-4 ${
-                      isFirst ? 'rounded-t-xl' : ''
-                    } ${isLast ? 'rounded-b-xl' : 'border-b border-[#b9bbbd]'}`}>
-                      <div className="space-y-2 text-sm" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">Category:</span>
-                          <span className="text-black">{item.category}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">Item:</span>
-                          <span className="text-black">{item.item}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">Quantity:</span>
-                          <span className="text-black">{item.quantity}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">Loyalty Points:</span>
-                          <span className="text-black">{item.loyaltyPoints}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">Price:</span>
-                          <span className="text-black font-medium">{item.price}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tablet View */}
-                    <div className={`hidden sm:block lg:hidden bg-[rgba(216,216,216,0.23)] px-4 py-3 ${
-                      isFirst ? 'rounded-t-xl' : ''
-                    } ${isLast ? 'rounded-b-xl' : 'border-b border-[#b9bbbd]'}`}>
-                      <div className="grid grid-cols-5 gap-2 items-center text-sm" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-                        <div className="text-black">{item.category}</div>
-                        <div className="text-black">{item.item}</div>
-                        <div className="text-center text-black">{item.quantity}</div>
-                        <div className="text-center text-black">{item.loyaltyPoints}</div>
-                        <div className="text-right text-black">{item.price}</div>
-                      </div>
-                    </div>
-
-                    {/* Desktop View */}
-                    <div className={`hidden lg:block bg-[rgba(216,216,216,0.23)] px-7 py-[15px] ${
-                      isFirst ? 'rounded-t-xl' : ''
-                    } ${isLast ? 'rounded-b-xl' : 'border-b border-[#b9bbbd]'}`}>
-                      <div className="grid grid-cols-5 gap-4 items-center text-xl" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-                        <div className="text-black">{item.category}</div>
-                        <div className="text-black">{item.item}</div>
-                        <div className="text-center text-black">{item.quantity}</div>
-                        <div className="text-center text-black">{item.loyaltyPoints}</div>
-                        <div className="text-right text-black">{item.price}</div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+              <tbody>
+                {items.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="text-base text-[#3a3e47] bg-[#D8D8D83B] border-b border-gray-200"
+                  >
+                    <td className={`p-3 text-left ${index === 0 ? "rounded-tl-xl" : ""}`}>{item.category}</td>
+                    <td className="p-3 text-left">{item.item}</td>
+                    <td className="p-3 text-center">{item.quantity}</td>
+                    <td className="p-3 text-center">{item.loyaltyPoints}</td>
+                    <td className={`p-3 text-right ${index === 0 ? "rounded-tr-xl" : ""}`}>{item.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          {/* Totals Section */}
-          <div className="flex justify-end mb-6 lg:mb-8">
+          {/* Totals */}
+          <div className="flex justify-end mb-6">
             <div className="text-right space-y-1">
-              <p className="text-base sm:text-lg lg:text-xl font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Subtotal : Rs. {subtotal}
-              </p>
-              <p className="text-base sm:text-lg lg:text-xl font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Delivery Fee : Rs. {deliveryFee}
-              </p>
-              <div className="bg-[rgba(111,156,61,0.16)] inline-block px-4 sm:px-6 lg:px-7 py-3 lg:py-[18px] rounded-xl mt-2">
-                <span className="text-base sm:text-lg lg:text-xl font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  Total Amount : Rs. {totalAmount}
-                </span>
+              <p className="text-lg font-medium">Subtotal: Rs. {subtotal}</p>
+              <p className="text-lg font-medium">Delivery Fee: Rs. {deliveryFee}</p>
+              <div className="bg-[#e8efe0] inline-block px-4 py-2 rounded-lg mt-2">
+                <span className="text-lg font-medium">Total Amount: Rs. {totalAmount}</span>
               </div>
             </div>
           </div>
 
-          {/* Reason for Rejection */}
-          <div className="bg-[rgba(223,58,58,0.15)] border border-[#df3a3a] rounded-xl py-3 sm:py-4 lg:py-[18px] px-4 sm:px-6 lg:px-7">
-            <p className="text-[#df3a3a] font-semibold text-base sm:text-lg lg:text-xl mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Reason for Rejection:
-            </p>
-            <p className="text-[#3a3e47] font-medium text-sm sm:text-base lg:text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
-              {rejectionReason}
-            </p>
+          {/* Rejection Reason Banner */}
+          <div className="bg-[#fdeeee] border border-[#df3a3a] rounded-xl py-3 px-4">
+            <p className="text-[#df3a3a] font-semibold mb-1">Reason for Rejection:</p>
+            <p className="text-[#3a3e47] font-medium">{rejectionReason}</p>
           </div>
+        </div>
 
+        {/* Fixed Footer Button */}
+        <div className="border-t border-gray-200 p-6">
+          <button
+            className="w-full bg-[#6f9c3d] hover:bg-[#5d8a32] text-white py-3 rounded-xl font-medium text-lg transition"
+            onClick={onClose}
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>

@@ -1,13 +1,12 @@
-// src/Pages/Admin/Accounts.jsx
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 
 // Components (already modular)
-import AccountsList from "@/Pages/Shopkeeper/Dashboard/Accounts/AccountsList/AccountsList";
-import AccountDetails from "@/Pages/Shopkeeper/Dashboard/Accounts/AccountsList/AccountDetails";
-import IncomeStatement from "@/Pages/Shopkeeper/Dashboard/Accounts/IncomeStatement/IncomeStatement";
-import IncomeStatementDetails from "@/Pages/Shopkeeper/Dashboard/Accounts/IncomeStatement/IncomeStatementDetails";
-import BalanceSheet from "@/Components/Admin/accounts/BalanceSheet";
+import AccountsList from "./AccountsList/AccountsList";
+import AccountDetails from "./AccountsList/AccountDetails";
+import IncomeStatement from "./IncomeStatement/IncomeStatement";
+import IncomeStatementDetails from "./IncomeStatement/IncomeStatementDetails";
+import BalanceSheet from "./BalanceSheet";
 
 // Summary Card Component
 const SummaryCard = ({ value, label }) => (

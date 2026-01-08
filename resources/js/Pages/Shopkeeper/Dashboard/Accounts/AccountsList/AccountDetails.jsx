@@ -27,22 +27,27 @@ const AccountDetails = ({ account, onBack }) => {
   return (
     <>
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            {account.name}
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">
-            {account.type} • Account Code: {account.code}
-          </p>
-        </div>
+      <div className="mb-6 space-y-4">
+        {/* Back Button */}
         <button
           onClick={onBack}
-          className="px-4 py-3 bg-[#6F9C3D] flex text-white rounded-lg font-medium transition"
+          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
         >
-          <ArrowLeft />
+          <ArrowLeft className="w-4 h-4" />
           Back to Accounts List
         </button>
+
+        {/* Title Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {account.name}
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600 mt-1">
+              {account.type} • Account Code: {account.code}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Transactions Table */}

@@ -18,7 +18,7 @@ import Offers from "./Dashboard/Offers/Offers";
 import CreateOffers from "./Dashboard/Offers/CreateOffers";
 import Messages from "./Dashboard/Messages/Messages";
 // import Subscription from "../Admin/Settings/Subscription";
-// import DeliverySettings from "../Admin/Settings/DeliverySettings";
+import DeliverySettings from "./Dashboard/Settings/DeliverySettings/DeliverySettings";
 // import Vouchers from "../Admin/Settings/Vouchers";
 // import VendorDashboard from "../Admin/Settings/VendorDashboard";
 // import HelpCenter from "../Admin/Settings/HelpCenter";
@@ -54,7 +54,7 @@ export default function Dashboard({ auth, page: pageName }) {
         
         // // Settings
         // "Settings/Subscription": Subscription,
-        // "Settings/DeliverySettings": DeliverySettings,
+        "Settings/DeliverySettings": DeliverySettings,
         // "Settings/Vouchers": Vouchers,
         // "Settings/VendorDashboard": VendorDashboard,
         // "Settings/HelpCenter": HelpCenter,
@@ -85,7 +85,7 @@ export default function Dashboard({ auth, page: pageName }) {
             "CreateOffers": "Create Offer",
             "Messages": "Messages",
             // "Settings/Subscription": "Subscription",
-            // "Settings/DeliverySettings": "Delivery Settings",
+            "Settings/DeliverySettings": "Delivery Settings",
             // "Settings/Vouchers": "Vouchers",
             // "Settings/VendorDashboard": "Vendor Dashboard",
             // "Settings/HelpCenter": "Help Center",

@@ -42,7 +42,7 @@ class CustomerAuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Registration successful! Please complete your profile.',
-            'user' => $customer,
+            'user' => $customer->load('business'),
             'redirect' => route('profile'),
         ]);
     }
@@ -63,6 +63,7 @@ class CustomerAuthController extends Controller
         $request->session()->regenerate();
         
         $customer = Auth::guard('customer')->user();
+        $customer->load('business');
         
         // Check if profile is completed
         if (!$customer->hasCompletedProfile()) {

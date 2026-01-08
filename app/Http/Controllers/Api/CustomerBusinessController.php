@@ -42,6 +42,10 @@ class CustomerBusinessController extends Controller
         $business->profile_completed_at = now();
         $business->save();
         
+        // Refresh the customer's business relationship
+        $customer->refresh();
+        $customer->load('business');
+        
         return response()->json([
             'success' => true,
             'message' => 'Profile setup completed successfully!',

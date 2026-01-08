@@ -92,22 +92,23 @@ Route::middleware('auth:customer')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:customer'])->prefix('customer')->name('customer.')->group(function () {
+Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCompleted::class])->prefix('customer')->name('customer.')->group(function () {
     // Customer Dashboard
     Route::get('/dashboard', function () {
         return Inertia::render('Customer/Dashboard/CustomerDashboard');
     })->name('dashboard');
-
-    // Stores List
-    Route::get('/stores', function () {
-        return Inertia::render('Customer/StoresList');
-    })->name('stores');
     
     // Individual Store Preview
     Route::get('/stores/{id}', function ($id) {
         return Inertia::render('Customer/Stores/StoreDetails', ['storeId' => $id]);
     })->name('store.preview');
+
+    // Checkout Page
+    Route::get('/checkout', function () {
+        return Inertia::render('Customer/Dashboard/Checkout/Checkout');
+    })->name('checkout');
     
+    // Customer Profile Page (different from setup)
     Route::get('/profile', function () {
         return Inertia::render('Customer/ProfilePage');
     })->name('profile');
@@ -123,7 +124,7 @@ Route::middleware(['auth:customer'])->prefix('customer')->name('customer.')->gro
     Route::get('/currency', function () {
         return Inertia::render('Customer/CurrencyPage');
     })->name('currency');
-    
+
     Route::get('/wallet', function () {
         return Inertia::render('Customer/WalletPage');
     })->name('wallet');
@@ -151,21 +152,7 @@ Route::middleware(['auth:customer'])->prefix('customer')->name('customer.')->gro
     Route::get('/offers-alerts', function () {
         return Inertia::render('Customer/OffersAlertsPage');
     })->name('offers.alerts');
-});
 
-/*
-|--------------------------------------------------------------------------
-| Customer Public Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('customer')->name('customer.')->group(function () {
-    
-    // Checkout Page
-    Route::get('/checkout', function () {
-        return Inertia::render('Customer/Checkout');
-    })->name('checkout');
-    
     // Order Tracking
     Route::get('/order-tracking', function () {
         return Inertia::render('Customer/OrderTracking');
@@ -286,7 +273,7 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
         Route::get('/delivery-settings', function () {
             return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Settings/DeliverySettings']);
         })->name('delivery-settings');
-        
+
         Route::get('/vouchers', function () {
             return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Settings/Vouchers']);
         })->name('vouchers');

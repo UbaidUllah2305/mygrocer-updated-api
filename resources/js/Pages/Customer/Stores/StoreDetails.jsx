@@ -1,201 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, usePage } from "@inertiajs/react";
-import { Search, X, PlusCircle, ArrowRightCircle } from "lucide-react";
-import Header from "@/Pages/Website/Customer/Components/Header";
-import VoucherDetails from "@/Components/Customer/VoucherDetails";
-import ItemPreview from "@/Components/Customer/ItemPreview";
-import CartSidebar from "@/Components/Customer/CartSidebar";
+import React, { useState } from "react";
+import StoreHeader from "./Sections/StoreHeader";
+import SearchBar from "./Sections/SearchBar";
+import CategoryTabs from "./Sections/CategoryTabs";
+import BestOffers from "./Sections/BestOffers";
+import VouchersSection from "./Sections/VouchersSection";
+import AllCategoriesSection from "./Sections/AllCategoriesSection";
+import ProductsSection from "./Sections/ProductsSection";
+import CartSidebar from "./CartSidebar";
+import ItemPreview from "./ItemPreview";
+import VoucherDetails from "./VoucherDetails";
+import CustomerDashboardLayout from "@/Layouts/CustomerDashboardLayout";
 
-// Custom hook for horizontal drag-to-scroll
-const useHorizontalScroll = (enableInfinite = false) => {
-  const scrollRef = useRef(null);
-
-  useEffect(() => {
-    if (!enableInfinite) return;
-
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const handleScroll = () => {
-      const maxScrollLeft = el.scrollWidth - el.clientWidth;
-
-      // Near right end → jump back to start
-      if (el.scrollLeft >= maxScrollLeft - 5) {
-        el.scrollLeft = 1;
-      }
-
-      // Near left start → jump to end
-      if (el.scrollLeft <= 0) {
-        el.scrollLeft = maxScrollLeft - 1;
-      }
-    };
-
-    el.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Start slightly away from 0 so left jump works
-    el.scrollLeft = 1;
-
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [enableInfinite]);
-
-  return scrollRef;
-};
-
-// Category Tab Component
-const CategoryTab = ({ label, count, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`px-4 py-2 text-sm sm:text-base whitespace-nowrap transition ${
-      active ? "border-b-2 border-[#6F9C3D]" : "text-gray-600 hover:bg-gray-100"
-    }`}
-    style={{ fontFamily: "'Inter', sans-serif" }}
-  >
-    {label} {count && <span className="text-sm sm:text-base">({count})</span>}
-  </button>
-);
-
-// Category Icon Card
-const CategoryIconCard = ({ icon, label, onClick }) => (
-  <button
-    onClick={onClick}
-    className="flex flex-col items-center gap-2 p-3 hover:bg-gray-50 rounded-xl transition group w-full"
-  >
-    <div className="w-full aspect-5/4 max-w-[100px] rounded-xl bg-[#EFEFEF] flex items-center justify-center group-hover:bg-[#E8F5E0] transition p-4">
-      {icon ? (
-        <img src={icon} alt={label} className="w-full h-full object-contain" />
-      ) : (
-        <span className="text-2xl">🛒</span>
-      )}
-    </div>
-    <span
-      className="text-sm sm:text-base font-medium text-[#000000] text-center"
-      style={{ fontFamily: "'Inter', sans-serif" }}
-    >
-      {label}
-    </span>
-  </button>
-);
-
-// Product Card Component
-const ProductCard = ({ product, onAddToCart, onProductClick }) => (
-  <div
-    className="p-3 rounded-xl hover:shadow-md transition group relative h-58 cursor-pointer"
-    onClick={() => onProductClick(product)}
-  >
-    {/* Product Image */}
-    <div className="relative h-24 mb-2 flex items-center justify-center">
-      <img
-        src={
-          product.image || "/assets/Assets/Customer/storepreview/default.svg"
-        }
-        alt={product.name}
-        className="max-h-full max-w-full object-contain"
-      />
-
-      {/* Add Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onAddToCart(product);
-        }}
-        className="absolute bottom-2 right-2 w-7 h-7 bg-[#6F9C3D] rounded-full flex items-center justify-center text-white hover:bg-[#5d8a32] transition"
-      >
-        <PlusCircle className="w-7 h-7" />
-      </button>
-    </div>
-
-    {/* Product Info */}
-    <div className="space-y-1">
-      <div className="flex items-center gap-2">
-        <span className="text-[#249B34] font-normal text-sm sm:text-base">
-          Rs. {product.price}
-        </span>
-        {product.originalPrice && (
-          <span className="text-[#000000] text-xs font-normal line-through">
-            Rs. {product.originalPrice}
-          </span>
-        )}
-      </div>
-      <h3
-        className="text-sm font-medium text-[#000000] line-clamp-2"
-        style={{ fontFamily: "'Inter', sans-serif" }}
-      >
-        {product.name}
-      </h3>
-      <p className="text-xs text-[#000000]">{product.weight}</p>
-    </div>
-
-    {/* Quantity */}
-    <div className="absolute -bottom-1 left-1 px-2 py-0.5 text-xs text-[#00000073] flex items-center gap-1">
-      <span>{product.quantity}</span>
-    </div>
-
-    {/* Discount Badge */}
-    {product.discount && (
-      <div className="absolute -bottom-1 right-5 z-10">
-        <span className="bg-[#6F9C3D4F] text-[#6F9C3D] text-xs font-medium px-2 py-0.5 rounded-full">
-          {product.discount}
-        </span>
-      </div>
-    )}
-  </div>
-);
-
-// Voucher Card Component
-const VoucherCard = ({ voucher, onClick }) => (
-  <div
-    className="bg-[#D3FFA1AB] rounded-lg p-5 min-w-[333px] cursor-pointer hover:bg-[#c5f590] transition-colors"
-    onClick={() => onClick(voucher)}
-  >
-    <div className="flex items-start gap-2">
-      <div className="w-5 h-5 flex items-center justify-center shrink-0">
-        <img
-          src="/assets/Assets/Customer/storepreview/voucher.svg"
-          alt="voucher"
-        />
-      </div>
-      <div>
-        <p
-          className="text-sm sm:text-base truncate line-clamp-2"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          {voucher.description}
-        </p>
-        <p className="text-sm sm:text-base mt-1">{voucher.discount}</p>
-        <p className="text-xs mt-2 -ml-7 font-normal border border-[#0000003B] rounded-2xl px-4 py-2 -mb-2">
-          {voucher.validity}
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-// Promotional Banner Component
-const PromoBanner = ({ banner }) => (
-  <div
-    className="relative rounded-lg overflow-hidden h-[249px] bg-cover bg-center cursor-pointer"
-    style={{ backgroundImage: `url(${banner.image})` }}
-  >
-    {banner.closeable && (
-      <button className="absolute top-2 right-2 w-6 h-6 bg-white/80 rounded-full flex items-center justify-center">
-        <X className="w-4 h-4 text-gray-600" />
-      </button>
-    )}
-  </div>
-);
-
-// Main Store Preview Component
-const StoreDetails = ({ store }) => {
-  const user = usePage().props.auth.user;
-
+const StoreDetails = ({ store, storeId, auth }) => {
+  // State management
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const [deliveryMode, setDeliveryMode] = useState("delivery");
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
+  // Cart handlers
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
   const openProductPreview = (product) => setSelectedProduct(product);
@@ -203,9 +29,9 @@ const StoreDetails = ({ store }) => {
   const openVoucherDetails = (voucher) => setSelectedVoucher(voucher);
   const closeVoucherDetails = () => setSelectedVoucher(null);
 
-  // Mock store data
+  // Mock store data - In real app, this would come from props/API
   const storeData = store || {
-    id: 1,
+    id: storeId || 1,
     name: "Al-Fatah",
     location: "Lahore",
     image: "/assets/Assets/Customer/storepreview/banner.svg",
@@ -383,11 +209,8 @@ const StoreDetails = ({ store }) => {
     },
   ];
 
-  const infiniteVouchers = [...vouchers, ...vouchers];
-  const infiniteCategories = [...categoryIcons, ...categoryIcons];
-
   // Mock products
-  const saleProducts = [
+  const allProducts = [
     {
       id: 1,
       name: "Whole Wheat Bread",
@@ -452,9 +275,6 @@ const StoreDetails = ({ store }) => {
       image: "/assets/Assets/Customer/storepreview/sauce.svg",
       category: "groceries",
     },
-  ];
-
-  const popularProducts = [
     {
       id: 7,
       name: "Whole Wheat Bread",
@@ -525,97 +345,7 @@ const StoreDetails = ({ store }) => {
     },
   ];
 
-  const additionalProducts = [
-    {
-      id: 13,
-      name: "Basmati Rice",
-      weight: "5kg",
-      price: 890,
-      originalPrice: 950,
-      discount: "6%",
-      quantity: "120 in store",
-      image: "/assets/Assets/Customer/storepreview/bread.svg",
-      category: "groceries",
-    },
-    {
-      id: 14,
-      name: "Green Chilies",
-      weight: "250g",
-      price: 45,
-      quantity: "300 in store",
-      image: "/assets/Assets/Customer/storepreview/onions.svg",
-      category: "fresh-food",
-    },
-    {
-      id: 15,
-      name: "Butter",
-      weight: "200g",
-      price: 220,
-      originalPrice: 240,
-      discount: "8%",
-      quantity: "80 in store",
-      image: "/assets/Assets/Customer/storepreview/eggs.svg",
-      category: "dairy",
-    },
-    {
-      id: 16,
-      name: "Tomato Ketchup",
-      weight: "500ml",
-      price: 195,
-      originalPrice: 210,
-      discount: "7%",
-      quantity: "150 in store",
-      image: "/assets/Assets/Customer/storepreview/sauce.svg",
-      category: "groceries",
-    },
-    {
-      id: 17,
-      name: "Frozen Peas",
-      weight: "400g",
-      price: 180,
-      quantity: "90 in store",
-      image: "/assets/Assets/Customer/storepreview/milk.svg",
-      category: "frozen",
-    },
-    {
-      id: 18,
-      name: "Chocolate Cake",
-      weight: "500g",
-      price: 450,
-      originalPrice: 500,
-      discount: "10%",
-      quantity: "25 in store",
-      image: "/assets/Assets/Customer/storepreview/noodles.svg",
-      category: "bakery",
-    },
-    {
-      id: 19,
-      name: "Garlic",
-      weight: "250g",
-      price: 120,
-      quantity: "200 in store",
-      image: "/assets/Assets/Customer/storepreview/coffee.svg",
-      category: "fresh-food",
-    },
-    {
-      id: 20,
-      name: "Dishwasher Gel",
-      weight: "1L",
-      price: 320,
-      originalPrice: 350,
-      discount: "9%",
-      quantity: "60 in store",
-      image: "/assets/Assets/Customer/storepreview/coke.svg",
-      category: "household",
-    },
-  ];
-
-  const allProducts = [
-    ...saleProducts,
-    ...popularProducts,
-    ...additionalProducts,
-  ];
-
+  // Filter products based on category and search
   const filteredProducts = allProducts
     .filter((product) => {
       if (activeCategory === "all") return true;
@@ -629,11 +359,7 @@ const StoreDetails = ({ store }) => {
         product.weight?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-  const infiniteProducts =
-    filteredProducts.length > 0
-      ? [...filteredProducts, ...filteredProducts]
-      : [];
-
+  // Cart handlers
   const handleAddToCart = (product) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
@@ -667,326 +393,142 @@ const StoreDetails = ({ store }) => {
     setCartItems((prev) => prev.filter((item) => item.id !== productId));
   };
 
+  const handleCategoryClick = (categoryId) => {
+    setActiveCategory(categoryId);
+  };
+
   return (
-    <div className="min-h-screen">
-      <Header auth={user}/>
+    <CustomerDashboardLayout
+      auth={auth}
+      showFilters={false}
+      showLocationBar={true}
+      showBreadcrumb={true}
+    >
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        {/* Main Content */}
+        <div
+          className={`flex-1 min-w-0 transition-all duration-300 ${
+            isCartOpen ? "lg:max-w-[calc(100%-320px)]" : ""
+          }`}
+        >
+          {/* Store Header */}
+          <StoreHeader storeData={storeData} />
 
-      <div className="container mx-auto px-4">
-
-        <div className="flex gap-6 py-4 lg:py-6">
-          {/* Main Content */}
-          <div
-            className={`flex-1 min-w-0 transition-all duration-300 ${
-              isCartOpen ? "lg:max-w-[calc(100%-320px)]" : ""
-            }`}
-          >
-            {/* Store Banner */}
-            <div className="relative rounded-xl overflow-hidden mb-6 h-75">
-              <img
-                src={storeData.image}
-                alt={`${storeData.name} (${storeData.location})`}
-                className="w-full h-60 object-cover"
-              />
-              <button className="absolute top-2 right-2 bg-[#6F9C3D] text-white border h-11 w-43 px-4 py-2 rounded-lg text-base font-normal hover:bg-[#5d8a32] transition">
-                Shop Information
-              </button>
-              <div className="bg-[#6F9C3D29] p-4 flex items-center justify-between w-full">
-                <div className="flex items-center gap-4 md:gap-20">
-                  <h1
-                    className="md:text-3xl text-xl font-medium text-gray-800"
-                    style={{ fontFamily: "'Satoshi', sans-serif" }}
-                  >
-                    {storeData.name} ({storeData.location})
-                  </h1>
-                  <div className="flex items-center gap-2 text-sm md:text-base ml-10">
-                    <img
-                      src="/assets/Assets/Customer/storepreview/scooter.svg"
-                      alt="scooter"
-                      className="w-5 h-5"
-                    />
-                    {storeData.freeDeliveryText}
-                  </div>
-                  <span className="text-sm md:text-base mx-10">
-                    Min Rs. {storeData.minOrder}
-                  </span>
-                  <span className="text-sm md:text-base font-semibold">
-                    Delivery: {storeData.deliveryTime}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Search Products */}
-            <div className="flex gap-3 mb-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search products"
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg bg-white focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/20 outline-none transition text-sm sm:text-base text-[#000000]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                />
-              </div>
-            </div>
-
-            {/* Categories tab */}
-            <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
-              {categories.map((cat) => (
-                <CategoryTab
-                  key={cat.id}
-                  label={cat.label}
-                  count={cat.count}
-                  active={activeCategory === cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                />
-              ))}
-            </div>
-
-            {/* Best Offers */}
-            <section className="mb-6">
-              <h2
-                className="text-xl sm:text-2xl font-medium text-gray-800 mb-3"
-                style={{ fontFamily: "'Satoshi', sans-serif" }}
-              >
-                Best Offers
-              </h2>
-              <div className="flex items-center gap-4">
-                <div
-                  className="overflow-x-auto scrollbar-hide pb-2 cursor-grab"
-                  ref={useHorizontalScroll(true)}
-                >
-                  <div className="flex gap-4 w-max">
-                    {[...promoBanners, ...promoBanners].map((banner, i) => (
-                      <div
-                        key={`${banner.id}-${i}`}
-                        className="shrink-0 w-[300px] sm:w-[458px]"
-                      >
-                        <PromoBanner banner={banner} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div
-                  className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#D3FFA1AB] transition"
-                  onClick={(e) => {
-                    const container = e.currentTarget.previousElementSibling;
-                    container?.scrollBy({ left: 320, behavior: "smooth" });
-                  }}
-                >
-                  <ArrowRightCircle className="w-6 h-6 text-[#6F9C3D]" />
-                </div>
-              </div>
-            </section>
-
-            {/* Vouchers */}
-            <section className="mb-6">
-              <h2
-                className="text-xl sm:text-2xl font-medium text-gray-800 mb-3"
-                style={{ fontFamily: "'Satoshi', sans-serif" }}
-              >
-                Apply a voucher at checkout
-              </h2>
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex-1 overflow-x-auto scrollbar-hide pb-2 cursor-grab"
-                  ref={useHorizontalScroll(true)}
-                >
-                  <div className="flex gap-3 w-max">
-                    {infiniteVouchers.map((voucher, i) => (
-                      <div key={`${voucher.id}-${i}`} className="shrink-0">
-                        <VoucherCard
-                          voucher={voucher}
-                          onClick={openVoucherDetails}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div
-                  className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#D3FFA1AB]"
-                  onClick={(e) => {
-                    const container = e.currentTarget.previousElementSibling;
-                    container?.scrollBy({ left: 350, behavior: "smooth" });
-                  }}
-                >
-                  <ArrowRightCircle className="w-6 h-6 text-[#6F9C3D]" />
-                </div>
-              </div>
-            </section>
-
-            {/* All Categories */}
-            <section className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h2
-                  className="text-xl sm:text-2xl font-medium text-gray-800"
-                  style={{ fontFamily: "'Satoshi', sans-serif" }}
-                >
-                  All Categories
-                </h2>
-                <Link
-                  href="#"
-                  className="text-sm text-[#000000B8] font-medium border-b"
-                >
-                  View All (37)
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex-1 overflow-x-auto scrollbar-hide pb-2 cursor-grab"
-                  ref={useHorizontalScroll(true)}
-                >
-                  <div className="flex gap-x-4 gap-y-6 w-max">
-                    {infiniteCategories.map((cat, i) => (
-                      <div
-                        key={`${cat.id}-${i}`}
-                        className="shrink-0 w-20 sm:w-[140px]"
-                      >
-                        <CategoryIconCard icon={cat.icon} label={cat.label} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div
-                  className="shrink-0 w-10 h-10 mb-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#D3FFA1AB]"
-                  onClick={(e) => {
-                    const container = e.currentTarget.previousElementSibling;
-                    container?.scrollBy({ left: 300, behavior: "smooth" });
-                  }}
-                >
-                  <ArrowRightCircle className="w-6 h-6 text-[#6F9C3D]" />
-                </div>
-              </div>
-            </section>
-
-            {/* Products */}
-            <section className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h2
-                  className="text-xl sm:text-2xl font-medium text-gray-800"
-                  style={{ fontFamily: "'Satoshi', sans-serif" }}
-                >
-                  {activeCategory === "all"
-                    ? "All Products"
-                    : categories.find((cat) => cat.id === activeCategory)
-                        ?.label || "Products"}
-                </h2>
-                <Link
-                  href="#"
-                  className="text-sm font-medium text-[#000000B8] border-b"
-                >
-                  View All
-                </Link>
-              </div>
-
-              {allProducts.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">
-                  No products found in this category.
-                </p>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <div
-                    className="flex-1 overflow-x-auto scrollbar-hide pb-2 cursor-grab"
-                    ref={useHorizontalScroll(
-                      !searchQuery && filteredProducts.length > 5
-                    )}
-                  >
-                    <div className="flex gap-1 w-max">
-                      {infiniteProducts.map((product, i) => (
-                        <div
-                          key={`${product.id}-${i}`}
-                          className="w-[150px] shrink-0"
-                        >
-                          <ProductCard
-                            product={product}
-                            onAddToCart={handleAddToCart}
-                            onProductClick={openProductPreview}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div
-                    className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#D3FFA1AB]"
-                    onClick={(e) => {
-                      const container = e.currentTarget.previousElementSibling;
-                      container?.scrollBy({ left: 300, behavior: "smooth" });
-                    }}
-                  >
-                    <ArrowRightCircle className="w-6 h-6 text-[#6F9C3D]" />
-                  </div>
-                </div>
-              )}
-            </section>
+          {/* Search Bar */}
+          <div className="mb-6">
+            <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
           </div>
 
-          {/* Cart Sidebar - Desktop: scrolls with page, Mobile: overlay */}
-          {isCartOpen && (
-            <aside className="hidden lg:block w-80 shrink-0">
-              <CartSidebar
-                cartItems={cartItems}
-                deliveryMode={deliveryMode}
-                setDeliveryMode={setDeliveryMode}
-                onClose={closeCart}
-                onUpdateQuantity={handleUpdateQuantity}
-                onRemoveItem={handleRemoveItem}
-                storeName={`${storeData.name} - ${storeData.location}`}
-              />
-            </aside>
-          )}
+          {/* Category Tabs */}
+          <CategoryTabs
+            categories={categories}
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          />
+
+          {/* Best Offers */}
+          <BestOffers banners={promoBanners} />
+
+          {/* Vouchers */}
+          <VouchersSection
+            vouchers={vouchers}
+            onVoucherClick={openVoucherDetails}
+          />
+
+          {/* All Categories */}
+          <AllCategoriesSection
+            categoryIcons={categoryIcons}
+            onCategoryClick={handleCategoryClick}
+          />
+
+          {/* Products */}
+          <ProductsSection
+            products={filteredProducts}
+            activeCategory={activeCategory}
+            categories={categories}
+            searchQuery={searchQuery}
+            onAddToCart={handleAddToCart}
+            onProductClick={openProductPreview}
+          />
         </div>
 
-        {/* Mobile Cart Overlay */}
+        {/* Desktop Cart Sidebar */}
         {isCartOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-50 lg:hidden"
-            onClick={() => setIsCartOpen(false)}
-          >
-            <div
-              className="absolute right-0 top-0 h-full w-80 bg-white overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <CartSidebar
-                cartItems={cartItems}
-                deliveryMode={deliveryMode}
-                setDeliveryMode={setDeliveryMode}
-                onClose={closeCart}
-                onUpdateQuantity={handleUpdateQuantity}
-                onRemoveItem={handleRemoveItem}
-                storeName={`${storeData.name} - ${storeData.location}`}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Modals */}
-        {selectedProduct && (
-          <ItemPreview
-            product={selectedProduct}
-            onClose={closeProductPreview}
-            onAddToCart={handleAddToCart}
-            relatedProducts={allProducts.filter(
-              (p) => p.id !== selectedProduct.id
-            )}
-          />
-        )}
-
-        {selectedVoucher && (
-          <VoucherDetails
-            voucher={selectedVoucher}
-            onClose={closeVoucherDetails}
-            onApply={(voucher) => {
-              console.log("Voucher applied:", voucher);
-            }}
-          />
+          <aside className="hidden lg:block w-80 shrink-0">
+            <CartSidebar
+              cartItems={cartItems}
+              deliveryMode={deliveryMode}
+              setDeliveryMode={setDeliveryMode}
+              onClose={closeCart}
+              onUpdateQuantity={handleUpdateQuantity}
+              onRemoveItem={handleRemoveItem}
+              storeName={`${storeData.name} - ${storeData.location}`}
+            />
+          </aside>
         )}
       </div>
-    </div>
+
+      {/* Mobile Cart Overlay */}
+      {isCartOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+          onClick={() => setIsCartOpen(false)}
+        >
+          <div
+            className="absolute right-0 top-0 h-full w-full max-w-sm bg-white overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CartSidebar
+              cartItems={cartItems}
+              deliveryMode={deliveryMode}
+              setDeliveryMode={setDeliveryMode}
+              onClose={closeCart}
+              onUpdateQuantity={handleUpdateQuantity}
+              onRemoveItem={handleRemoveItem}
+              storeName={`${storeData.name} - ${storeData.location}`}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Floating Cart Button for Mobile */}
+      {!isCartOpen && cartItems.length > 0 && (
+        <button
+          onClick={openCart}
+          className="fixed bottom-4 right-4 lg:hidden bg-[#6F9C3D] text-white p-3 rounded-full shadow-lg z-40 flex items-center gap-2"
+        >
+          <span className="text-sm font-medium">
+            Cart ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
+          </span>
+        </button>
+      )}
+
+      {/* Modals */}
+      {selectedProduct && (
+        <ItemPreview
+          product={selectedProduct}
+          onClose={closeProductPreview}
+          onAddToCart={handleAddToCart}
+          relatedProducts={allProducts.filter(
+            (p) => p.id !== selectedProduct.id
+          )}
+        />
+      )}
+
+      {selectedVoucher && (
+        <VoucherDetails
+          voucher={selectedVoucher}
+          onClose={closeVoucherDetails}
+          onApply={(voucher) => {
+            console.log("Voucher applied:", voucher);
+            closeVoucherDetails();
+          }}
+        />
+      )}
+    </CustomerDashboardLayout>
   );
 };
 

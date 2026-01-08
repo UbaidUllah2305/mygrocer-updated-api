@@ -1,17 +1,17 @@
 import CustomerDashboardLayout from "@/Layouts/CustomerDashboardLayout";
-import Header from "@/Pages/Website/Customer/Components/Header";
+import ShoppingSection from "@/Pages/Website/Customer/Pages/ShoppingSection";
+import StoresGrid from "@/Pages/Website/Customer/Pages/StoresGrid";
 
-export default function Home({ auth }) {
-  const user = auth?.user;
-
+export default function CustomerDashboard({ auth }) {
   return (
-    <div className="min-h-screen">
-      <Header auth={auth} />
-
-      <main>
-
-        <CustomerDashboardLayout auth={auth} showStoresList={true} />
-      </main>
-    </div>
+    <CustomerDashboardLayout
+      auth={auth}
+      showFilters={true}
+      showLocationBar={true}
+      showBreadcrumb={true}
+    >
+      <ShoppingSection />
+      <StoresGrid />
+    </CustomerDashboardLayout>
   );
 }

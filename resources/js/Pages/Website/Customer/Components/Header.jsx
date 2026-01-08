@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { FaRegHeart, FaShoppingCart, FaUser, FaBars, FaTimes, FaGlobe, FaChevronDown } from "react-icons/fa";
 import { LogOut, UserRound } from "lucide-react";
 import axios from "axios";
 
 export default function Header({ auth }) {
+    const { url } = usePage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -12,6 +13,17 @@ export default function Header({ auth }) {
     const langDropdownRef = useRef(null);
     const userMenuRef = useRef(null);
     const user = auth?.user;
+
+    // Check if we're in a profile/settings page where cart/wishlist should be hidden
+    const isProfilePage = url.includes('/profile') || url.includes('/settings') || url.includes('/addresses') || 
+                         url.includes('/currency') || url.includes('/wallet') || url.includes('/help') || 
+                         url.includes('/notifications') || url.includes('/reminder') || url.includes('/user-manual') || 
+                         url.includes('/offers-alerts');
+
+    // Check if we're specifically in profile setup or profile page
+    const isInProfileSetup = url.includes('/profile');
+    const isInMyProfile = url.includes('/customer/profile');
+    const isInMyOrders = url.includes('/customer/ordering-reordering');
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const toggleLangDropdown = () => setIsLangDropdownOpen(!isLangDropdownOpen);
@@ -35,6 +47,52 @@ export default function Header({ auth }) {
         } catch (error) {
             console.error('Logout error:', error);
         }
+    };
+
+    // Get the correct logo link based on user state and profile completion
+    const getLogoLink = () => {
+        if (user) {
+            // Check if user has completed profile
+            if (user.business && user.business.profile_completed) {
+                return "/customer/dashboard";
+            } else {
+                // Profile not completed, stay on profile setup
+                return "/profile";
+            }
+        }
+        return "/";
+    };
+
+    // Handle profile menu item clicks
+    const handleProfileClick = (e) => {
+        if (isInMyProfile) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/profile');
+        } else {
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+
+    const handleOrdersClick = (e) => {
+        if (isInMyOrders) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/ordering-reordering');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
     };
 
     // Close dropdowns when clicking outside
@@ -61,7 +119,7 @@ export default function Header({ auth }) {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center shrink-0">
+                    <Link href={getLogoLink()} className="flex items-center shrink-0">
                         <img
                             src="/Images/logo.png"
                             alt="My Grocer"
@@ -116,20 +174,30 @@ export default function Header({ auth }) {
 
                                 {isUserMenuOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                                        <Link
-                                            href="/customer/profile"
-                                            className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                        <button
+                                            onClick={handleProfileClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyProfile 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyProfile}
                                         >
                                             <FaUser className="text-sm" />
                                             My Profile
-                                        </Link>
-                                        <Link
-                                            href="/customer/orders"
-                                            className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                        </button>
+                                        <button
+                                            onClick={handleOrdersClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyOrders 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyOrders}
                                         >
                                             <FaShoppingCart className="text-sm" />
                                             My Orders
-                                        </Link>
+                                        </button>
                                         <hr className="my-2" />
                                         <button
                                             onClick={handleLogout}
@@ -173,27 +241,31 @@ export default function Header({ auth }) {
                             )}
                         </div>
 
-                        {/* Wishlist Icon */}
-                        <Link
-                            // href="/customer/favourites"
-                            className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors"
-                            aria-label="Wishlist"
-                        >
-                            <FaRegHeart className="text-[#FF8829] text-xl xl:text-2xl" />
-                        </Link>
+                        {/* Wishlist Icon - Hide in profile pages */}
+                        {!isProfilePage && (
+                            <Link
+                                href="/customer/favourites"
+                                className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                                aria-label="Wishlist"
+                            >
+                                <FaRegHeart className="text-[#FF8829] text-xl xl:text-2xl" />
+                            </Link>
+                        )}
 
-                        {/* Cart Icon */}
-                        <Link
-                            // href="/customer/checkout"
-                            className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors relative"
-                            aria-label="Shopping Cart"
-                        >
-                            <FaShoppingCart className="text-[#6F9C3D] text-xl xl:text-2xl" />
-                            {/* Cart badge */}
-                            {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full size-5 flex items-center justify-center">
-                                3
-                            </span> */}
-                        </Link>
+                        {/* Cart Icon - Hide in profile pages */}
+                        {!isProfilePage && (
+                            <Link
+                                href="/customer/checkout"
+                                className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors relative"
+                                aria-label="Shopping Cart"
+                            >
+                                <FaShoppingCart className="text-[#6F9C3D] text-xl xl:text-2xl" />
+                                {/* Cart badge */}
+                                {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full size-5 flex items-center justify-center">
+                                    3
+                                </span> */}
+                            </Link>
+                        )}
                     </nav>
 
                     {/* Mobile Menu Button */}
@@ -259,23 +331,37 @@ export default function Header({ auth }) {
                                 </div>
 
                                 {/* User Menu Items */}
-                                <Link
-                                    href="/customer/profile"
-                                    className="flex items-center gap-2 px-4 py-3 text-gray-800 hover:bg-gray-200 rounded-xl transition-colors"
-                                    onClick={toggleMenu}
+                                <button
+                                    onClick={() => {
+                                        handleProfileClick();
+                                        toggleMenu();
+                                    }}
+                                    className={`w-full flex items-center gap-2 px-4 py-3 rounded-xl transition-colors ${
+                                        isInMyProfile 
+                                            ? 'text-gray-400 cursor-not-allowed bg-gray-100' 
+                                            : 'text-gray-800 hover:bg-gray-200'
+                                    }`}
+                                    disabled={isInMyProfile}
                                 >
                                     <FaUser />
                                     My Profile
-                                </Link>
+                                </button>
 
-                                <Link
-                                    href="/customer/orders"
-                                    className="flex items-center gap-2 px-4 py-3 text-gray-800 hover:bg-gray-200 rounded-xl transition-colors"
-                                    onClick={toggleMenu}
+                                <button
+                                    onClick={() => {
+                                        handleOrdersClick();
+                                        toggleMenu();
+                                    }}
+                                    className={`w-full flex items-center gap-2 px-4 py-3 rounded-xl transition-colors ${
+                                        isInMyOrders 
+                                            ? 'text-gray-400 cursor-not-allowed bg-gray-100' 
+                                            : 'text-gray-800 hover:bg-gray-200'
+                                    }`}
+                                    disabled={isInMyOrders}
                                 >
                                     <FaShoppingCart />
                                     My Orders
-                                </Link>
+                                </button>
 
                                 <button
                                     onClick={() => {
@@ -314,25 +400,27 @@ export default function Header({ auth }) {
                             </div>
                         </div>
 
-                        {/* Mobile Icons Row */}
-                        <div className="flex items-center justify-center gap-6 pt-2">
-                            <Link
-                                // href="/customer/favourites"
-                                className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors"
-                                aria-label="Wishlist"
-                                onClick={toggleMenu}
-                            >
-                                <FaRegHeart className="text-[#FF8829] text-2xl" />
-                            </Link>
-                            <Link
-                                // href="/customer/checkout"
-                                className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors relative"
-                                aria-label="Shopping Cart"
-                                onClick={toggleMenu}
-                            >
-                                <FaShoppingCart className="text-[#6F9C3D] text-2xl" />
-                            </Link>
-                        </div>
+                        {/* Mobile Icons Row - Only show if not in profile pages */}
+                        {!isProfilePage && (
+                            <div className="flex items-center justify-center gap-6 pt-2">
+                                <Link
+                                    href="/customer/favourites"
+                                    className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                                    aria-label="Wishlist"
+                                    onClick={toggleMenu}
+                                >
+                                    <FaRegHeart className="text-[#FF8829] text-2xl" />
+                                </Link>
+                                <Link
+                                    href="/customer/checkout"
+                                    className="flex items-center justify-center p-2 hover:bg-gray-200 rounded-lg transition-colors relative"
+                                    aria-label="Shopping Cart"
+                                    onClick={toggleMenu}
+                                >
+                                    <FaShoppingCart className="text-[#6F9C3D] text-2xl" />
+                                </Link>
+                            </div>
+                        )}
                     </nav>
                 </div>
             </div>

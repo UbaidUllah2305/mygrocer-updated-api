@@ -2,9 +2,7 @@ import { Home } from "lucide-react";
 
 // Shopkeeper Breadcrumb Configuration
 export const shopkeeperBreadcrumbs = {
-  "/dashboard": [
-    { label: "Dashboard", icon: Home },
-  ],
+  "/dashboard": [{ label: "Dashboard", icon: Home }],
   "/inventory": [
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Inventory" },
@@ -102,105 +100,109 @@ export const shopkeeperBreadcrumbs = {
 
 // Customer Breadcrumb Configuration
 export const customerBreadcrumbs = {
-  "/": [
-    { label: "Home", icon: Home },
-  ],
-  "/customer/dashboard": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard" },
-  ],
+  "/": [{ label: "Home", icon: Home }],
+  "/customer/dashboard": [{ label: "Home", icon: Home }],
   "/customer/profile": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Profile" },
   ],
   "/customer/ordering-reordering": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Orders" },
   ],
   "/customer/addresses": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Addresses" },
   ],
   "/customer/currency": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Currency" },
   ],
   "/customer/wallet": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Wallet" },
   ],
   "/customer/help": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Help Center" },
   ],
   "/customer/my-list": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "My Lists" },
   ],
   "/customer/notifications": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Notifications" },
   ],
   "/customer/reminder": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Reminder" },
   ],
   "/customer/user-manual": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "User Manual" },
   ],
   "/customer/offers-alerts": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Offers & Alerts" },
   ],
-  "/customer/stores": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Stores List" },
-  ],
   "/customer/checkout": [
-    { label: "Home", icon: Home, href: "/" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Checkout" },
   ],
   "/customer/order-tracking": [
-    { label: "Home", icon: Home, href: "/" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Order Tracking" },
   ],
   "/customer/favourites": [
-    { label: "Home", icon: Home, href: "/" },
-    { label: "Dashboard", href: "/customer/dashboard" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Favourites" },
   ],
   "/customer/vouchers-and-offers": [
-    { label: "Home", icon: Home, href: "/" },
+    { label: "Home", icon: Home, href: "/customer/dashboard" },
     { label: "Vouchers & Offers" },
   ],
 };
 
-// Helper function to get breadcrumbs based on user type
+// Helper function to get breadcrumbs based on user type and path
 export const getBreadcrumbs = (path) => {
   // Normalize path
   const normalizedPath = path.toLowerCase().split("?")[0].replace(/\/$/, "");
 
+  // Handle root path
+  if (normalizedPath === "" || normalizedPath === "/") {
+    return [{ label: "Home", icon: Home }];
+  }
+
   // Determine user type based on path
   const isCustomer =
-    normalizedPath.startsWith("/customer") || normalizedPath === "/"
-  const isShopkeeper = !isCustomer;
+    normalizedPath.startsWith("/customer") || normalizedPath === "/profile";
+  const isShopkeeper =
+    normalizedPath.startsWith("/dashboard") ||
+    normalizedPath.startsWith("/inventory") ||
+    normalizedPath.startsWith("/add-products") ||
+    normalizedPath.startsWith("/edit-products") ||
+    normalizedPath.startsWith("/orders-received") ||
+    normalizedPath.startsWith("/adjustments") ||
+    normalizedPath.startsWith("/analytics") ||
+    normalizedPath.startsWith("/warehouse") ||
+    normalizedPath.startsWith("/overheads") ||
+    normalizedPath.startsWith("/trends") ||
+    normalizedPath.startsWith("/offers") ||
+    normalizedPath.startsWith("/create-offers") ||
+    normalizedPath.startsWith("/events") ||
+    normalizedPath.startsWith("/add-events") ||
+    normalizedPath.startsWith("/accounts") ||
+    normalizedPath.startsWith("/messages") ||
+    normalizedPath.startsWith("/settings") ||
+    normalizedPath.startsWith("/profile/setup");
 
   // Select appropriate config
   const breadcrumbConfig = isCustomer
     ? customerBreadcrumbs
-    : shopkeeperBreadcrumbs;
+    : isShopkeeper
+    ? shopkeeperBreadcrumbs
+    : customerBreadcrumbs; // Default to customer
 
   // Check for shopkeeper edit-products path with ID
   if (normalizedPath.startsWith("/edit-products/")) {
@@ -217,8 +219,7 @@ export const getBreadcrumbs = (path) => {
     normalizedPath !== "/customer/stores"
   ) {
     return [
-      { label: "Home", icon: Home, href: "/" },
-      { label: "Stores List", href: "/customer/stores" },
+      { label: "Home", icon: Home, href: "/customer/dashboard" },
       { label: "Store Details" },
     ];
   }
@@ -230,15 +231,17 @@ export const getBreadcrumbs = (path) => {
 
   // Try to find partial match for dynamic routes
   for (const [configPath, breadcrumbs] of Object.entries(breadcrumbConfig)) {
-    if (normalizedPath.startsWith(configPath)) {
+    if (normalizedPath.startsWith(configPath) && configPath !== "/") {
       return breadcrumbs;
     }
   }
 
   // Default breadcrumbs based on user type
   if (isCustomer) {
-    return [{ label: "Home", icon: Home, href: "/" }];
-  } else {
+    return [{ label: "Home", icon: Home, href: "/customer/dashboard" }];
+  } else if (isShopkeeper) {
     return [{ label: "Dashboard", icon: Home, href: "/dashboard" }];
+  } else {
+    return [{ label: "Home", icon: Home }];
   }
 };

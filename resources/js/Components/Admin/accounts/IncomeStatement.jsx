@@ -23,11 +23,6 @@ const IncomeStatement = ({ onBack, onViewDetails }) => {
 
   return (
     <div className="p-4 md:p-6">
-      {/* Breadcrumb */}
-      <div className="text-gray-500 text-lg mb-2" style={{ fontFamily: "'Satoshi', sans-serif" }}>
-        <span className="cursor-pointer hover:text-[#6F9C3D]" onClick={onBack}>Accounts</span> / Income Statement
-      </div>
-
       {/* Header with Date Filters */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-medium text-gray-800" style={{ fontFamily: "'Satoshi', sans-serif" }}>

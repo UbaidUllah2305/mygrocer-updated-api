@@ -66,11 +66,6 @@ const BalanceSheet = ({ onBack }) => {
 
   return (
     <div className="p-4 md:p-6">
-      {/* Breadcrumb */}
-      <div className="text-gray-500 text-sm mb-2">
-        <span className="cursor-pointer hover:text-[#6F9C3D]" onClick={onBack}>Accounts</span> / Balance Sheet
-      </div>
-
       {/* Header */}
       <h1 className="text-2xl font-medium text-gray-800 mb-6">
         Comprehensive Balance Sheet

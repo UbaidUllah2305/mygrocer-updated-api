@@ -11,7 +11,7 @@ import Adjustments from "./Dashboard/Adjustments/Adjustments";
 import Analytics from "./Dashboard/Analytics/Analytics";
 import Trends from "./Dashboard/Trends/Trends";
 import Overheads from "./Dashboard/Overheads/Overheads";
-// import Accounts from "../Admin/Accounts";
+import Accounts from "./Dashboard/Accounts/Accounts";
 import Events from "./Dashboard/Events/Events";
 import AddEvents from "./Dashboard/Events/AddEvents";
 import Offers from "./Dashboard/Offers/Offers";
@@ -41,7 +41,7 @@ export default function Dashboard({ auth, page: pageName }) {
         
         // // Financial Management
         "Overheads": Overheads,
-        // "Accounts": Accounts,
+        "Accounts": Accounts,
         
         // // Marketing & Promotions
         "Events": Events,
@@ -78,7 +78,7 @@ export default function Dashboard({ auth, page: pageName }) {
             "Analytics": "Analytics",
             "Trends": "Trends",
             "Overheads": "Overheads",
-            // "Accounts": "Accounts",
+            "Accounts": "Accounts",
             "Events": "Events",
             "AddEvents": "Add Event",
             "Offers": "Offers",

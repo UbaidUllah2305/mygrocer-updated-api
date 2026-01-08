@@ -20,7 +20,7 @@ import Messages from "./Dashboard/Messages/Messages";
 import Subscription from "./Dashboard/Settings/Subscription/Subscription";
 import DeliverySettings from "./Dashboard/Settings/DeliverySettings/DeliverySettings";
 import Vouchers from "./Dashboard/Settings/Vouchers/Vouchers";
-// import VendorDashboard from "../Admin/Settings/VendorDashboard";
+import VendorDashboard from "./Dashboard/Settings/VendorDashboard/VendorDashboard";
 // import HelpCenter from "../Admin/Settings/HelpCenter";
 // import ReminderPage from "../Admin/Settings/ReminderPage";
 import Notifications from "./Dashboard/Notifications/Notifications";
@@ -51,15 +51,15 @@ export default function Dashboard({ auth, page: pageName }) {
         
         // // Orders & Communication
         "Messages": Messages,
+        "Notifications": Notifications,
         
         // // Settings
         "Settings/Subscription": Subscription,
         "Settings/DeliverySettings": DeliverySettings,
         "Settings/Vouchers": Vouchers,
-        // "Settings/VendorDashboard": VendorDashboard,
+        "Settings/VendorDashboard": VendorDashboard,
         // "Settings/HelpCenter": HelpCenter,
         // "Settings/Reminder": ReminderPage,
-        "Notifications": Notifications,
 
     };
 
@@ -84,13 +84,13 @@ export default function Dashboard({ auth, page: pageName }) {
             "Offers": "Offers",
             "CreateOffers": "Create Offer",
             "Messages": "Messages",
+            "Notifications": "Notifications",
             "Settings/Subscription": "Subscription",
             "Settings/DeliverySettings": "Delivery Settings",
             "Settings/Vouchers": "Vouchers",
-            // "Settings/VendorDashboard": "Vendor Dashboard",
+            "Settings/VendorDashboard": "Vendor Dashboard",
             // "Settings/HelpCenter": "Help Center",
             // "Settings/Reminder": "Reminder",
-            "Notifications": "Notifications"
         };
         return titleMap[pageName] || "MyGrocer";
     };

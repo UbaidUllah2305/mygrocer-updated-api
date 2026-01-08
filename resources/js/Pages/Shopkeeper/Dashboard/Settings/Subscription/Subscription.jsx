@@ -1,4 +1,3 @@
-// src/Pages/Admin/Subscription.jsx
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 

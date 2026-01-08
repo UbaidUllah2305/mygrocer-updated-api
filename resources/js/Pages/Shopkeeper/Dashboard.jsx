@@ -12,8 +12,8 @@ import Analytics from "./Dashboard/Analytics/Analytics";
 import Trends from "./Dashboard/Trends/Trends";
 import Overheads from "./Dashboard/Overheads/Overheads";
 // import Accounts from "../Admin/Accounts";
-// import Events from "../Admin/Events";
-// import AddEvents from "../Admin/AddEvents";
+import Events from "./Dashboard/Events/Events";
+import AddEvents from "./Dashboard/Events/AddEvents";
 import Offers from "./Dashboard/Offers/Offers";
 import CreateOffers from "./Dashboard/Offers/CreateOffers";
 import Messages from "./Dashboard/Messages/Messages";
@@ -44,8 +44,8 @@ export default function Dashboard({ auth, page: pageName }) {
         // "Accounts": Accounts,
         
         // // Marketing & Promotions
-        // "Events": Events,
-        // "AddEvents": AddEvents,
+        "Events": Events,
+        "AddEvents": AddEvents,
         "Offers": Offers,
         "CreateOffers": CreateOffers,
         
@@ -79,8 +79,8 @@ export default function Dashboard({ auth, page: pageName }) {
             "Trends": "Trends",
             "Overheads": "Overheads",
             // "Accounts": "Accounts",
-            // "Events": "Events",
-            // "AddEvents": "Add Event",
+            "Events": "Events",
+            "AddEvents": "Add Event",
             "Offers": "Offers",
             "CreateOffers": "Create Offer",
             "Messages": "Messages",

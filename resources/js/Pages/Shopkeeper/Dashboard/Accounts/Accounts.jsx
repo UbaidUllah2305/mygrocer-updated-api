@@ -5,8 +5,8 @@ import { Link } from "@inertiajs/react";
 // Components (already modular)
 import AccountsList from "@/Pages/Shopkeeper/Dashboard/Accounts/AccountsList/AccountsList";
 import AccountDetails from "@/Pages/Shopkeeper/Dashboard/Accounts/AccountsList/AccountDetails";
-import IncomeStatement from "@/Components/Admin/accounts/IncomeStatement";
-import IncomeStatementDetails from "@/Components/Admin/accounts/IncomeStatementDetails";
+import IncomeStatement from "@/Pages/Shopkeeper/Dashboard/Accounts/IncomeStatement/IncomeStatement";
+import IncomeStatementDetails from "@/Pages/Shopkeeper/Dashboard/Accounts/IncomeStatement/IncomeStatementDetails";
 import BalanceSheet from "@/Components/Admin/accounts/BalanceSheet";
 
 // Summary Card Component

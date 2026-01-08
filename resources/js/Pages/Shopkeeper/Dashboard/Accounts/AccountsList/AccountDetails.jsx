@@ -41,7 +41,7 @@ const AccountDetails = ({ account, onBack }) => {
           className="px-4 py-3 bg-[#6F9C3D] flex text-white rounded-lg font-medium transition"
         >
           <ArrowLeft />
-          Back to Accounts
+          Back to Accounts List
         </button>
       </div>
 

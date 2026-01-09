@@ -100,7 +100,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Individual Store Preview
     Route::get('/stores/{id}', function ($id) {
-        return Inertia::render('Customer/Stores/StoreDetails', ['storeId' => $id]);
+        return Inertia::render('Customer/Dashboard/Stores/StoreDetails', ['storeId' => $id]);
     })->name('store.preview');
 
     // Checkout Page

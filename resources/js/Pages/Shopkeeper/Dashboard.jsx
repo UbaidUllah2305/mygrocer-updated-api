@@ -11,16 +11,16 @@ import Adjustments from "./Dashboard/Adjustments/Adjustments";
 import Analytics from "./Dashboard/Analytics/Analytics";
 import Trends from "./Dashboard/Trends/Trends";
 import Overheads from "./Dashboard/Overheads/Overheads";
-// import Accounts from "../Admin/Accounts";
-// import Events from "../Admin/Events";
-// import AddEvents from "../Admin/AddEvents";
+import Accounts from "./Dashboard/Accounts/Accounts";
+import Events from "./Dashboard/Events/Events";
+import AddEvents from "./Dashboard/Events/AddEvents";
 import Offers from "./Dashboard/Offers/Offers";
 import CreateOffers from "./Dashboard/Offers/CreateOffers";
 import Messages from "./Dashboard/Messages/Messages";
-// import Subscription from "../Admin/Settings/Subscription";
-// import DeliverySettings from "../Admin/Settings/DeliverySettings";
-// import Vouchers from "../Admin/Settings/Vouchers";
-// import VendorDashboard from "../Admin/Settings/VendorDashboard";
+import Subscription from "./Dashboard/Settings/Subscription/Subscription";
+import DeliverySettings from "./Dashboard/Settings/DeliverySettings/DeliverySettings";
+import Vouchers from "./Dashboard/Settings/Vouchers/Vouchers";
+import VendorDashboard from "./Dashboard/Settings/VendorDashboard/VendorDashboard";
 // import HelpCenter from "../Admin/Settings/HelpCenter";
 // import ReminderPage from "../Admin/Settings/ReminderPage";
 import Notifications from "./Dashboard/Notifications/Notifications";
@@ -41,25 +41,25 @@ export default function Dashboard({ auth, page: pageName }) {
         
         // // Financial Management
         "Overheads": Overheads,
-        // "Accounts": Accounts,
+        "Accounts": Accounts,
         
         // // Marketing & Promotions
-        // "Events": Events,
-        // "AddEvents": AddEvents,
+        "Events": Events,
+        "AddEvents": AddEvents,
         "Offers": Offers,
         "CreateOffers": CreateOffers,
         
         // // Orders & Communication
         "Messages": Messages,
+        "Notifications": Notifications,
         
         // // Settings
-        // "Settings/Subscription": Subscription,
-        // "Settings/DeliverySettings": DeliverySettings,
-        // "Settings/Vouchers": Vouchers,
-        // "Settings/VendorDashboard": VendorDashboard,
+        "Settings/Subscription": Subscription,
+        "Settings/DeliverySettings": DeliverySettings,
+        "Settings/Vouchers": Vouchers,
+        "Settings/VendorDashboard": VendorDashboard,
         // "Settings/HelpCenter": HelpCenter,
         // "Settings/Reminder": ReminderPage,
-        "Notifications": Notifications,
 
     };
 
@@ -78,19 +78,19 @@ export default function Dashboard({ auth, page: pageName }) {
             "Analytics": "Analytics",
             "Trends": "Trends",
             "Overheads": "Overheads",
-            // "Accounts": "Accounts",
-            // "Events": "Events",
-            // "AddEvents": "Add Event",
+            "Accounts": "Accounts",
+            "Events": "Events",
+            "AddEvents": "Add Event",
             "Offers": "Offers",
             "CreateOffers": "Create Offer",
             "Messages": "Messages",
-            // "Settings/Subscription": "Subscription",
-            // "Settings/DeliverySettings": "Delivery Settings",
-            // "Settings/Vouchers": "Vouchers",
-            // "Settings/VendorDashboard": "Vendor Dashboard",
+            "Notifications": "Notifications",
+            "Settings/Subscription": "Subscription",
+            "Settings/DeliverySettings": "Delivery Settings",
+            "Settings/Vouchers": "Vouchers",
+            "Settings/VendorDashboard": "Vendor Dashboard",
             // "Settings/HelpCenter": "Help Center",
             // "Settings/Reminder": "Reminder",
-            "Notifications": "Notifications"
         };
         return titleMap[pageName] || "MyGrocer";
     };

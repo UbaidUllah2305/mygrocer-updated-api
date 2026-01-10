@@ -51,6 +51,13 @@ const HelpCenter = () => {
       link: "/settings/subscription"
     },
     {
+      id: "vendordashboard",
+      title: "Vendor Dashboard",
+      description: "How to view and add new category?",
+      icon: "dashboard",
+      link: "/settings/vendor-dashboard"
+    },
+    {
       id: "reminder",
       title: "Reminder",
       description: "How to view and add new reminders?",

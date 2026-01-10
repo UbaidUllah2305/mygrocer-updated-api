@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { router } from "@inertiajs/react";
-import { X } from "lucide-react";
+import { X, Headphones, BellRing } from "lucide-react";
 
 // Main menu icons
 import DashboardIcon from "../assets/icons/dashboard.svg?react";
@@ -38,6 +38,8 @@ const settingsSubItems = [
   { id: "vouchers", label: "Vouchers", Icon: VouchersIcon, path: "/settings/vouchers" },
   { id: "subscription", label: "Subscription", Icon: SubscriptionIcon, path: "/settings/subscription" },
   { id: "vendor-dashboard", label: "Vendor Dashboard", Icon: DashboardIcon, path: "/settings/vendor-dashboard" },
+  { id: "help-center", label: "Help Center", Icon: Headphones, path: "settings/help-center"},
+  { id: "reminderr", label: "Reminder", Icon: BellRing, path: "settings/reminder"},
 ];
 
 const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
@@ -98,7 +100,8 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
     active === "delivery" ||
     active === "subscription" ||
     active === "vouchers" ||
-    active === "vendor-dashboard";
+    active === "vendor-dashboard" ||
+    active === "hepl-center"
 
   // MenuItem Component
   const MenuItem = ({ item, isActive, onClick }) => (

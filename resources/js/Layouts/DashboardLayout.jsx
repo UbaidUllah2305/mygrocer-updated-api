@@ -52,6 +52,8 @@ export default function DashboardLayout({ children, auth, hideSidebar = false, c
             '/settings/vouchers': 'vouchers',
             '/settings/subscription': 'subscription',
             '/settings/vendor-dashboard': 'vendor-dashboard',
+            '/settings/help-center': 'help-center',
+            '/settings/reminder': 'reminder'
         };
 
         // Find matching route

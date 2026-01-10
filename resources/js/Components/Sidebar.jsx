@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { router } from "@inertiajs/react";
-import { X } from "lucide-react";
+import { X, Headphones, BellRing } from "lucide-react";
 
 // Main menu icons
 import DashboardIcon from "../assets/icons/dashboard.svg?react";
@@ -38,6 +38,8 @@ const settingsSubItems = [
   { id: "vouchers", label: "Vouchers", Icon: VouchersIcon, path: "/settings/vouchers" },
   { id: "subscription", label: "Subscription", Icon: SubscriptionIcon, path: "/settings/subscription" },
   { id: "vendor-dashboard", label: "Vendor Dashboard", Icon: DashboardIcon, path: "/settings/vendor-dashboard" },
+  { id: "help-center", label: "Help Center", Icon: Headphones, path: "/settings/help-center" },
+  { id: "reminder", label: "Reminder", Icon: BellRing, path: "/settings/reminder" },
 ];
 
 const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
@@ -94,11 +96,13 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
   // Check if parent Settings should be active
   const isSettingsActive =
     active === "settings" ||
-    active === "delivery-settings" ||
     active === "delivery" ||
-    active === "subscription" ||
+    active === "delivery-settings" || 
     active === "vouchers" ||
-    active === "vendor-dashboard";
+    active === "subscription" ||
+    active === "vendor-dashboard" ||
+    active === "help-center" ||
+    active === "reminder";
 
   // MenuItem Component
   const MenuItem = ({ item, isActive, onClick }) => (
@@ -106,11 +110,10 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
       onClick={onClick}
       aria-label={item.label}
       aria-current={isActive ? "page" : undefined}
-      className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 ${
-        isActive
+      className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 ${isActive
           ? "bg-[#6f9c3d] text-white shadow-sm"
           : "text-[#161c2b] hover:bg-[#e5f0d8] active:scale-95"
-      }`}
+        }`}
       style={{
         fontFamily: "'Satoshi', sans-serif",
         fontSize: "15px",
@@ -118,9 +121,8 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
       }}
     >
       <item.Icon
-        className={`w-5 h-5 flex-shrink-0 transition-colors ${
-          isActive ? "text-white" : "text-[#6f9c3d]"
-        }`}
+        className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? "text-white" : "text-[#6f9c3d]"
+          }`}
       />
       <span className="truncate">{item.label}</span>
     </button>
@@ -130,11 +132,10 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
   const SubMenuItem = ({ item, isActive, onClick }) => (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${
-        isActive
+      className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${isActive
           ? "bg-[#6f9c3d] text-white shadow-sm"
           : "text-[#161c2b] hover:bg-[#e5f0d8] active:scale-95"
-      }`}
+        }`}
       style={{
         fontFamily: "'Satoshi', sans-serif",
         fontSize: "14px",
@@ -143,9 +144,8 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
       }}
     >
       <item.Icon
-        className={`w-4 h-4 flex-shrink-0 transition-colors ${
-          isActive ? "text-white" : "text-[#6f9c3d]"
-        }`}
+        className={`w-4 h-4 flex-shrink-0 transition-colors ${isActive ? "text-white" : "text-[#6f9c3d]"
+          }`}
       />
       <span className="truncate">{item.label}</span>
     </button>
@@ -164,13 +164,11 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
 
       {/* Sidebar */}
       <aside
-        className={`z-50 bg-[#f4f7ef] transition-transform duration-300 ease-in-out ${
-          isMobile
-            ? `fixed left-0 top-0 h-full w-72 shadow-2xl ${
-                mobileOpen ? "translate-x-0" : "-translate-x-full"
-              }`
+        className={`z-50 bg-[#f4f7ef] transition-transform duration-300 ease-in-out ${isMobile
+            ? `fixed left-0 top-0 h-full w-72 shadow-2xl ${mobileOpen ? "translate-x-0" : "-translate-x-full"
+            }`
             : "fixed left-0 top-[80px] h-[calc(100vh-80px)] w-64 border-r border-black/10"
-        }`}
+          }`}
         aria-hidden={isMobile && !mobileOpen}
         role={isMobile ? "dialog" : "complementary"}
         aria-modal={isMobile ? true : undefined}
@@ -226,11 +224,10 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
                 onClick={toggleSettingsDropdown}
                 aria-label="Settings"
                 aria-expanded={openDropdown === "settings"}
-                className={`w-full flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 ${
-                  isSettingsActive
+                className={`w-full flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 ${isSettingsActive
                     ? "bg-[#6f9c3d] text-white shadow-sm"
                     : "text-[#161c2b] hover:bg-[#e5f0d8] active:scale-95"
-                }`}
+                  }`}
                 style={{
                   fontFamily: "'Satoshi', sans-serif",
                   fontSize: "15px",
@@ -239,16 +236,14 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
               >
                 <div className="flex items-center gap-3">
                   <SettingsIcon
-                    className={`w-5 h-5 flex-shrink-0 transition-colors ${
-                      isSettingsActive ? "text-white" : "text-[#6f9c3d]"
-                    }`}
+                    className={`w-5 h-5 flex-shrink-0 transition-colors ${isSettingsActive ? "text-white" : "text-[#6f9c3d]"
+                      }`}
                   />
                   <span className="truncate">Settings</span>
                 </div>
                 <svg
-                  className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
-                    openDropdown === "settings" ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${openDropdown === "settings" ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -265,9 +260,8 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
 
               {/* Dropdown Items with Animation */}
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openDropdown === "settings" ? "max-h-96 opacity-100 mt-1.5" : "max-h-0 opacity-0"
-                }`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${openDropdown === "settings" ? "max-h-96 opacity-100 mt-1.5" : "max-h-0 opacity-0"
+                  }`}
               >
                 <div className="space-y-1">
                   {settingsSubItems.map((item) => (

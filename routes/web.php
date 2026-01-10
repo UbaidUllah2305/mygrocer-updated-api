@@ -214,7 +214,7 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
     // Orders
     Route::get('/orders-received', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Orders']);
-    })->name('orders');
+    })->name('orders-received');
     
     // Adjustments
     Route::get('/adjustments', function () {
@@ -284,7 +284,7 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
 
         Route::get('/help-center', function () {
             return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Settings/HelpCenter']);
-        })->name('help.center');
+        })->name('help-center');
 
         Route::get('/reminder', function () {
             return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Settings/Reminder']);

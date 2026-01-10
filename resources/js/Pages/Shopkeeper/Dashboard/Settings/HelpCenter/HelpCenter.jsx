@@ -53,7 +53,7 @@ const HelpCenter = () => {
     {
       id: "reminder",
       title: "Reminder",
-      description: "How to view reminder?",
+      description: "How to view and add new reminders?",
       icon: "BellRing",
       link: "/settings/reminder"
     },

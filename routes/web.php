@@ -165,7 +165,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Vouchers and Offers
     Route::get('/vouchers-and-offers', function () {
-        return Inertia::render('Customer/VouchersAndOffersPage');
+        return Inertia::render('Customer/Dashboard/Vouchers/VouchersAndOffersPage');
     })->name('vouchers');
 });
 

@@ -3,21 +3,21 @@ import { router } from "@inertiajs/react";
 import { X, Headphones, BellRing } from "lucide-react";
 
 // Main menu icons
-import DashboardIcon from "../assets/icons/dashboard.svg?react";
-import InventoryIcon from "../assets/icons/inventory.svg?react";
-import OrdersIcon from "../assets/icons/orders.svg?react";
-import AnalyticsIcon from "../assets/icons/analytics.svg?react";
-import WarehouseIcon from "../assets/icons/warehouse.svg?react";
-import AdjustmentsIcon from "../assets/icons/adjustments.svg?react";
-import OverheadsIcon from "../assets/icons/overheads.svg?react";
-import TrendsIcon from "../assets/icons/trends.svg?react";
-import OffersIcon from "../assets/icons/offers.svg?react";
-import EventsIcon from "../assets/icons/events.svg?react";
-import AccountsIcon from "../assets/icons/accounts.svg?react";
-import SettingsIcon from "../assets/icons/settings.svg?react";
-import DeliveryIcon from "../assets/icons/delivery.svg?react";
-import VouchersIcon from "../assets/icons/vouchers.svg?react";
-import SubscriptionIcon from "../assets/icons/subscription.svg?react";
+import DashboardIcon from "../../../public/assets/icons/dashboard.svg?react";
+import InventoryIcon from "../../../public/assets/icons/inventory.svg?react";
+import OrdersIcon from "../../../public/assets/icons/orders.svg?react";
+import AnalyticsIcon from "../../../public/assets/icons/analytics.svg?react";
+import WarehouseIcon from "../../../public/assets/icons/warehouse.svg?react";
+import AdjustmentsIcon from "../../../public/assets/icons/adjustments.svg?react";
+import OverheadsIcon from "../../../public/assets/icons/overheads.svg?react";
+import TrendsIcon from "../../../public/assets/icons/trends.svg?react";
+import OffersIcon from "../../../public/assets/icons/offers.svg?react";
+import EventsIcon from "../../../public/assets/icons/events.svg?react";
+import AccountsIcon from "../../../public/assets/icons/accounts.svg?react";
+import SettingsIcon from "../../../public/assets/icons/settings.svg?react";
+import DeliveryIcon from "../../../public/assets/icons/delivery.svg?react";
+import VouchersIcon from "../../../public/assets/icons/vouchers.svg?react";
+import SubscriptionIcon from "../../../public/assets/icons/subscription.svg?react";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", Icon: DashboardIcon, path: "/dashboard" },
@@ -111,8 +111,8 @@ const Sidebar = ({ active, onChange, isMobile, mobileOpen, onCloseMobile }) => {
       aria-label={item.label}
       aria-current={isActive ? "page" : undefined}
       className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 ${isActive
-          ? "bg-[#6f9c3d] text-white shadow-sm"
-          : "text-[#161c2b] hover:bg-[#e5f0d8] active:scale-95"
+          ? "bg-[#6f9c3d] text-white"
+          : "text-[#161c2b] hover:bg-[#e5f0d8]"
         }`}
       style={{
         fontFamily: "'Satoshi', sans-serif",

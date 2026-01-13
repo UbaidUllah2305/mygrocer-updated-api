@@ -21,8 +21,8 @@ import Subscription from "./Dashboard/Settings/Subscription/Subscription";
 import DeliverySettings from "./Dashboard/Settings/DeliverySettings/DeliverySettings";
 import Vouchers from "./Dashboard/Settings/Vouchers/Vouchers";
 import VendorDashboard from "./Dashboard/Settings/VendorDashboard/VendorDashboard";
-// import HelpCenter from "../Admin/Settings/HelpCenter";
-// import ReminderPage from "../Admin/Settings/ReminderPage";
+import HelpCenter from "./Dashboard/Settings/HelpCenter/HelpCenter";
+import ReminderPage from "./Dashboard/Settings/Reminder/ReminderPage";
 import Notifications from "./Dashboard/Notifications/Notifications";
 
 export default function Dashboard({ auth, page: pageName }) {
@@ -58,8 +58,8 @@ export default function Dashboard({ auth, page: pageName }) {
         "Settings/DeliverySettings": DeliverySettings,
         "Settings/Vouchers": Vouchers,
         "Settings/VendorDashboard": VendorDashboard,
-        // "Settings/HelpCenter": HelpCenter,
-        // "Settings/Reminder": ReminderPage,
+        "Settings/HelpCenter": HelpCenter,
+        "Settings/Reminder": ReminderPage,
 
     };
 
@@ -89,8 +89,8 @@ export default function Dashboard({ auth, page: pageName }) {
             "Settings/DeliverySettings": "Delivery Settings",
             "Settings/Vouchers": "Vouchers",
             "Settings/VendorDashboard": "Vendor Dashboard",
-            // "Settings/HelpCenter": "Help Center",
-            // "Settings/Reminder": "Reminder",
+            "Settings/HelpCenter": "Help Center",
+            "Settings/Reminder": "Reminder",
         };
         return titleMap[pageName] || "MyGrocer";
     };

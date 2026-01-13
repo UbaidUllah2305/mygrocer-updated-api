@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
-import { FaRegHeart, FaShoppingCart, FaUser, FaBars, FaTimes, FaGlobe, FaChevronDown } from "react-icons/fa";
+import { FaRegHeart, FaShoppingCart, FaUser, FaBars, FaTimes, FaGlobe, FaChevronDown, FaTicketAlt } from "react-icons/fa";
 import { LogOut, UserRound } from "lucide-react";
 import axios from "axios";
 
@@ -24,6 +24,7 @@ export default function Header({ auth }) {
     const isInProfileSetup = url.includes('/profile');
     const isInMyProfile = url.includes('/customer/profile');
     const isInMyOrders = url.includes('/customer/ordering-reordering');
+    const isInMyVouchers = url.includes('/customer/vouchers');
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const toggleLangDropdown = () => setIsLangDropdownOpen(!isLangDropdownOpen);
@@ -88,6 +89,22 @@ export default function Header({ auth }) {
         // Check if profile is completed before allowing navigation
         if (user?.business?.profile_completed) {
             router.visit('/customer/ordering-reordering');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+
+    const handleVouchersClick = (e) => {
+        if (isInMyVouchers) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/vouchers-and-offers');
         } else {
             // Redirect to profile setup if not completed
             router.visit('/profile');
@@ -197,6 +214,18 @@ export default function Header({ auth }) {
                                         >
                                             <FaShoppingCart className="text-sm" />
                                             My Orders
+                                        </button>
+                                        <button
+                                            onClick={handleVouchersClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyVouchers 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyVouchers}
+                                        >
+                                            <FaTicketAlt className="text-sm" />
+                                            My Vouchers
                                         </button>
                                         <hr className="my-2" />
                                         <button

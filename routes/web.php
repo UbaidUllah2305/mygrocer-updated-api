@@ -114,7 +114,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('profile');
     
     Route::get('/ordering-reordering', function () {
-        return Inertia::render('Customer/OrdersPage');
+        return Inertia::render('Customer/Dashboard/Orders/OrdersPage');
     })->name('ordering-reordering');
     
     Route::get('/addresses', function () {

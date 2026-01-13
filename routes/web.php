@@ -110,7 +110,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Customer Profile Page (different from setup)
     Route::get('/profile', function () {
-        return Inertia::render('Customer/ProfilePage');
+        return Inertia::render('Customer/Dashboard/Profile/ProfilePage');
     })->name('profile');
     
     Route::get('/ordering-reordering', function () {

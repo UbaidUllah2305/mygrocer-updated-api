@@ -110,11 +110,11 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Customer Profile Page (different from setup)
     Route::get('/profile', function () {
-        return Inertia::render('Customer/ProfilePage');
+        return Inertia::render('Customer/Dashboard/Profile/ProfilePage');
     })->name('profile');
     
     Route::get('/ordering-reordering', function () {
-        return Inertia::render('Customer/OrdersPage');
+        return Inertia::render('Customer/Dashboard/Orders/OrdersPage');
     })->name('ordering-reordering');
     
     Route::get('/addresses', function () {
@@ -165,7 +165,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Vouchers and Offers
     Route::get('/vouchers-and-offers', function () {
-        return Inertia::render('Customer/VouchersAndOffersPage');
+        return Inertia::render('Customer/Dashboard/Vouchers/VouchersAndOffersPage');
     })->name('vouchers');
 });
 

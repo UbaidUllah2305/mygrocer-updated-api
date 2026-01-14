@@ -1,6 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
-import { FaRegHeart, FaShoppingCart, FaUser, FaBars, FaTimes, FaGlobe, FaChevronDown, FaTicketAlt } from "react-icons/fa";
+import { 
+    FaRegHeart, 
+    FaShoppingCart, 
+    FaUser, 
+    FaBars, 
+    FaTimes, 
+    FaGlobe, 
+    FaChevronDown, 
+    FaTicketAlt, 
+    FaWallet, 
+    FaMapMarkerAlt, 
+    FaClipboardList, 
+    FaMoneyBillWave, 
+    FaBell, 
+    FaBookOpen, 
+    FaTags, 
+    FaQuestionCircle, 
+} from "react-icons/fa";
 import { LogOut, UserRound } from "lucide-react";
 import axios from "axios";
 
@@ -25,6 +42,14 @@ export default function Header({ auth }) {
     const isInMyProfile = url.includes('/customer/profile');
     const isInMyOrders = url.includes('/customer/ordering-reordering');
     const isInMyVouchers = url.includes('/customer/vouchers');
+    const isInMyWallet = url.includes('/customer/wallet');
+    const isInMyAddresses = url.includes('/customer/addresses');
+    const isInMyList = url.includes('/customer/my-list');
+    const isInMyCurrency = url.includes('/customer/currency');
+    const isInMyReminders = url.includes('/customer/reminder');
+    const isInMyManuals = url.includes('/customer/user-manual');
+    const isInMyOffers = url.includes('/customer/offers-alerts');
+    const isInMyHelpCenter = url.includes('/customer/help');
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const toggleLangDropdown = () => setIsLangDropdownOpen(!isLangDropdownOpen);
@@ -105,6 +130,134 @@ export default function Header({ auth }) {
         // Check if profile is completed before allowing navigation
         if (user?.business?.profile_completed) {
             router.visit('/customer/vouchers-and-offers');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+
+    const handleWalletClick = (e) => {
+        if (isInMyWallet) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/wallet');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+
+    const handleAddressClick = (e) => {
+        if (isInMyAddresses) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/addresses');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+
+    const handleListClick = (e) => {
+        if (isInMyList) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/my-list');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleCurrencyClick = (e) => {
+        if (isInMyCurrency) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/currency');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleRemidersClick = (e) => {
+        if (isInMyReminders) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/reminder');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleManualsClick = (e) => {
+        if (isInMyManuals) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/user-manual');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleOffersClick = (e) => {
+        if (isInMyOffers) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/offers-alerts');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleHelpCenterClick = (e) => {
+        if (isInMyHelpCenter) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/help');
         } else {
             // Redirect to profile setup if not completed
             router.visit('/profile');
@@ -226,6 +379,102 @@ export default function Header({ auth }) {
                                         >
                                             <FaTicketAlt className="text-sm" />
                                             My Vouchers
+                                        </button>
+                                        <button
+                                            onClick={handleWalletClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyWallet 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyWallet}
+                                        >
+                                            <FaWallet className="text-sm" />
+                                            My Wallet
+                                        </button>
+                                        <button
+                                            onClick={handleAddressClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyAddresses 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyAddresses}
+                                        >
+                                            <FaMapMarkerAlt className="text-sm" />
+                                            My Addresses
+                                        </button>
+                                        <button
+                                            onClick={handleListClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyList 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyList}
+                                        >
+                                            <FaClipboardList className="text-sm" />
+                                            My List
+                                        </button>
+                                        <button
+                                            onClick={handleCurrencyClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyCurrency 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyCurrency}
+                                        >
+                                            <FaMoneyBillWave className="text-sm" />
+                                            Currency
+                                        </button>
+                                        <button
+                                            onClick={handleRemidersClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyReminders 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyReminders}
+                                        >
+                                            <FaBell className="text-sm" />
+                                            My Reminders
+                                        </button>
+                                        <button
+                                            onClick={handleManualsClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyManuals 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyManuals}
+                                        >
+                                            <FaBookOpen className="text-sm" />
+                                            My User Manuals
+                                        </button>
+                                        <button
+                                            onClick={handleOffersClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyOffers 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyOffers}
+                                        >
+                                            <FaTags className="text-sm" />
+                                            My Offers
+                                        </button>
+                                        <button
+                                            onClick={handleHelpCenterClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyHelpCenter 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyHelpCenter}
+                                        >
+                                            <FaQuestionCircle className="text-sm" />
+                                            My Help Center
                                         </button>
                                         <hr className="my-2" />
                                         <button

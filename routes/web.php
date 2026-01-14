@@ -150,7 +150,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('user_manual');
 
     Route::get('/offers-alerts', function () {
-        return Inertia::render('Customer/OffersAlertsPage');
+        return Inertia::render('Customer/Dashboard/Offers/OffersAlertsPage');
     })->name('offers.alerts');
 
     // Order Tracking

@@ -134,7 +134,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('help');
     
     Route::get('/my-list', function () {
-        return Inertia::render('Customer/MyListsPage');
+        return Inertia::render('Customer/Dashboard/Lists/MyListsPage');
     })->name('my.list');
   
     Route::get('/notifications', function () {

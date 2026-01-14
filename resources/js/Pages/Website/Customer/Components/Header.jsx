@@ -12,8 +12,9 @@ import {
     FaWallet, 
     FaMapMarkerAlt, 
     FaClipboardList, 
-    FaMoneyBillWave, 
+    FaDollarSign,
     FaBell, 
+    FaClock,
     FaBookOpen, 
     FaTags, 
     FaQuestionCircle, 
@@ -425,7 +426,7 @@ export default function Header({ auth }) {
                                             }`}
                                             disabled={isInMyCurrency}
                                         >
-                                            <FaMoneyBillWave className="text-sm" />
+                                            <FaDollarSign className="text-sm" />
                                             Currency
                                         </button>
                                         <button

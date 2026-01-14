@@ -146,7 +146,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('reminder');
 
     Route::get('/user-manual', function () {
-        return Inertia::render('Customer/UserManualPage');
+        return Inertia::render('Customer/Dashboard/UserManual/UserManualPage');
     })->name('user_manual');
 
     Route::get('/offers-alerts', function () {

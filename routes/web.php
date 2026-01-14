@@ -118,49 +118,49 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('ordering-reordering');
     
     Route::get('/addresses', function () {
-        return Inertia::render('Customer/AddressesPage');
+        return Inertia::render('Customer/Dashboard/Addresses/AddressesPage');
     })->name('addresses');
     
     Route::get('/currency', function () {
-        return Inertia::render('Customer/CurrencyPage');
+        return Inertia::render('Customer/Dashboard/Currency/CurrencyPage');
     })->name('currency');
 
     Route::get('/wallet', function () {
-        return Inertia::render('Customer/WalletPage');
+        return Inertia::render('Customer/Dashboard/Wallet/WalletPage');
     })->name('wallet');
     
     Route::get('/help', function () {
-        return Inertia::render('Customer/HelpCenterPage');
+        return Inertia::render('Customer/Dashboard/HelpCenter/HelpCenterPage');
     })->name('help');
     
     Route::get('/my-list', function () {
-        return Inertia::render('Customer/MyListsPage');
+        return Inertia::render('Customer/Dashboard/Lists/MyListsPage');
     })->name('my.list');
   
     Route::get('/notifications', function () {
-        return Inertia::render('Customer/NotificationsPage');
+        return Inertia::render('Customer/Dashboard/Notifications/NotificationsPage');
     })->name('notifications');
 
     Route::get('/reminder', function () {
-        return Inertia::render('Customer/ReminderPage');
+        return Inertia::render('Customer/Dashboard/Reminders/ReminderPage');
     })->name('reminder');
 
     Route::get('/user-manual', function () {
-        return Inertia::render('Customer/UserManualPage');
+        return Inertia::render('Customer/Dashboard/UserManual/UserManualPage');
     })->name('user_manual');
 
     Route::get('/offers-alerts', function () {
-        return Inertia::render('Customer/OffersAlertsPage');
+        return Inertia::render('Customer/Dashboard/Offers/OffersAlertsPage');
     })->name('offers.alerts');
 
     // Order Tracking
     Route::get('/order-tracking', function () {
-        return Inertia::render('Customer/OrderTracking');
+        return Inertia::render('Customer/Dashboard/OrderTracking/OrderTracking');
     })->name('order.tracking');
     
     // Favourites Page
     Route::get('/favourites', function () {
-        return Inertia::render('Customer/FavouritesPage');
+        return Inertia::render('Customer/Dashboard/Favourites/FavouritesPage');
     })->name('favourites');
     
     // Vouchers and Offers

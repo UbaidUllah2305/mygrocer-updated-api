@@ -118,7 +118,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('ordering-reordering');
     
     Route::get('/addresses', function () {
-        return Inertia::render('Customer/AddressesPage');
+        return Inertia::render('Customer/Dashboard/Addresses/AddressesPage');
     })->name('addresses');
     
     Route::get('/currency', function () {

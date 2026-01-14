@@ -155,7 +155,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
 
     // Order Tracking
     Route::get('/order-tracking', function () {
-        return Inertia::render('Customer/OrderTracking');
+        return Inertia::render('Customer/Dashboard/OrderTracking/OrderTracking');
     })->name('order.tracking');
     
     // Favourites Page

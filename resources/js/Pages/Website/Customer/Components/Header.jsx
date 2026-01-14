@@ -47,6 +47,7 @@ export default function Header({ auth }) {
     const isInMyAddresses = url.includes('/customer/addresses');
     const isInMyList = url.includes('/customer/my-list');
     const isInMyCurrency = url.includes('/customer/currency');
+    const isInMyNotifications = url.includes('/customer/notifications');
     const isInMyReminders = url.includes('/customer/reminder');
     const isInMyManuals = url.includes('/customer/user-manual');
     const isInMyOffers = url.includes('/customer/offers-alerts');
@@ -195,6 +196,22 @@ export default function Header({ auth }) {
         // Check if profile is completed before allowing navigation
         if (user?.business?.profile_completed) {
             router.visit('/customer/currency');
+        } else {
+            // Redirect to profile setup if not completed
+            router.visit('/profile');
+        }
+        setIsUserMenuOpen(false);
+    };
+    
+    const handleNotificationClick = (e) => {
+        if (isInMyNotifications) {
+            e.preventDefault();
+            return;
+        }
+
+        // Check if profile is completed before allowing navigation
+        if (user?.business?.profile_completed) {
+            router.visit('/customer/notifications');
         } else {
             // Redirect to profile setup if not completed
             router.visit('/profile');
@@ -430,6 +447,18 @@ export default function Header({ auth }) {
                                             Currency
                                         </button>
                                         <button
+                                            onClick={handleNotificationClick}
+                                            className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                                                isInMyNotifications 
+                                                    ? 'text-gray-400 cursor-not-allowed bg-gray-50' 
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                            disabled={isInMyNotifications}
+                                        >
+                                            <FaBell className="text-sm" />
+                                            My Notifications
+                                        </button>
+                                        <button
                                             onClick={handleRemidersClick}
                                             className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
                                                 isInMyReminders 
@@ -438,7 +467,7 @@ export default function Header({ auth }) {
                                             }`}
                                             disabled={isInMyReminders}
                                         >
-                                            <FaBell className="text-sm" />
+                                            <FaClock className="text-sm" />
                                             My Reminders
                                         </button>
                                         <button

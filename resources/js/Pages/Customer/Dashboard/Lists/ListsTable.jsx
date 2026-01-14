@@ -15,10 +15,10 @@ const ListsTable = ({ lists, onView, onEdit, onDelete }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-neutral-800 text-lg font-medium">
-            <th className="p-4 text-left pl-10 rounded-tl-xl">#</th>
+            <th className="p-4 text-left pl-10 rounded-tl-xl rounded-bl-xl">#</th>
             <th className="p-4 text-center">List Name</th>
             <th className="p-4 text-center">Details</th>
-            <th className="p-4 text-center rounded-tr-xl">Actions</th>
+            <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
         <tbody>

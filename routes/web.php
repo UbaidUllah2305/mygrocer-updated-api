@@ -122,7 +122,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('addresses');
     
     Route::get('/currency', function () {
-        return Inertia::render('Customer/CurrencyPage');
+        return Inertia::render('Customer/Dashboard/Currency/CurrencyPage');
     })->name('currency');
 
     Route::get('/wallet', function () {

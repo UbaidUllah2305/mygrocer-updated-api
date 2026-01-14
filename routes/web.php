@@ -160,7 +160,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     
     // Favourites Page
     Route::get('/favourites', function () {
-        return Inertia::render('Customer/FavouritesPage');
+        return Inertia::render('Customer/Dashboard/Favourites/FavouritesPage');
     })->name('favourites');
     
     // Vouchers and Offers

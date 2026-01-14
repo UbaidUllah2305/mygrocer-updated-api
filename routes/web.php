@@ -130,7 +130,7 @@ Route::middleware(['auth:customer', \App\Http\Middleware\EnsureCustomerProfileCo
     })->name('wallet');
     
     Route::get('/help', function () {
-        return Inertia::render('Customer/HelpCenterPage');
+        return Inertia::render('Customer/Dashboard/HelpCenter/HelpCenterPage');
     })->name('help');
     
     Route::get('/my-list', function () {

@@ -50,8 +50,8 @@ const OrderTracking = ({ auth, initialStep = 1 }) => {
 
   // Simulate order progression
   useEffect(() => {
-    if (currentStep < 2) {
-      const timer = setTimeout(() => setCurrentStep(2), 3000);
+    if (currentStep < 6) {
+      const timer = setTimeout(() => setCurrentStep((prev) => prev + 1), 5000);
       return () => clearTimeout(timer);
     }
   }, [currentStep]);
@@ -65,6 +65,18 @@ const OrderTracking = ({ auth, initialStep = 1 }) => {
       case 5: return "Your order is out for delivery";
       case 6: return "Your order has been delivered";
       default: return "Your order has been Placed";
+    }
+  };
+
+  const getStepImage = () => {
+    switch (currentStep) {
+      case 1: return "/assets/Assets/Customer/checkout/placed.svg";
+      case 2: return "/assets/Assets/Customer/checkout/confirmed.svg";
+      case 3: return "/assets/Assets/Customer/checkout/process.svg";
+      case 4: return "/assets/Assets/Customer/checkout/prepared.svg";
+      case 5: return "/assets/Assets/Customer/checkout/delivery.svg";
+      case 6: return "/assets/Assets/Customer/checkout/delivered.svg";
+      default: return "/assets/Assets/Customer/checkout/placed.svg";
     }
   };
 
@@ -87,10 +99,8 @@ const OrderTracking = ({ auth, initialStep = 1 }) => {
         {/* Order Status Illustration */}
         <div className="mb-6 flex justify-center">
           <img
-            src={currentStep === 1 
-              ? "/assets/Assets/Customer/checkout/placed.svg"
-              : "/assets/Assets/Customer/checkout/confirmed.svg"}
-            alt={currentStep === 1 ? "Order placed" : "Order confirmed"}
+            src={getStepImage()}
+            alt={getStatusMessage()}
             className="w-full max-w-xs md:max-w-sm"
           />
         </div>

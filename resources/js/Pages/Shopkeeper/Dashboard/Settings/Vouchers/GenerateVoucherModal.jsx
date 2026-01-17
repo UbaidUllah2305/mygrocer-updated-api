@@ -1,6 +1,6 @@
-// src/Components/Admin/GenerateVoucherModal.jsx
 import React, { useState, useEffect } from "react";
 import InputFloating from "@/Components/InputFloating";
+import SelectFloating from "@/Components/SelectFloating";
 import { X } from "lucide-react";
 
 const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null }) => {
@@ -49,8 +49,14 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
 
   if (!isOpen) return null;
 
-  const handleChange = (field, value) => {
+  // Handle input change (for InputFloating)
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Handle select change (for SelectFloating — must mimic native <select> event)
+  const handleSelectChange = (field) => (e) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
@@ -61,7 +67,6 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      {/* Responsive width: full on mobile, max-w-4xl on desktop */}
       <div className="relative bg-white rounded-xl w-full max-w-4xl max-h-[90vh] shadow-xl overflow-y-auto">
         
         {/* Close Button */}
@@ -86,41 +91,35 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
                 id="voucherName"
                 label="Voucher Name"
                 value={formData.voucherName}
-                onChange={(e) => handleChange('voucherName', e.target.value)}
+                onChange={(value) => handleInputChange('voucherName', value)}
               />
               <InputFloating
                 id="voucherCode"
                 label="Voucher Code"
                 value={formData.voucherCode}
-                onChange={(e) => handleChange('voucherCode', e.target.value.toUpperCase())}
+                onChange={(value) => handleInputChange('voucherCode', value.toUpperCase())}
               />
             </div>
 
             {/* Row 2: Discount Type & Discount Value */}
             <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:grid-cols-2">
-              <div className="relative">
-                <select
-                  id="discountType"
-                  value={formData.discountType}
-                  onChange={(e) => handleChange('discountType', e.target.value)}
-                  className="peer w-full px-3 py-3 sm:px-4 sm:py-4 text-sm sm:text-base rounded-xl border-2 border-[#B9BBBD] bg-white transition-all duration-200 focus:outline-none focus:border-[#6F9C3D] focus:ring-1 focus:ring-[#6F9C3D]"
-                >
-                  <option value="Percentage">Percentage</option>
-                  <option value="Free Delivery">Free Delivery</option>
-                  <option value="Fixed Amount">Fixed Amount</option>
-                </select>
-                <label
-                  htmlFor="discountType"
-                  className="absolute left-3 px-1 text-xs bg-white transition-all duration-200 pointer-events-none text-[#9B9DA2] top-3 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#6F9C3D] peer-focus:font-medium sm:left-4 sm:px-2 sm:text-sm sm:top-4 sm:peer-focus:-top-2.5 sm:peer-focus:text-sm"
-                >
-                  Discount Type
-                </label>
-              </div>
+              <SelectFloating
+                id="discountType"
+                label="Discount Type"
+                value={formData.discountType}
+                onChange={handleSelectChange('discountType')}
+                options={[
+                  { value: "Percentage", label: "Percentage" },
+                  { value: "Free Delivery", label: "Free Delivery" },
+                  { value: "Fixed Amount", label: "Fixed Amount" }
+                ]}
+                placeholder="Select Discount Type"
+              />
               <InputFloating
                 id="discountValue"
                 label="Discount Value"
                 value={formData.discountValue}
-                onChange={(e) => handleChange('discountValue', e.target.value)}
+                onChange={(value) => handleInputChange('discountValue', value)}
               />
             </div>
 
@@ -130,25 +129,19 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
                 id="minimumPurchase"
                 label="Minimum Purchase"
                 value={formData.minimumPurchase}
-                onChange={(e) => handleChange('minimumPurchase', e.target.value)}
+                onChange={(value) => handleInputChange('minimumPurchase', value)}
               />
-              <div className="relative">
-                <select
-                  id="maximumDiscount"
-                  value={formData.maximumDiscount}
-                  onChange={(e) => handleChange('maximumDiscount', e.target.value)}
-                  className="peer w-full px-3 py-3 sm:px-4 sm:py-4 text-sm sm:text-base rounded-xl border-2 border-[#B9BBBD] bg-white transition-all duration-200 focus:outline-none focus:border-[#6F9C3D] focus:ring-1 focus:ring-[#6F9C3D]"
-                >
-                  <option value="Percentage">Percentage</option>
-                  <option value="Fixed">Fixed</option>
-                </select>
-                <label
-                  htmlFor="maximumDiscount"
-                  className="absolute left-3 px-1 text-xs bg-white transition-all duration-200 pointer-events-none text-[#9B9DA2] top-3 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#6F9C3D] peer-focus:font-medium sm:left-4 sm:px-2 sm:text-sm sm:top-4 sm:peer-focus:-top-2.5 sm:peer-focus:text-sm"
-                >
-                  Maximum Discount
-                </label>
-              </div>
+              <SelectFloating
+                id="maximumDiscount"
+                label="Maximum Discount"
+                value={formData.maximumDiscount}
+                onChange={handleSelectChange('maximumDiscount')}
+                options={[
+                  { value: "Percentage", label: "Percentage" },
+                  { value: "Fixed", label: "Fixed" }
+                ]}
+                placeholder="Select Maximum Discount"
+              />
             </div>
 
             {/* Row 4: Start Date & End Date */}
@@ -158,14 +151,14 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
                 label="Start Date"
                 type="date"
                 value={formData.startDate}
-                onChange={(e) => handleChange('startDate', e.target.value)}
+                onChange={(value) => handleInputChange('startDate', value)}
               />
               <InputFloating
                 id="endDate"
                 label="End Date"
                 type="date"
                 value={formData.endDate}
-                onChange={(e) => handleChange('endDate', e.target.value)}
+                onChange={(value) => handleInputChange('endDate', value)}
               />
             </div>
 
@@ -176,13 +169,13 @@ const GenerateVoucherModal = ({ isOpen, onClose, onGenerate, editVoucher = null 
                 label="Voucher Quantity"
                 type="number"
                 value={formData.voucherQuantity}
-                onChange={(e) => handleChange('voucherQuantity', e.target.value)}
+                onChange={(value) => handleInputChange('voucherQuantity', value)}
               />
               <InputFloating
                 id="description"
                 label="Description"
                 value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
+                onChange={(value) => handleInputChange('description', value)}
               />
             </div>
 

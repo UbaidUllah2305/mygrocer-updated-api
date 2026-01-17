@@ -192,7 +192,7 @@ const TrendsPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsTopSellingFilterOpen(!isTopSellingFilterOpen)}
-                  className="w-44 h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
+                  className="min-w-44 w-full sm:w-44 h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
                 >
                   {topSellingFilter}
                   <ChevronDown

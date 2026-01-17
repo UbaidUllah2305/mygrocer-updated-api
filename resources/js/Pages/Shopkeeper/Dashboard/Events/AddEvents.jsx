@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
 import { Pencil, Search, ChevronRight, Calendar, Users, TrendingUp, Circle, Eye, Upload } from "lucide-react";
+import InputFloating from "@/Components/InputFloating";
+import FloatingTextarea from "@/Components/FloatingTextarea";
+import SelectFloating from "@/Components/SelectFloating";
 
 // Mock data for dropdowns
 const mockStores = ["Store A", "Store B", "Store C"];
@@ -9,7 +12,6 @@ const mockCategories = ["Beauty", "Electronics", "Apparel", "Home", "Food"];
 const mockProducts = ["Bread", "Eggs", "Meat", "Dupatta"];
 
 const AddEventsPage = () => {
-  // Form State
   const [formData, setFormData] = useState({
     eventName: "",
     storeName: "",
@@ -28,7 +30,6 @@ const AddEventsPage = () => {
     showCountdownTimer: false,
   });
 
-  // Live Preview State
   const [previewTitle, setPreviewTitle] = useState("Black Friday Sale");
   const [previewDiscount, setPreviewDiscount] = useState("25% OFF");
   const [previewValidUntil, setPreviewValidUntil] = useState("Nov 27, 2025");
@@ -36,51 +37,6 @@ const AddEventsPage = () => {
   const [tempCategory, setTempCategory] = useState("");
   const [tempProduct, setTempProduct] = useState("");
   const [showSaveModal, setShowSaveModal] = useState(false);
-
-  // Custom Dropdown Component
-  const CustomDropdown = ({ value, onChange, options, placeholder }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const displayValue = value || placeholder;
-
-    return (
-      <div className="relative w-full">
-        <button
-          type="button"
-          className="w-full h-12 px-3 py-2 text-left border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-[#6F9C3D] focus:border-[#6F9C3D] flex items-center justify-between"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className={value ? "text-gray-900" : "text-gray-400"}>{displayValue}</span>
-          <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? "rotate-90" : ""}`} />
-        </button>
-
-        {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
-            {options.map((option, idx) => (
-              <button
-                key={idx}
-                type="button"
-                className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-center"
-                onClick={() => {
-                  onChange(option);
-                  setIsOpen(false);
-                }}
-              >
-                {option || placeholder}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Close dropdown when clicking outside */}
-        {isOpen && (
-          <div
-            className="fixed inset-0 z-0"
-            onClick={() => setIsOpen(false)}
-          />
-        )}
-      </div>
-    );
-  };
 
   // Update preview when form changes
   useEffect(() => {
@@ -165,63 +121,70 @@ const AddEventsPage = () => {
           {/* Basic Event Details */}
           <section className="rounded-xl">
             <h2 className="text-xl font-medium mb-5">Basic Event Details</h2>
-            <div className="grid md:grid-cols-2 gap-4 text-base">
+            <div className="grid md:grid-cols-2 gap-4">
 
-              <input
-                type="text"
+              <InputFloating
+                id="eventName"
+                label="Event Name"
                 name="eventName"
-                placeholder="Event Name"
                 value={formData.eventName}
                 onChange={handleChange}
-                className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D]"
               />
 
-              <CustomDropdown
+              <SelectFloating
+                id="storeName"
+                label="Store Name"
+                name="storeName"
                 value={formData.storeName}
-                onChange={(value) => setFormData((prev) => ({ ...prev, storeName: value }))}
-                options={["", ...mockStores]}
-                placeholder="Store Name"
+                onChange={(e) => setFormData(prev => ({ ...prev, storeName: e.target.value }))}
+                options={mockStores.map(s => ({ value: s, label: s }))}
+                placeholder="Select Store"
               />
 
-              <input
+              <InputFloating
+                id="startDate"
+                label="Start Date"
                 name="startDate"
-                placeholder="Start Date"
+                type="date"
                 value={formData.startDate}
                 onChange={handleChange}
-                className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D]"
               />
 
-              <input
+              <InputFloating
+                id="endDate"
+                label="End Date"
                 name="endDate"
-                placeholder="End Date"
+                type="date"
                 value={formData.endDate}
                 onChange={handleChange}
-                className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D]"
               />
 
-              <CustomDropdown
+              <SelectFloating
+                id="discountType"
+                label="Discount Type"
+                name="discountType"
                 value={formData.discountType}
-                onChange={(value) => setFormData((prev) => ({ ...prev, discountType: value }))}
-                options={["Percentage", "Fixed Amount"]}
-                placeholder="Discount Type"
+                onChange={(e) => setFormData(prev => ({ ...prev, discountType: e.target.value }))}
+                options={["Percentage", "Fixed Amount"].map(t => ({ value: t, label: t }))}
+                placeholder="Select Discount Type"
               />
 
-              <input
-                type="number"
+              <InputFloating
+                id="discountValue"
+                label="Discount Value"
                 name="discountValue"
-                placeholder="Discount Value"
+                type="number"
                 value={formData.discountValue}
                 onChange={handleChange}
-                className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D]"
               />
 
-              <textarea
+              <FloatingTextarea
+                id="eventDescription"
+                label="Event Description"
                 name="eventDescription"
                 value={formData.eventDescription}
                 onChange={handleChange}
-                placeholder="Event Description"
-                rows={1}
-                className="w-full col-span-2 h-12 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D] resize-none"
+                rows={2}
               />
             </div>
           </section>
@@ -430,13 +393,13 @@ const AddEventsPage = () => {
             </div>
 
             {/* Promotional Text */}
-            <textarea
+            <FloatingTextarea
+              id="promotionalText"
+              label="Promotional Text"
               name="promotionalText"
               value={formData.promotionalText}
               onChange={handleChange}
-              placeholder="Promotional Text"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6F9C3D] text-base"
             />
 
             {/* Notifications */}

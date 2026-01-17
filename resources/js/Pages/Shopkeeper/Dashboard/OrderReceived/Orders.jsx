@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import OrdersTable from "./OrdersTable";
 import OrderDetailModal from "./OrderDetailModal";
 import OrderProcessingModal from "./OrderProcessingModal";
@@ -7,6 +7,7 @@ import OrderReadyModal from "./OrderReadyModal";
 import OrderDispatchedModal from "./OrderDispatchedModal";
 import OrderDeliveredModal from "./OrderDeliveredModal";
 import OrderRejectedModal from "./OrderRejectedModal";
+import Pagination from "@/Components/Pagination";
 
 const Orders = () => {
   const [viewingOrder, setViewingOrder] = useState(null);
@@ -19,17 +20,27 @@ const Orders = () => {
   const [acceptedItems, setAcceptedItems] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // Pagination state 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
   // Mock order data
   const orders = [
-    { id: 1, orderNumber: "ORD-07", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "New" },
-    { id: 2, orderNumber: "ORD-06", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Pending" },
-    { id: 3, orderNumber: "ORD-05", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Processing" },
+    { id: 1, orderNumber: "ORD-01", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "New" },
+    { id: 2, orderNumber: "ORD-02", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Pending" },
+    { id: 3, orderNumber: "ORD-03", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Processing" },
     { id: 4, orderNumber: "ORD-04", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Ready" },
-    { id: 5, orderNumber: "ORD-03", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Dispatched" },
-    { id: 6, orderNumber: "ORD-02", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Delivered" },
-    { id: 7, orderNumber: "ORD-01", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Canceled" },
+    { id: 5, orderNumber: "ORD-05", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Dispatched" },
+    { id: 6, orderNumber: "ORD-06", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Delivered" },
+    { id: 7, orderNumber: "ORD-07", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Canceled" },
+    { id: 8, orderNumber: "ORD-08", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Ready" },
+    { id: 9, orderNumber: "ORD-09", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Dispatched" },
+    { id: 10, orderNumber: "ORD-10", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Pending" },
+    { id: 11, orderNumber: "ORD-11", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Processing" },
+    { id: 12, orderNumber: "ORD-12", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Canceled" },
   ];
 
+  // Filter orders
   const filteredOrders =
     activeFilter === "all"
       ? orders
@@ -46,6 +57,20 @@ const Orders = () => {
           }
         });
 
+  // Pagination 
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / itemsPerPage));
+  const validatedPage = Math.min(currentPage, totalPages);
+
+  const paginatedOrders = useMemo(() => {
+    const startIndex = (validatedPage - 1) * itemsPerPage;
+    return filteredOrders.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredOrders, validatedPage, itemsPerPage]);
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter]);
+
   const getStatusColor = (status) => {
     switch (status) {
       case "New": return "text-black";
@@ -60,12 +85,16 @@ const Orders = () => {
   };
 
   const handleCallCustomer = () => {
-    // You can implement actual calling logic here
     console.log("Calling customer...");
   };
 
   const handlePrintOrder = () => {
     console.log("Printing order...");
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -81,19 +110,19 @@ const Orders = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         <div className="bg-[#e1f6d8] rounded-lg p-4 text-center text-xl font-medium">
-          <div>Total Orders : 5</div>
+          <div>Total Orders : {orders.length}</div>
         </div>
         <div className="bg-[#e1f6d8] rounded-lg p-4 text-center text-xl font-medium">
-          <div>Pending : 1</div>
+          <div>Pending : {orders.filter(o => o.status === "Pending").length}</div>
         </div>
         <div className="bg-[#e1f6d8] rounded-lg p-4 text-center text-xl font-medium">
-          <div>Processing : 1</div>
+          <div>Processing : {orders.filter(o => o.status === "Processing").length}</div>
         </div>
         <div className="bg-[#e1f6d8] rounded-lg p-4 text-center text-xl font-medium">
-          <div>Delivered : 1</div>
+          <div>Delivered : {orders.filter(o => o.status === "Delivered").length}</div>
         </div>
         <div className="bg-[#e1f6d8] rounded-lg p-4 text-center text-xl font-medium">
-          <div>Canceled : 2</div>
+          <div>Canceled : {orders.filter(o => o.status === "Canceled").length}</div>
         </div>
       </div>
 
@@ -128,16 +157,27 @@ const Orders = () => {
         </div>
       </div>
 
-      {/* ✅ Reusable Table */}
+      {/* Table */}
       <OrdersTable
-        orders={filteredOrders}
+        orders={paginatedOrders}
         onViewOrder={setViewingOrder}
         onCallCustomer={handleCallCustomer}
         onPrintOrder={handlePrintOrder}
         getStatusColor={getStatusColor}
       />
 
-      {/* Modals (unchanged) */}
+      {/* Paginated orders */}
+      {filteredOrders.length > 0 && (
+        <Pagination
+          currentPage={validatedPage}
+          totalPages={totalPages}
+          totalItems={filteredOrders.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      {/* Modals */}
       {viewingOrder && (
         <OrderDetailModal
           order={{

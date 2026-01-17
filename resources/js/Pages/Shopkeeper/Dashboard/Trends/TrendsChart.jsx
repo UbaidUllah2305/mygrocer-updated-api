@@ -116,7 +116,7 @@ const TrendsChart = ({
               <button
                 type="button"
                 onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
-                className="flex items-center justify-between w-full md:w-44 h-12 px-4 py-3 border-2 border-gray-300 rounded-xl text-base bg-white"
+                className="flex items-center justify-between w-48 h-12 px-4 py-3 border-2 border-gray-300 rounded-xl text-base bg-white"
               >
                 <span>{timeRange.charAt(0).toUpperCase() + timeRange.slice(1)}</span>
                 <ChevronDown

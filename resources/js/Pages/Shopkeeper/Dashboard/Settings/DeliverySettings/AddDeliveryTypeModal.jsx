@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import InputFloating from "@/Components/InputFloating";
+import SelectFloating from "@/Components/SelectFloating";
 
 const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
   const [formData, setFormData] = useState({
@@ -20,6 +22,16 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
   if (!isOpen) return null;
 
   const isOfferTab = activeTab === 'offers';
+
+  // Handle input change (for InputFloating)
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Handle select change (for SelectFloating)
+  const handleSelectChange = (field) => (e) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,70 +65,69 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
             {!isOfferTab ? (
               <>
                 {/* Row 1: Name | Fee */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <input
-                    type="text"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <InputFloating
+                    id="deliveryName"
+                    label="Delivery Type Name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Delivery Type Name"
+                    onChange={(value) => handleInputChange('name', value)}
                   />
-                  <input
-                    type="text"
+                  <InputFloating
+                    id="deliveryFee"
+                    label="Delivery Fee (Rs.)"
                     value={formData.fee}
-                    onChange={(e) => setFormData({ ...formData, fee: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Delivery Fee (Rs.)"
+                    onChange={(value) => handleInputChange('fee', value)}
                   />
                 </div>
 
                 {/* Row 2: Min Order | Max Distance */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <input
-                    type="text"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <InputFloating
+                    id="minOrder"
+                    label="Minimum Order Amount (Rs.)"
                     value={formData.minOrder}
-                    onChange={(e) => setFormData({ ...formData, minOrder: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Minimum Order Amount (Rs.)"
+                    onChange={(value) => handleInputChange('minOrder', value)}
                   />
-                  <select
+                  <SelectFloating
+                    id="maxDistance"
+                    label="Max Distance (Km)"
                     value={formData.maxDistance}
-                    onChange={(e) => setFormData({ ...formData, maxDistance: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm text-gray-500 appearance-none bg-white"
-                  >
-                    <option value="" disabled>Max Distance (Km)</option>
-                    {[5, 10, 15, 20, 25, 30].map(km => (
-                      <option key={km} value={km}>{km} Km</option>
-                    ))}
-                  </select>
+                    onChange={handleSelectChange('maxDistance')} 
+                    options={[
+                      { value: "5", label: "5 Km" },
+                      { value: "10", label: "10 Km" },
+                      { value: "15", label: "15 Km" },
+                      { value: "20", label: "20 Km" },
+                      { value: "25", label: "25 Km" },
+                      { value: "30", label: "30 Km" }
+                    ]}
+                    placeholder="Select Max Distance"
+                  />
                 </div>
 
                 {/* Row 3: Estimated Time */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <select
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <SelectFloating
+                    id="estimatedTime"
+                    label="Select Estimated Time"
                     value={formData.estimatedTime}
-                    onChange={(e) => setFormData({ ...formData, estimatedTime: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm text-gray-500 appearance-none bg-white"
-                  >
-                    <option value="" disabled>Select Estimated Time</option>
-                    {[
-                      "1-2 hours",
-                      "2-4 hours",
-                      "Same day",
-                      "1 Day",
-                      "2 Days",
-                      "3-5 Days",
-                      "Customer selected"
-                    ].map(time => (
-                      <option key={time} value={time}>{time}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
+                    onChange={handleSelectChange('estimatedTime')} 
+                    options={[
+                      { value: "1-2 hours", label: "1-2 hours" },
+                      { value: "2-4 hours", label: "2-4 hours" },
+                      { value: "Same day", label: "Same day" },
+                      { value: "1 Day", label: "1 Day" },
+                      { value: "2 Days", label: "2 Days" },
+                      { value: "3-5 Days", label: "3-5 Days" },
+                      { value: "Customer selected", label: "Customer selected" }
+                    ]}
+                    placeholder="Select Estimated Time"
+                  />
+                  <InputFloating
+                    id="customTime"
+                    label="Custom Time (if needed)"
                     value={formData.estimatedTimeUnit}
-                    onChange={(e) => setFormData({ ...formData, estimatedTimeUnit: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Custom Time (if needed)"
+                    onChange={(value) => handleInputChange('estimatedTimeUnit', value)}
                   />
                 </div>
 
@@ -129,7 +140,7 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
                     <input
                       type="checkbox"
                       checked={formData.enableFreeDelivery}
-                      onChange={(e) => setFormData({ ...formData, enableFreeDelivery: e.target.checked })}
+                      onChange={(e) => handleInputChange('enableFreeDelivery', e.target.checked)}
                       className="w-4 h-4 rounded border-gray-300 text-[#6F9C3D] focus:ring-[#6F9C3D]/30"
                     />
                     <span className="text-sm text-[#3a3e47]">
@@ -141,39 +152,35 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
             ) : (
               <>
                 {/* Offers Form */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <select
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <SelectFloating
+                    id="offerType"
+                    label="Select a Offer"
                     value={formData.offerType}
-                    onChange={(e) => setFormData({ ...formData, offerType: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm text-gray-500 appearance-none bg-white"
-                  >
-                    <option value="" disabled>Select a Offer</option>
-                    {[
-                      "Bulk Order",
-                      "First Order Free",
-                      "Weekend Special",
-                      "Holiday Discount",
-                      "Loyalty Reward"
-                    ].map(type => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
+                    onChange={handleSelectChange('offerType')} 
+                    options={[
+                      { value: "Bulk Order", label: "Bulk Order" },
+                      { value: "First Order Free", label: "First Order Free" },
+                      { value: "Weekend Special", label: "Weekend Special" },
+                      { value: "Holiday Discount", label: "Holiday Discount" },
+                      { value: "Loyalty Reward", label: "Loyalty Reward" }
+                    ]}
+                    placeholder="Select a Offer"
+                  />
+                  <InputFloating
+                    id="threshold"
+                    label="Add Threshold Amount"
                     value={formData.threshold}
-                    onChange={(e) => setFormData({ ...formData, threshold: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Add Threshold Amount"
+                    onChange={(value) => handleInputChange('threshold', value)}
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <input
-                    type="text"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <InputFloating
+                    id="discount"
+                    label="Discount %"
                     value={formData.discount}
-                    onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition text-sm"
-                    placeholder="Discount %"
+                    onChange={(value) => handleInputChange('discount', value)}
                   />
                   <div></div>
                 </div>

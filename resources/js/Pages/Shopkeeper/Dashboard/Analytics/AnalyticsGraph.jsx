@@ -80,7 +80,7 @@ const AnalyticsGraph = ({
         <div className="relative" ref={frequencyDropdownRef}>
           <button
             type="button"
-            className="w-60 h-12 px-3 py-2.5 pr-10 text-base text-left border-2 border-gray-300 rounded-xl bg-white outline-none"
+            className="flex items-center justify-between px-3 py-1.5 text-base font-normal border-2 border-gray-300 rounded-xl shadow-sm bg-white outline-none w-60 h-12"
             onClick={() => setIsFrequencyDropdownOpen(!isFrequencyDropdownOpen)}
           >
             {frequency === "hourly"
@@ -88,7 +88,7 @@ const AnalyticsGraph = ({
               : frequency.charAt(0).toUpperCase() + frequency.slice(1)}
             <ChevronDown
               size={18}
-              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-transform ${isFrequencyDropdownOpen ? "rotate-180" : ""}`}
+              className={`text-gray-500 pointer-events-none transition-transform ${isFrequencyDropdownOpen ? "rotate-180" : ""}`}
             />
           </button>
 
@@ -130,14 +130,10 @@ const AnalyticsGraph = ({
             className="flex items-center justify-between px-3 py-1.5 text-base font-normal border-2 border-gray-300 rounded-xl shadow-sm bg-white outline-none w-60 h-12"
           >
             <span>Select from dropdown</span>
-            <svg
-              className={`w-4 h-4 transition-transform ${isSeriesDropdownOpen ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDown 
+              size={18}
+              className={`text-gray-500 pointer-events-none transition-transform ${isSeriesDropdownOpen ? "rotate-180" : ""}`}
+            />
           </button>
 
           {isSeriesDropdownOpen && (
@@ -259,7 +255,7 @@ const AnalyticsGraph = ({
         {SERIES.filter(s => selectedSeries.has(s.key)).map((s) => (
           <div key={s.key} className="flex items-center gap-2">
             <span className="inline-block h-3 w-3 rounded-full border border-white" style={{ backgroundColor: s.color }} />
-            <span className="text-gray-700 font-medium whitespace-nowrap">{s.label}</span>
+            <span className="text-gray-700 font-medium text-wrap">{s.label}</span>
           </div>
         ))}
       </div>

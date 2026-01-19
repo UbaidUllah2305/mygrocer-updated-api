@@ -16,15 +16,15 @@ const VouchersTable = ({ vouchers, onViewVoucher }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium">
-            <th className="p-4 text-center rounded-tl-xl">#</th>
-            <th className="p-4 text-center">Voucher Name</th>
-            <th className="p-4 text-center">Voucher Code</th>
-            <th className="p-4 text-center">Type</th>
-            <th className="p-4 text-center">Discount</th>
+            <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">#</th>
+            <th className="p-4 text-left">Voucher Name</th>
+            <th className="p-4 text-left">Voucher Code</th>
+            <th className="p-4 text-left">Type</th>
+            <th className="p-4 text-left">Discount</th>
             <th className="p-4 text-left">Valid Date</th>
-            <th className="p-4 text-center">Quantity</th>
-            <th className="p-4 text-center">Used</th>
-            <th className="p-4 text-center rounded-tr-xl">Actions</th>
+            <th className="p-4 text-left">Quantity</th>
+            <th className="p-4 text-left">Used</th>
+            <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -39,16 +39,16 @@ const VouchersTable = ({ vouchers, onViewVoucher }) => {
               <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {index + 1}
               </td>
-              <td className="p-4 text-center">{voucher.name}</td>
-              <td className="p-4 text-center">{voucher.code}</td>
-              <td className="p-4 text-center">{voucher.type}</td>
-              <td className="p-4 text-center">{voucher.discount}</td>
+              <td className="p-4 text-left">{voucher.name}</td>
+              <td className="p-4 text-left">{voucher.code}</td>
+              <td className="p-4 text-left">{voucher.type}</td>
+              <td className="p-4 text-left">{voucher.discount}</td>
               <td className="p-4 text-left">
                 <div>{voucher.validDate}</div>
                 <div className="text-sm">{voucher.validTime}</div>
               </td>
-              <td className="p-4 text-center">{voucher.quantity}</td>
-              <td className="p-4 text-center">{voucher.used}</td>
+              <td className="p-4 text-left">{voucher.quantity}</td>
+              <td className="p-4 text-left">{voucher.used}</td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <button
                   onClick={() => onViewVoucher(voucher)}

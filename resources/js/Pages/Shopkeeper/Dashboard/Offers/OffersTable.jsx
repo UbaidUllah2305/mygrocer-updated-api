@@ -65,11 +65,11 @@ const OffersTable = ({ offers, onViewOffer, onEditOffer }) => {
               />
             </th>
             <th className="p-4 text-left truncate">Offer Details</th>
-            <th className="p-4">Status</th>
-            <th className="p-4">Category</th>
-            <th className="p-4">Performance</th>
-            <th className="p-4">Schedule</th>
-            <th className="p-4">Revenue</th>
+            <th className="p-4 text-left">Status</th>
+            <th className="p-4 text-left">Category</th>
+            <th className="p-4 text-left">Performance</th>
+            <th className="p-4 text-left">Schedule</th>
+            <th className="p-4 text-left">Revenue</th>
             <th className="p-4 rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
@@ -105,13 +105,13 @@ const OffersTable = ({ offers, onViewOffer, onEditOffer }) => {
               </td>
 
               {/* Status */}
-              <td className="p-4 text-center">{offer.status}</td>
+              <td className="p-4 text-left">{offer.status}</td>
 
               {/* Category */}
-              <td className="p-4 text-center">{offer.category}</td>
+              <td className="p-4 text-left">{offer.category}</td>
 
               {/* Performance */}
-              <td className="p-4 text-center">{offer.perfomance}</td>
+              <td className="p-4 text-left">{offer.perfomance}</td>
 
               {/* Schedule */}
               <td className="p-4 text-center">

@@ -72,6 +72,11 @@ const AnalyticsGraph = ({
   const xStep = (graphWidth - padding * 2) / Math.max(1, data.length - 1);
   const yScale = (v) => graphHeight - padding - (v / maxY) * (graphHeight - padding * 2);
 
+  // Calculate minimum width based on data length
+  const getMinGraphWidth = () => {
+    return Math.max(600, data.length * 80); // ~80px per data point
+  };
+
   return (
     <div className="rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6 shadow-md">
       {/* Filters */}
@@ -163,8 +168,8 @@ const AnalyticsGraph = ({
       </div>
 
       {/* SVG Graph */}
-      <div className="overflow-x-auto">
-        <div style={{ position: 'relative' }}>
+      <div className="overflow-x-auto pb-2">
+        <div style={{ minWidth: `${getMinGraphWidth()}px`, position: 'relative' }}>
           <svg
             viewBox={`0 0 ${graphWidth} ${graphHeight}`}
             className="w-full h-auto"

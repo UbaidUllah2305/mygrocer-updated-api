@@ -77,7 +77,6 @@ const TrendsChart = ({
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const timeDropdownRef = useRef(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (timeDropdownRef.current && !timeDropdownRef.current.contains(e.target)) {
@@ -98,6 +97,14 @@ const TrendsChart = ({
     activeTab === "items"
       ? "Trend of Items over Time"
       : `Trend of Customers (${timeRange})`;
+
+  // Determine minimum width for chart based on data length
+  const getMinChartWidth = () => {
+    if (activeTab === "items") {
+      return Math.max(600, currentData.length * 100); // ~100px per bar
+    }
+    return Math.max(600, currentData.length * 80); // ~80px per bar
+  };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm w-full">
@@ -193,69 +200,71 @@ const TrendsChart = ({
         )}
       </div>
 
-      {/* Chart */}
-      <div style={{ width: "100%", height: 300 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={currentData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis
-              dataKey={activeTab === "items" ? "name" : "time"}
-              tick={activeTab === "items" ? false : { fontSize: 16, fill: "#666", fontWeight: "500" }}
-              tickLine={false}
-              axisLine={false}
-              interval={0}
-              padding={{ left: 10, right: 10 }}
-            />
-            <YAxis
-              domain={[0, "auto"]}
-              tick={{ fontSize: 16, fill: "#666", fontWeight: "500" }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `${value}`}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "8px",
-                fontSize: "12px",
-              }}
-              formatter={(value) => [
-                `${value} ${activeTab === "customers" ? "customers" : "items"}`,
-                "",
-              ]}
-              labelFormatter={(label) => `${label}`}
-            />
-            {activeTab === "items" ? (
-              <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={50}>
-                {currentData.map((entry, index) => {
-                  const colorMap = {
-                    "beauty soap": "#FFACAC",
-                    "fresh milk": "#158FFB",
-                    "washing powder": "#AE15FB",
-                    "basmati rice": "#FB15DC",
-                    "floor cleaning detergent": "#FFBB97",
-                    "face wash": "#C6D6BF",
-                    "toothpaste": "#F9E2B1",
-                  };
-                  const normalized = String(entry.name || "").toLowerCase().trim();
-                  const fill = colorMap[normalized] || "#6f9c3d";
-                  return <Cell key={`cell-${index}`} fill={fill} />;
-                })}
-              </Bar>
-            ) : (
-              <Bar
-                dataKey="value"
-                fill="#6f9c3d"
-                radius={[4, 4, 0, 0]}
-                barSize={50}
+      {/* Chart Container */}
+      <div className="overflow-x-auto pb-2">
+        <div style={{ minWidth: `${getMinChartWidth()}px`, height: "300px" }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={currentData}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis
+                dataKey={activeTab === "items" ? "name" : "time"}
+                tick={activeTab === "items" ? false : { fontSize: 16, fill: "#666", fontWeight: "500" }}
+                tickLine={false}
+                axisLine={false}
+                interval={0}
+                padding={{ left: 10, right: 10 }}
               />
-            )}
-          </BarChart>
-        </ResponsiveContainer>
+              <YAxis
+                domain={[0, "auto"]}
+                tick={{ fontSize: 16, fill: "#666", fontWeight: "500" }}
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `${value}`}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  fontSize: "12px",
+                }}
+                formatter={(value) => [
+                  `${value} ${activeTab === "customers" ? "customers" : "items"}`,
+                  "",
+                ]}
+                labelFormatter={(label) => `${label}`}
+              />
+              {activeTab === "items" ? (
+                <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={50}>
+                  {currentData.map((entry, index) => {
+                    const colorMap = {
+                      "beauty soap": "#FFACAC",
+                      "fresh milk": "#158FFB",
+                      "washing powder": "#AE15FB",
+                      "basmati rice": "#FB15DC",
+                      "floor cleaning detergent": "#FFBB97",
+                      "face wash": "#C6D6BF",
+                      "toothpaste": "#F9E2B1",
+                    };
+                    const normalized = String(entry.name || "").toLowerCase().trim();
+                    const fill = colorMap[normalized] || "#6f9c3d";
+                    return <Cell key={`cell-${index}`} fill={fill} />;
+                  })}
+                </Bar>
+              ) : (
+                <Bar
+                  dataKey="value"
+                  fill="#6f9c3d"
+                  radius={[4, 4, 0, 0]}
+                  barSize={50}
+                />
+              )}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Legend for Items */}

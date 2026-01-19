@@ -30,18 +30,17 @@ const PersonalDetailsSection = ({
         />
         <label
           htmlFor="email"
-          className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${
-            isFilled(email)
+          className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${isFilled(email)
               ? "-translate-y-full scale-75 text-[#6F9C3D] bg-white px-1"
               : ""
-          }`}
+            }`}
         >
           Email
         </label>
       </div>
 
       {/* First & Last Name */}
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <div className="relative flex-1">
           <input
             type="text"
@@ -51,11 +50,10 @@ const PersonalDetailsSection = ({
           />
           <label
             htmlFor="firstName"
-            className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${
-              isFilled(firstName)
+            className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${isFilled(firstName)
                 ? "-translate-y-full scale-75 text-[#6F9C3D] bg-white px-1"
                 : ""
-            }`}
+              }`}
           >
             First Name
           </label>
@@ -69,11 +67,10 @@ const PersonalDetailsSection = ({
           />
           <label
             htmlFor="lastName"
-            className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${
-              isFilled(lastName)
+            className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${isFilled(lastName)
                 ? "-translate-y-full scale-75 text-[#6F9C3D] bg-white px-1"
                 : ""
-            }`}
+              }`}
           >
             Last Name
           </label>
@@ -90,11 +87,10 @@ const PersonalDetailsSection = ({
         />
         <label
           htmlFor="phoneNumber"
-          className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${
-            isFilled(phoneNumber)
+          className={`absolute left-3 top-3 text-base text-[#6F9C3D] rounded-md transition-all pointer-events-none ${isFilled(phoneNumber)
               ? "-translate-y-full scale-75 text-[#6F9C3D] bg-white px-1"
               : ""
-          }`}
+            }`}
         >
           Phone Number
         </label>

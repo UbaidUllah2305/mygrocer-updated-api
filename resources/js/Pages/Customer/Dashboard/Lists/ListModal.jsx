@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { X, ChevronDown } from "lucide-react";
 
-const ListModal = ({ 
-  isOpen, 
-  onClose, 
+const ListModal = ({
+  isOpen,
+  onClose,
   mode = "add", // 'add' or 'edit'
-  initialData = {}, 
-  categories = [] 
+  initialData = {},
+  categories = []
 }) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -77,12 +77,12 @@ const ListModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl w-full max-w-5xl p-6 shadow-xl relative overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-3xl p-6 md:p-8 shadow-xl relative overflow-y-auto max-h-[90vh]">
         <button
           onClick={onClose}
-          className="absolute top-0 right-0 bg-red-500 rounded-2xl text-white hover:text-gray-700 transition z-10"
+          className="absolute top-4 right-4 bg-red-500 p-1.5 rounded-full text-white hover:bg-red-600 transition z-10"
         >
-          <X className="w-6 h-6" />
+          <X className="w-5 h-5" />
         </button>
 
         <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>

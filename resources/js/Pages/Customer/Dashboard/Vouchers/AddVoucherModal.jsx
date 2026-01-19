@@ -1,5 +1,5 @@
-// src/Components/Customer/AddVoucherModal.jsx
 import React, { useState, useRef, useEffect } from "react";
+import { X } from "lucide-react";
 
 const AddVoucherModal = ({ isOpen, onClose, onAdd }) => {
   const [voucherCode, setVoucherCode] = useState("");
@@ -40,39 +40,36 @@ const AddVoucherModal = ({ isOpen, onClose, onAdd }) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div
         ref={modalRef}
-        className="bg-white rounded-xl px-11 py-13 w-full max-w-[1040px] h-[430px] shadow-xl relative"
+        className="bg-white rounded-xl p-6 md:p-10 w-full max-w-lg shadow-xl relative"
       >
         <button
           onClick={onClose}
-          className="absolute top-0 right-0 bg-red-500 rounded-2xl text-white transition z-10"
+          className="absolute top-4 right-4 bg-red-500 p-1.5 rounded-full text-white transition z-10 hover:bg-red-600"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <X size={18} />
         </button>
 
-        <div className="flex justify-between items-center mb-22">
-          <h2 className="text-3xl text-[#2C323C]" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="mb-8 text-center md:text-left">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#2C323C]" style={{ fontFamily: "'Inter', sans-serif" }}>
             Add a Voucher
           </h2>
         </div>
 
-        <div className="mb-19">
+        <div className="mb-8">
           <input
             type="text"
             value={voucherCode}
             onChange={(e) => setVoucherCode(e.target.value)}
             placeholder="Enter your voucher code"
-            className="w-full px-4 py-2 h-16 border border-[#B9BBBD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6F9C3D] text-xl"
+            className="w-full px-4 py-3 border border-[#B9BBBD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6F9C3D] text-lg"
             style={{ fontFamily: "'Inter', sans-serif'" }}
           />
         </div>
 
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center">
           <button
             onClick={handleSubmit}
-            className="w-full max-w-[696px] bg-[#FF8B2C] h-16 text-white py-2 rounded-lg font-bold text-xl hover:bg-[#FF7A1A] transition"
+            className="w-full bg-[#FF8B2C] py-3 text-white rounded-lg font-bold text-lg hover:bg-[#FF7A1A] transition shadow-md"
           >
             Add Voucher
           </button>

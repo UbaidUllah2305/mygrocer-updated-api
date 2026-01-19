@@ -2,7 +2,7 @@ import React from "react";
 
 const OrderSummary = ({ cartItems, storeName, subtotal, deliveryFee, serviceFee, packagingFee, discount, total }) => {
   return (
-    <div className="bg-[#6F9C3D29] rounded-xl p-6 shadow-sm sticky top-24 border border-gray-100">
+    <div className="bg-[#6F9C3D29] rounded-xl p-6 shadow-sm border border-gray-100 w-full">
       {/* Header */}
       <div className="pb-4 mb-4">
         <h3 className="text-xl font-semibold mb-1">Your order from</h3>

@@ -14,12 +14,12 @@ const VendorCategoriesTable = ({ categories, onEdit, onDelete }) => {
     <div className="overflow-x-auto">
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
-          <tr className="bg-[#D2E0C3] text-neutral-800 text-lg font-medium">
+          <tr className="bg-[#D2E0C3] text-[#3A3E47] text-lg font-medium">
             <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Name</th>
-            <th className="p-4 text-center">Description</th>
-            <th className="p-4 text-center">Sub Category</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Name</th>
+            <th className="p-4 text-left">Description</th>
+            <th className="p-4 text-left">Sub Category</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Action</th>
           </tr>
         </thead>
@@ -35,10 +35,10 @@ const VendorCategoriesTable = ({ categories, onEdit, onDelete }) => {
               <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {index + 1}
               </td>
-              <td className="p-4 text-center">{category.name}</td>
-              <td className="p-4 text-center">{category.description}</td>
-              <td className="p-4 text-center">{category.subCategory}</td>
-              <td className="p-4 text-center">{category.status}</td>
+              <td className="p-4 text-left">{category.name}</td>
+              <td className="p-4 text-left">{category.description}</td>
+              <td className="p-4 text-left">{category.subCategory}</td>
+              <td className="p-4 text-left">{category.status}</td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">
                   <button

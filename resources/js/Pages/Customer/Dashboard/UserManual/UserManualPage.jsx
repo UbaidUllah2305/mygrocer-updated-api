@@ -11,17 +11,17 @@ const UserManualPage = ({ auth }) => {
 
   const [helpCards, setHelpCards] = useState([
     { id: "profile", title: "Profile", description: "How to view and edit your profile?", icon: "User", link: "/customer/profile" },
-    { id: "orders-reordering", title: "Orders & Reordering", description: "How to view past orders and reorder?", icon: "FileText", link: "/customer/orders-reordering" },
-    { id: "vouchers", title: "Vouchers", description: "How to view and redeem vouchers?", icon: "Gift", link: "/customer/vouchers" },
-    { id: "loyalty-wallet", title: "Loyalty Wallet", description: "How to earn and spend loyalty points?", icon: "Coins", link: "/customer/loyalty-wallet" },
+    { id: "orders-reordering", title: "Orders & Reordering", description: "How to view past orders and reorder?", icon: "FileText", link: "/customer/ordering-reordering" },
+    { id: "vouchers", title: "Vouchers", description: "How to view and redeem vouchers?", icon: "Gift", link: "/customer/vouchers-and-offers" },
+    { id: "loyalty-wallet", title: "Loyalty Wallet", description: "How to earn and spend loyalty points?", icon: "Coins", link: "/customer/wallet" },
     { id: "addresses", title: "Addresses", description: "How to add, edit, or delete delivery addresses?", icon: "MapPin", link: "/customer/addresses" },
     { id: "my-list", title: "My List", description: "How to create and manage your shopping lists?", icon: "ClipboardList", link: "/customer/my-list" },
     { id: "notifications", title: "Notifications", description: "How to manage push & email notifications?", icon: "Bell", link: "/customer/notifications" },
-    { id: "reminders", title: "Reminders", description: "How to set up product reminders?", icon: "Clock", link: "/customer/reminders" },
+    { id: "reminders", title: "Reminders", description: "How to set up product reminders?", icon: "Clock", link: "/customer/reminder" },
     { id: "user-manual", title: "User Manual", description: "How to use the app features?", icon: "BookOpen", link: "/customer/user-manual" },
-    { id: "offers", title: "Offers", description: "How to browse and claim offers?", icon: "ShoppingBag", link: "/customer/offers" },
-    { id: "select-currency", title: "Select Currency", description: "How to change your preferred currency?", icon: "DollarSign", link: "/customer/select-currency" },
-    { id: "help-center", title: "Help Center", description: "How to get support or report issues?", icon: "HelpCircle", link: "/customer/help-center" },
+    { id: "offers", title: "Offers", description: "How to browse and claim offers?", icon: "ShoppingBag", link: "/customer/offers-alerts" },
+    { id: "select-currency", title: "Select Currency", description: "How to change your preferred currency?", icon: "DollarSign", link: "/customer/currency" },
+    { id: "help-center", title: "Help Center", description: "How to get support or report issues?", icon: "HelpCircle", link: "/customer/help" },
   ]);
 
   const handleAddCard = () => {

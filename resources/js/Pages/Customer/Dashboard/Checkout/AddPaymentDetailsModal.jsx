@@ -18,19 +18,13 @@ const AddPaymentDetailsModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl w-full max-w-[580px] shadow-xl relative p-6">
+      <div className="bg-white rounded-xl w-full max-w-[580px] shadow-xl relative p-6 overflow-y-auto max-h-[90vh]">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 z-10"
-          aria-label="Close"
+          className="absolute top-0 right-0 w-7 h-7 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center z-10 transition-colors"
         >
-          <div className="w-6 h-6 flex items-center justify-center">
-            <svg width="22" height="22" viewBox="0 0 30 30" fill="none">
-              <circle cx="15" cy="15" r="15" fill="#DF3A3A" />
-              <path d="M10 10L20 20M20 10L10 20" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </div>
+          <X className="w-4 h-4 text-white" strokeWidth={2.5} />
         </button>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-6">Add a credit or debit card</h2>
@@ -74,9 +68,8 @@ const AddPaymentDetailsModal = ({ isOpen, onClose }) => {
               />
               <label
                 htmlFor="cardholderName"
-                className={`absolute left-4 px-1 text-xs bg-white transition-all duration-200 pointer-events-none ${
-                  cardholderName ? '-top-2.5 text-xs' : 'top-3.5 text-lg'
-                } text-[#9B9DA2]`}
+                className={`absolute left-4 px-1 text-xs bg-white transition-all duration-200 pointer-events-none ${cardholderName ? '-top-2.5 text-xs' : 'top-3.5 text-lg'
+                  } text-[#9B9DA2]`}
               >
                 Name of Credit card holder
               </label>

@@ -1,4 +1,3 @@
-// src/Pages/Customer/MyListsPage.jsx
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import CustomerDashboardLayout from "@/Layouts/CustomerDashboardLayout";

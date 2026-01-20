@@ -23,7 +23,7 @@ const LocationEditModal = ({ isOpen, onClose, currentAddress, onSubmit }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 w-7 h-7 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center z-10 transition-colors"
+          className="absolute top-0 right-0 w-7 h-7 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center z-10 transition-colors"
         >
           <X className="w-4 h-4 text-white" strokeWidth={2.5} />
         </button>

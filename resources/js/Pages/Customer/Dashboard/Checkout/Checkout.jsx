@@ -100,8 +100,8 @@ const Checkout = ({ cartItems: initialCartItems, storeName: initialStoreName, au
       showBreadcrumb={true}
     >
       {/* Main Content */}
-      <div className="flex justify-between items-start gap-2 lg:gap-4">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
+        <div className="w-full lg:flex-1 flex flex-col gap-4">
           {/* Main Title */}
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
             Review and place your order
@@ -181,16 +181,18 @@ const Checkout = ({ cartItems: initialCartItems, storeName: initialStoreName, au
         </div>
 
         {/* Right Column - Order Summary */}
-        <OrderSummary
-          cartItems={cartItems}
-          storeName={storeName}
-          subtotal={subtotal}
-          deliveryFee={deliveryFee}
-          serviceFee={serviceFee}
-          packagingFee={packagingFee}
-          discount={discount}
-          total={total}
-        />
+        <div className="w-full lg:w-[400px] shrink-0 sticky top-4">
+          <OrderSummary
+            cartItems={cartItems}
+            storeName={storeName}
+            subtotal={subtotal}
+            deliveryFee={deliveryFee}
+            serviceFee={serviceFee}
+            packagingFee={packagingFee}
+            discount={discount}
+            total={total}
+          />
+        </div>
       </div>
 
       {/* Modals */}

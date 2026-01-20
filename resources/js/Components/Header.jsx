@@ -97,8 +97,8 @@ const Header = ({ isMobile = false, isSidebarOpen = false, onToggleSidebar, auth
 
                 {/* RIGHT SIDE */}
                 <div className="relative flex shrink-0 items-center gap-2 sm:gap-3" ref={menuRef}>
-                    {/* Action Buttons - Only show if NOT on setup page */}
-                    {!isSetupPage && (
+                    {/* Action Buttons - Desktop Only */}
+                    {!isSetupPage && !isMobile && (
                         <>
                             {/* Messages Button */}
                             <button
@@ -175,6 +175,47 @@ const Header = ({ isMobile = false, isSidebarOpen = false, onToggleSidebar, auth
                                     {user?.email}
                                 </p>
                             </div>
+
+                            {/* Mobile Action Buttons */}
+                            {isMobile && !isSetupPage && (
+                                <div className="p-2 border-b border-gray-100">
+                                    <p className="px-3 py-2 text-xs uppercase tracking-wider text-gray-400 font-medium">
+                                        Quick Actions
+                                    </p>
+                                    
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-gray-50 focus:outline-none"
+                                        onClick={() => {
+                                            router.visit('/messages');
+                                            setIsMenuOpen(false);
+                                        }}
+                                    >
+                                        <FaComments className="h-4 w-4 text-[#6f9c3d]" />
+                                        <span className="font-medium">Messages</span>
+                                    </button>
+                                    
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-gray-50 focus:outline-none"
+                                        onClick={() => {
+                                            router.visit('/notifications');
+                                            setIsMenuOpen(false);
+                                        }}
+                                    >
+                                        <FaBell className="h-4 w-4 text-[#ff8b2c]" />
+                                        <span className="font-medium">Notifications</span>
+                                    </button>
+                                    
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-gray-50 focus:outline-none"
+                                    >
+                                        <FaGlobe className="h-4 w-4 text-[#2196f3]" />
+                                        <span className="font-medium">Language</span>
+                                    </button>
+                                </div>
+                            )}
 
                             {/* Menu Items */}
                             <div className="p-2">

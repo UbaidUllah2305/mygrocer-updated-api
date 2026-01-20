@@ -20,7 +20,7 @@ const EventsTable = ({ events, onViewEvent, onEditEvent }) => {
             <th className="p-4 text-left">Duration</th>
             <th className="p-4 text-left">Days Remaining</th>
             <th className="p-4 text-left">Status</th>
-            <th className="p-4 text-right">Products</th>
+            <th className="p-4 text-center">Products</th>
             <th className="p-4 text-center">Expected Revenue</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
@@ -41,7 +41,7 @@ const EventsTable = ({ events, onViewEvent, onEditEvent }) => {
               <td className="p-4">{event.duration}</td>
               <td className="p-4">{event.daysRemaining}</td>
               <td className="p-4">{event.status}</td>
-              <td className="p-4 text-right">{event.products}</td>
+              <td className="p-4 text-center">{event.products}</td>
               <td className="p-4 text-center">${event.revenue}</td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">

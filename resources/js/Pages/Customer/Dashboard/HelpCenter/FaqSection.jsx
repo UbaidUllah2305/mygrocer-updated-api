@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const FaqSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -56,7 +56,9 @@ const FaqSection = () => {
               <h3 className="text-base md:text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {faq.question}
               </h3>
-              <ChevronRight className="text-[#6F9C3D]" />
+              <ChevronDown
+                className={`text-[#6F9C3D] transition-transform duration-200 ${openFaq === idx ? "rotate-180" : ""}`}
+              />
             </div>
             {openFaq === idx && (
               <div className="mt-4 pt-4 border-t border-gray-200">

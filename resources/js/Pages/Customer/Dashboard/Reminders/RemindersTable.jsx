@@ -16,11 +16,11 @@ const RemindersTable = ({ reminders, onView, onDelete }) => {
         <thead>
           <tr className="bg-[#E8EFE0] text-neutral-800 text-lg font-medium">
             <th className="p-4 text-left pl-6 rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Reminder Title</th>
-            <th className="p-4 text-center">Description</th>
-            <th className="p-4 text-center">Date</th>
-            <th className="p-4 text-center">Repeat Type</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Reminder Title</th>
+            <th className="p-4 text-left">Description</th>
+            <th className="p-4 text-left">Date</th>
+            <th className="p-4 text-left">Repeat Type</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
@@ -36,11 +36,11 @@ const RemindersTable = ({ reminders, onView, onDelete }) => {
               <td className={`p-4 text-left pl-6 ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {reminder.id}
               </td>
-              <td className="p-4 text-center">{reminder.title}</td>
-              <td className="p-4 text-center">{reminder.description}</td>
-              <td className="p-4 text-center">{reminder.date}</td>
-              <td className="p-4 text-center">{reminder.repeatType}</td>
-              <td className={`p-4 text-center ${reminder.status === "Active" ? "text-[#6F9C3D]" : "text-red-700"}`}>
+              <td className="p-4 text-left">{reminder.title}</td>
+              <td className="p-4 text-left">{reminder.description}</td>
+              <td className="p-4 text-left">{reminder.date}</td>
+              <td className="p-4 text-left">{reminder.repeatType}</td>
+              <td className={`p-4 text-left ${reminder.status === "Active" ? "text-[#6F9C3D]" : "text-red-700"}`}>
                 {reminder.status}
               </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>

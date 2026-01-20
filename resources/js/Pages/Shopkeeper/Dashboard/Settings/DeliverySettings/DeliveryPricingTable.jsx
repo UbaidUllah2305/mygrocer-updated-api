@@ -17,12 +17,12 @@ const DeliveryPricingTable = ({ deliveryTypes, onView, onEdit }) => {
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg font-medium">
             <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Delivery Type</th>
-            <th className="p-4 text-center">Delivery Fee</th>
-            <th className="p-4 text-center">Min Order Amount</th>
-            <th className="p-4 text-center">Max Distance (Km)</th>
-            <th className="p-4 text-center">Estimated Time</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Delivery Type</th>
+            <th className="p-4 text-left">Delivery Fee</th>
+            <th className="p-4 text-left">Min Order Amount</th>
+            <th className="p-4 text-left">Max Distance (Km)</th>
+            <th className="p-4 text-left">Estimated Time</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Action</th>
           </tr>
         </thead>
@@ -38,12 +38,12 @@ const DeliveryPricingTable = ({ deliveryTypes, onView, onEdit }) => {
               <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {index + 1}
               </td>
-              <td className="p-4 text-center">{type.name}</td>
-              <td className="p-4 text-center">Rs. {type.fee}</td>
-              <td className="p-4 text-center">Rs. {type.minOrder}</td>
-              <td className="p-4 text-center">{type.maxDistance}</td>
-              <td className="p-4 text-center">{type.estimatedTime}</td>
-              <td className={`p-4 text-center font-medium ${type.status === "Active" ? "text-[#6F9C3D]" : "text-[#df3a3a]"}`}>
+              <td className="p-4 text-left">{type.name}</td>
+              <td className="p-4 text-left">Rs. {type.fee}</td>
+              <td className="p-4 text-left">Rs. {type.minOrder}</td>
+              <td className="p-4 text-left">{type.maxDistance}</td>
+              <td className="p-4 text-left">{type.estimatedTime}</td>
+              <td className={`p-4 text-left font-medium ${type.status === "Active" ? "text-[#6F9C3D]" : "text-[#df3a3a]"}`}>
                 {type.status}
               </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>

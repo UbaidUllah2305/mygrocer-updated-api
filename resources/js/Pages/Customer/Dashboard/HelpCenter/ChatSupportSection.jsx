@@ -50,7 +50,7 @@ const ChatSupportSection = () => {
           <img
             src="/assets/Assets/Customer/helpcenter/fresh-mart.svg"
             alt="Fresh Mart"
-            className="w-13 h-13 rounded-full"
+            className="w-12 h-12 rounded-full object-cover"
           />
           <h3 className="text-lg md:text-xl font-semibold text-gray-900" style={{ fontFamily: "'Inter', sans-serif" }}>
             Fresh Mart

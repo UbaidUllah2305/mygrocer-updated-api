@@ -17,10 +17,10 @@ const FreeDeliveryTable = ({ settings, onToggleStatus, onView, onEdit }) => {
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg font-medium">
             <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Delivery Type</th>
-            <th className="p-4 text-center">Delivery Fee</th>
-            <th className="p-4 text-center">Free Delivery Above</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Delivery Type</th>
+            <th className="p-4 text-left">Delivery Fee</th>
+            <th className="p-4 text-left">Free Delivery Above</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Action</th>
           </tr>
         </thead>
@@ -36,12 +36,12 @@ const FreeDeliveryTable = ({ settings, onToggleStatus, onView, onEdit }) => {
               <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {index + 1}
               </td>
-              <td className="p-4 text-center">{setting.name}</td>
-              <td className="p-4 text-center">Rs. {setting.fee}</td>
-              <td className="p-4 text-center">
+              <td className="p-4 text-left">{setting.name}</td>
+              <td className="p-4 text-left">Rs. {setting.fee}</td>
+              <td className="p-4 text-left">
                 {typeof setting.freeAbove === 'number' ? `Rs. ${setting.freeAbove}` : setting.freeAbove}
               </td>
-              <td className="p-4 text-center">
+              <td className="p-4 text-left">
                 <label className="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"

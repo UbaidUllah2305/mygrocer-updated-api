@@ -99,7 +99,7 @@ const AddressSection = ({
       ) : (
         <>
           {/* Map Placeholder */}
-          <div className="relative h-49 bg-[#f0f9ff] rounded-lg mb-4 overflow-hidden border border-[#dbeafe]">
+          <div className="relative h-[200px] bg-[#f0f9ff] rounded-lg mb-4 overflow-hidden border border-[#dbeafe]">
             <div className="absolute inset-0 opacity-20">
               <svg viewBox="0 0 400 200" className="w-full h-full text-[#3b82f6]">
                 <path d="M20 100 Q 100 20, 200 100 T 380 100" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -180,7 +180,7 @@ const AddressSection = ({
         placeholder="Note to rider - e.g. building, landmark"
         value={noteToRider}
         onChange={(e) => setNoteToRider(e.target.value)}
-        className="w-full p-3 pb-13 border border-[#B9BBBD] h-22 text-[#9B9DA2] rounded-lg mb-3 bg-[#FFFFFF] text-lg outline-none focus:border-[#6F9C3D] transition"
+        className="w-full p-3 pb-12 border border-[#B9BBBD] h-[88px] text-[#9B9DA2] rounded-lg mb-3 bg-[#FFFFFF] text-lg outline-none focus:border-[#6F9C3D] transition"
       />
 
       {/* Labels */}

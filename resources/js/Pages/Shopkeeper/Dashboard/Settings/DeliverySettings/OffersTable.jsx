@@ -17,11 +17,11 @@ const OffersTable = ({ offers, onToggleStatus, onEdit, onDelete }) => {
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg font-medium">
             <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Offer Type</th>
-            <th className="p-4 text-center">Valid Period</th>
-            <th className="p-4 text-center">Threshold Amount</th>
-            <th className="p-4 text-center">Discount %</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Offer Type</th>
+            <th className="p-4 text-left">Valid Period</th>
+            <th className="p-4 text-left">Threshold Amount</th>
+            <th className="p-4 text-left">Discount %</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Action</th>
           </tr>
         </thead>
@@ -37,13 +37,13 @@ const OffersTable = ({ offers, onToggleStatus, onEdit, onDelete }) => {
               <td className={`p-4 text-center ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {index + 1}
               </td>
-              <td className="p-4 text-center">{offer.type}</td>
-              <td className="p-4 text-center text-sm">{offer.validFrom} to {offer.validTo}</td>
-              <td className="p-4 text-center">
+              <td className="p-4 text-left">{offer.type}</td>
+              <td className="p-4 text-left text-sm">{offer.validFrom} to {offer.validTo}</td>
+              <td className="p-4 text-left">
                 {typeof offer.threshold === 'number' ? `Rs. ${offer.threshold}` : offer.threshold}
               </td>
-              <td className="p-4 text-center">{offer.discount}</td>
-              <td className="p-4 text-center">
+              <td className="p-4 text-left">{offer.discount}</td>
+              <td className="p-4 text-left">
                 <label className="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"

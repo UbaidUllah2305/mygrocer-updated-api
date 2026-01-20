@@ -15,7 +15,7 @@ const SortDropdown = ({ value, onChange, options = [] }) => {
   }, []);
 
   return (
-    <div className="w-full max-w-[688px] relative" ref={dropdownRef}>
+    <div className="w-full max-w-3xl relative" ref={dropdownRef}>
       <div
         className="bg-white h-16 rounded-xl p-4 border border-[#B9BBBD] flex items-center justify-between cursor-pointer hover:bg-gray-50 transition"
         onClick={() => setIsOpen(!isOpen)}

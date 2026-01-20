@@ -31,7 +31,7 @@ const OrderDetailModal = ({ isOpen, onClose, order }) => {
       <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] shadow-2xl relative flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
 
         {/* Header */}
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 sticky top-0 z-20">
+        <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 z-20">
           <h2 className="text-xl font-bold text-gray-800" style={{ fontFamily: "'Inter', sans-serif" }}>
             Order Details
           </h2>
@@ -43,7 +43,7 @@ const OrderDetailModal = ({ isOpen, onClose, order }) => {
           </button>
         </div>
 
-        <div className="overflow-y-auto p-6 space-y-8">
+        <div className="overflow-y-auto p-6 space-y-8 flex-1 min-h-0">
           {/* Store Info */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
             <div className="w-20 h-20 bg-gray-50 rounded-full border border-gray-100 flex items-center justify-center shrink-0">
@@ -77,8 +77,8 @@ const OrderDetailModal = ({ isOpen, onClose, order }) => {
                 <div key={s.step} className="flex flex-col items-center gap-2 group cursor-default">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-4 transition-all duration-300 ${s.step <= currentStep
-                        ? "bg-[#6F9C3D] border-white text-white shadow-md scale-110"
-                        : "bg-white border-gray-100 text-gray-400"
+                      ? "bg-[#6F9C3D] border-white text-white shadow-md scale-110"
+                      : "bg-white border-gray-100 text-gray-400"
                       }`}
                   >
                     {s.step < currentStep ? <Check size={16} strokeWidth={3} /> : s.step}
@@ -96,8 +96,8 @@ const OrderDetailModal = ({ isOpen, onClose, order }) => {
               {steps.map((s) => (
                 <div key={s.step} className="relative pl-6">
                   <div className={`absolute -left-[21px] top-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold border-4 ${s.step <= currentStep
-                      ? "bg-[#6F9C3D] border-white text-white shadow-sm"
-                      : "bg-white border-gray-100 text-gray-400"
+                    ? "bg-[#6F9C3D] border-white text-white shadow-sm"
+                    : "bg-white border-gray-100 text-gray-400"
                     }`}>
                     {s.step < currentStep ? <Check size={14} /> : s.step}
                   </div>
@@ -158,9 +158,9 @@ const OrderDetailModal = ({ isOpen, onClose, order }) => {
                 </div>
                 <p className="text-xs text-gray-500 mt-2">Inclusive of all taxes</p>
 
-                <button className="w-full mt-6 py-2.5 bg-[#6F9C3D] text-white rounded-lg font-semibold shadow-lg shadow-green-200 hover:shadow-xl hover:bg-[#5f8634] transition-all text-sm">
+                {/* <button className="w-full mt-6 py-2.5 bg-[#6F9C3D] text-white rounded-lg font-semibold shadow-lg shadow-green-200 hover:shadow-xl hover:bg-[#5f8634] transition-all text-sm">
                   Download Invoice
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

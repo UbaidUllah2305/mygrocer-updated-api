@@ -16,10 +16,10 @@ const NotificationsTable = ({ notifications, onView }) => {
         <thead>
           <tr className="bg-[#E8EFE0] text-neutral-800 text-lg font-medium">
             <th className="p-4 text-left pl-10 rounded-tl-xl rounded-bl-xl">#</th>
-            <th className="p-4 text-center">Type</th>
-            <th className="p-4 text-center">Title</th>
-            <th className="p-4 text-center">Date</th>
-            <th className="p-4 text-center">Status</th>
+            <th className="p-4 text-left">Type</th>
+            <th className="p-4 text-left">Title</th>
+            <th className="p-4 text-left">Date</th>
+            <th className="p-4 text-left">Status</th>
             <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Actions</th>
           </tr>
         </thead>
@@ -35,10 +35,10 @@ const NotificationsTable = ({ notifications, onView }) => {
               <td className={`p-4 text-left pl-10 ${index === 0 ? "rounded-tl-xl" : ""}`}>
                 {notif.id}
               </td>
-              <td className="p-4 text-center">{notif.type}</td>
-              <td className="p-4 text-center">{notif.title}</td>
-              <td className="p-4 text-center">{notif.date}</td>
-              <td className="p-4 text-center">{notif.status}</td>
+              <td className="p-4 text-left">{notif.type}</td>
+              <td className="p-4 text-left">{notif.title}</td>
+              <td className="p-4 text-left">{notif.date}</td>
+              <td className="p-4 text-left">{notif.status}</td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">
                   <button

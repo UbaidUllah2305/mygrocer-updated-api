@@ -32,7 +32,7 @@ const HelpCenterPage = ({ auth }) => {
         )}
 
         {/* Tab Buttons */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setActiveTab("chat")}
             className={`px-6 py-2 rounded-lg text-base font-medium transition ${activeTab === "chat"

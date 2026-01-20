@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "@inertiajs/react";
 import { Clock, Phone, MapPin } from "lucide-react";
 import CustomerDashboardLayout from "@/Layouts/CustomerDashboardLayout";
-import OrderStepper from "./OrderStepper";
+import ProgressStepper from "@/Components/ProgressStepper";
 import InfoCard from "./InfoCard";
 import OrderSummaryCard from "./OrderSummaryCard";
 
@@ -94,7 +94,9 @@ const OrderTracking = ({ auth, initialStep = 1 }) => {
         </h1>
 
         {/* Stepper */}
-        <OrderStepper currentStep={currentStep} steps={steps} />
+        <div className="w-full max-w-5xl mx-auto">
+          <ProgressStepper currentStep={currentStep} steps={steps.map(s => s.label)} />
+        </div>
 
         {/* Order Status Illustration */}
         <div className="mb-6 flex justify-center">

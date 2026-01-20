@@ -3,15 +3,15 @@ import React from "react";
 const RecentChatItem = ({ chat }) => {
   return (
     <div className="flex items-center justify-between p-3 border border-[#00000026] rounded-lg cursor-pointer hover:bg-[#f7f7f7] transition">
-      <div className="flex items-center gap-3 flex-1">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         <img
           src={`/assets/Assets/Customer/helpcenter/${chat.vendor.toLowerCase().replace(/\s+/g, '')}.svg`}
           alt={chat.vendor}
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full flex-shrink-0"
         />
-        <div>
-          <div className="font-semibold">{chat.vendor}</div>
-          <div className="text-xs font-light truncate">{chat.message}</div>
+        <div className="min-w-0">
+          <div className="font-semibold truncate">{chat.vendor}</div>
+          <div className="text-xs font-light truncate text-gray-500">{chat.message}</div>
         </div>
       </div>
       <div className="flex flex-col items-center gap-2">

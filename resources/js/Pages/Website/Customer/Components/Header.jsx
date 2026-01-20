@@ -1,4 +1,3 @@
-// src/Components/Customer/Header.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import {

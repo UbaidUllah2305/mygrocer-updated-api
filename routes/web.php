@@ -239,9 +239,13 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Accounts']);
     })->name('accounts');
 
-    // Route::get('/list', function () {
-    //     return Inertia::render('Shopkeeper/Dashboard', ['page' => 'AccountsList']);
-    // })->name('list');
+    Route::get('/list', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'AccountsList']);
+    })->name('list');
+
+    Route::get('/list/details/{id}', function ($id) {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'AccountDetails', 'accountId' => $id]);
+    })->name('details');
 
     Route::get('/income-statement', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'IncomeStatement']);

@@ -58,7 +58,7 @@ export const shopkeeperBreadcrumbs = {
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Accounts" },
   ],
-  "/accounts/list": [
+  "/list": [
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Accounts", href: "/accounts" },
     { label: "Accounts List" },
@@ -203,7 +203,8 @@ export const getBreadcrumbs = (path) => {
     normalizedPath.startsWith("/events") ||
     normalizedPath.startsWith("/add-events") ||
     normalizedPath.startsWith("/accounts") ||
-    normalizedPath.startsWith("/accounts/list") ||
+    normalizedPath.startsWith("/list") ||
+    normalizedPath.startsWith("/details") ||
     normalizedPath.startsWith("/balance-sheet") ||
     normalizedPath.startsWith("/messages") ||
     normalizedPath.startsWith("/settings") ||
@@ -222,6 +223,16 @@ export const getBreadcrumbs = (path) => {
       { label: "Dashboard", icon: Home, href: "/dashboard" },
       { label: "Inventory", href: "/inventory" },
       { label: "Edit Product" },
+    ];
+  }
+
+  // Check for account details path with ID
+  if (normalizedPath.startsWith("/list/detail")) {
+    return [
+      { label: "Dashboard", icon: Home, href: "/dashboard" },
+      { label: "Accounts", href: "/accounts" },
+      { label: "Accounts List", href: "/list" },
+      { label: "Account Details" },
     ];
   }
 

@@ -1,4 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+// src/Components/Admin/Accounts/CreateAccountModal.jsx
+import React, { useState } from "react";
+import InputFloating from "@/Components/InputFloating";
+import SelectFloating from "@/Components/SelectFloating";
 
 const CreateAccountModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -9,14 +12,6 @@ const CreateAccountModal = ({ onClose }) => {
     costCenter: '',
     subCostCenter: '',
   });
-
-  const [isTypeOpen, setIsTypeOpen] = useState(false);
-  const [isCostCenterOpen, setIsCostCenterOpen] = useState(false);
-  const [isSubCostCenterOpen, setIsSubCostCenterOpen] = useState(false);
-
-  const typeRef = useRef(null);
-  const costCenterRef = useRef(null);
-  const subCostCenterRef = useRef(null);
 
   const accountTypes = [
     { value: 'Revenue', label: 'Revenue' },
@@ -55,24 +50,28 @@ const CreateAccountModal = ({ onClose }) => {
     ],
   };
 
-  const handleChange = (field, value) => {
+  // Handle input change (for InputFloating)
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Handle select change (for SelectFloating — mimics native <select> event)
+  const handleSelectChange = (field) => (e) => {
+    const value = e.target.value;
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      // Reset subCostCenter when costCenter changes
+      if (field === 'costCenter') {
+        updated.subCostCenter = '';
+      }
+      return updated;
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onClose();
   };
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (typeRef.current && !typeRef.current.contains(e.target)) setIsTypeOpen(false);
-      if (costCenterRef.current && !costCenterRef.current.contains(e.target)) setIsCostCenterOpen(false);
-      if (subCostCenterRef.current && !subCostCenterRef.current.contains(e.target)) setIsSubCostCenterOpen(false);
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const subCostCenters = subCostCentersMap[formData.costCenter] || subCostCentersMap[''];
 
@@ -100,117 +99,56 @@ const CreateAccountModal = ({ onClose }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Row 1: Name + Account Type */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
+              <InputFloating
+                id="accountName"
+                label="Name"
                 value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition"
-                placeholder="Name"
+                onChange={(value) => handleInputChange('name', value)}
               />
-              <div ref={typeRef} className="relative">
-                <div
-                  className="relative w-full px-4 py-3 rounded-lg border border-gray-300 cursor-pointer focus-within:border-[#6F9C3D] focus-within:ring-2 focus-within:ring-[#6F9C3D]/30 transition"
-                  onClick={() => setIsTypeOpen(!isTypeOpen)}
-                >
-                  {accountTypes.find(t => t.value === formData.type)?.label || 'Select Type'}
-                  <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" width="16" height="16" fill="none" stroke="#2c323c" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
-                {isTypeOpen && (
-                  <div className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
-                    {accountTypes.map((option) => (
-                      <div
-                        key={option.value}
-                        className="px-4 py-2 cursor-pointer hover:bg-[#e5f0d8] transition"
-                        onClick={() => {
-                          handleChange('type', option.value);
-                          setIsTypeOpen(false);
-                        }}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <SelectFloating
+                id="accountType"
+                label="Account Type"
+                value={formData.type}
+                onChange={handleSelectChange('type')}
+                options={accountTypes}
+                placeholder="Select Type"
+              />
             </div>
 
             {/* Row 2: Account Code + Description */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
+              <InputFloating
+                id="accountCode"
+                label="Account code"
                 value={formData.code}
-                onChange={(e) => handleChange('code', e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition"
-                placeholder="Account code"
+                onChange={(value) => handleInputChange('code', value)}
               />
-              <input
-                type="text"
+              <InputFloating
+                id="accountDescription"
+                label="Description"
                 value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6F9C3D] focus:ring-2 focus:ring-[#6F9C3D]/30 outline-none transition"
-                placeholder="Description"
+                onChange={(value) => handleInputChange('description', value)}
               />
             </div>
 
             {/* Row 3: Cost Center + Sub Cost Center */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div ref={costCenterRef} className="relative">
-                <div
-                  className="relative w-full px-4 py-3 rounded-lg border border-gray-300 cursor-pointer focus-within:border-[#6F9C3D] focus-within:ring-2 focus-within:ring-[#6F9C3D]/30 transition"
-                  onClick={() => setIsCostCenterOpen(!isCostCenterOpen)}
-                >
-                  {costCenters.find(c => c.value === formData.costCenter)?.label || 'Select Cost Center'}
-                  <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" width="16" height="16" fill="none" stroke="#2c323c" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
-                {isCostCenterOpen && (
-                  <div className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
-                    {costCenters.map((option) => (
-                      <div
-                        key={option.value}
-                        className="px-4 py-2 cursor-pointer hover:bg-[#e5f0d8] transition"
-                        onClick={() => {
-                          handleChange('costCenter', option.value);
-                          handleChange('subCostCenter', '');
-                          setIsCostCenterOpen(false);
-                        }}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div ref={subCostCenterRef} className="relative">
-                <div
-                  className="relative w-full px-4 py-3 rounded-lg border border-gray-300 cursor-pointer focus-within:border-[#6F9C3D] focus-within:ring-2 focus-within:ring-[#6F9C3D]/30 transition"
-                  onClick={() => setIsSubCostCenterOpen(!isSubCostCenterOpen)}
-                >
-                  {subCostCenters.find(s => s.value === formData.subCostCenter)?.label || 'Select Sub Cost Center'}
-                  <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" width="16" height="16" fill="none" stroke="#2c323c" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
-                {isSubCostCenterOpen && (
-                  <div className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
-                    {subCostCenters.map((option) => (
-                      <div
-                        key={option.value}
-                        className="px-4 py-2 cursor-pointer hover:bg-[#e5f0d8] transition"
-                        onClick={() => {
-                          handleChange('subCostCenter', option.value);
-                          setIsSubCostCenterOpen(false);
-                        }}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <SelectFloating
+                id="costCenter"
+                label="Cost Center"
+                value={formData.costCenter}
+                onChange={handleSelectChange('costCenter')}
+                options={costCenters}
+                placeholder="Select Cost Center"
+              />
+              <SelectFloating
+                id="subCostCenter"
+                label="Sub Cost Center"
+                value={formData.subCostCenter}
+                onChange={handleSelectChange('subCostCenter')}
+                options={subCostCenters}
+                placeholder="Select Sub Cost Center"
+              />
             </div>
 
             {/* Submit Button */}

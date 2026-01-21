@@ -72,9 +72,9 @@ const SummaryTable = ({ headers, data, emptyMessage, subTotalValue = '0.00' }) =
               key={index}
               className="text-base text-gray-700 bg-[#f7f7f7] border-b border-gray-200 hover:bg-[#f3f3f3]"
             >
-              <td className="p-4 text-center">{row.reference}</td>
+              <td className="p-4 text-center rounded-tl-xl rounded-bl-xl">{row.reference}</td>
               <td className="p-4 text-center">{row.accountName}</td>
-              <td className="p-4 text-center">{row.amount}</td>
+              <td className="p-4 text-center rounded-tr-xl rounded-br-xl">{row.amount}</td>
             </tr>
           ))}
           {/* Subtotal Row */}
@@ -96,10 +96,10 @@ const NetAssetsTable = ({ data }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#E8EFE0] text-gray-700 text-lg font-medium">
-            <th className="p-4 text-center">Net Assets Summary</th>
+            <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">Net Assets Summary</th>
             <th className="p-4 text-center">Regular Funds</th>
             <th className="p-4 text-center">Restricted Funds</th>
-            <th className="p-4 text-center">Total</th>
+            <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -111,10 +111,10 @@ const NetAssetsTable = ({ data }) => {
               key={index}
               className="text-base text-gray-700 bg-[#f7f7f7] border-b border-gray-200 hover:bg-[#f3f3f3]"
             >
-              <td className="p-4 text-center">{row.label}</td>
+              <td className="p-4 text-center rounded-tl-xl rounded-bl-xl">{row.label}</td>
               <td className="p-4 text-center">{row.regularFunds}</td>
               <td className="p-4 text-center">{row.restrictedFunds}</td>
-              <td className="p-4 text-center">{row.total}</td>
+              <td className="p-4 text-center rounded-tr-xl rounded-br-xl">{row.total}</td>
             </tr>
           ))}
           {/* Subtotal Row */}

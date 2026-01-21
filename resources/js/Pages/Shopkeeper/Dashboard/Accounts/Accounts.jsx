@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
-
-// Components (already modular)
 import AccountsList from "./AccountsList/AccountsList";
 import AccountDetails from "./AccountsList/AccountDetails";
 import IncomeStatement from "./IncomeStatement/IncomeStatement";
 import IncomeStatementDetails from "./IncomeStatement/IncomeStatementDetails";
-import BalanceSheet from "./BalanceSheet";
 
-// Summary Card Component
 const SummaryCard = ({ value, label }) => (
   <div className="bg-[#6F9C3D4F] rounded-xl pl-8 py-8 min-w-[180px] h-31">
     <p className="text-2xl font-semibold text-gray-800">{value}</p>
@@ -16,16 +12,28 @@ const SummaryCard = ({ value, label }) => (
   </div>
 );
 
-// Module Card Component
-const ModuleCard = ({ title, subtitle, onClick }) => (
-  <button
-    onClick={onClick}
-    className="bg-[#6F9C3D] hover:bg-[#5a7d31] h-39 rounded-xl pl-11 py-10 text-left transition-all duration-200 transform hover:scale-[1.02]"
-  >
-    <h3 className="text-white text-2xl font-medium mb-1">{title}</h3>
-    <p className="text-white/80 text-base font-medium">{subtitle}</p>
-  </button>
-);
+const ModuleCard = ({ title, subtitle, onClick, href }) => {
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="bg-[#6F9C3D] hover:bg-[#5a7d31] h-39 rounded-xl pl-11 py-10 text-left transition-all duration-200 transform hover:scale-[1.02] block"
+      >
+        <h3 className="text-white text-2xl font-medium mb-1">{title}</h3>
+        <p className="text-white/80 text-base font-medium">{subtitle}</p>
+      </Link>
+    );
+  }
+  return (
+    <button
+      onClick={onClick}
+      className="bg-[#6F9C3D] hover:bg-[#5a7d31] h-39 rounded-xl pl-11 py-10 text-left transition-all duration-200 transform hover:scale-[1.02]"
+    >
+      <h3 className="text-white text-2xl font-medium mb-1">{title}</h3>
+      <p className="text-white/80 text-base font-medium">{subtitle}</p>
+    </button>
+  );
+};
 
 const Accounts = () => {
   const [currentScreen, setCurrentScreen] = useState('main');
@@ -44,8 +52,6 @@ const Accounts = () => {
       setCurrentScreen('list');
     } else if (module === 'income') {
       setCurrentScreen('income');
-    } else if (module === 'balance') {
-      setCurrentScreen('balance');
     }
   };
 
@@ -85,23 +91,16 @@ const Accounts = () => {
         return <IncomeStatement onBack={handleBackToMain} onViewDetails={handleViewStatementDetails} />;
       case 'incomeDetails':
         return <IncomeStatementDetails statement={selectedStatement} onBack={handleBackToIncomeStatement} />;
-      case 'balance':
-        return <BalanceSheet onBack={handleBackToMain} />;
       default:
         return (
           <>
-            {/* Page Header */}
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Accounts</h1>
-
-            {/* Summary Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <SummaryCard value={summaryData.totalRevenue} label="Total Revenue" />
               <SummaryCard value={summaryData.totalExpense} label="Total Expense" />
               <SummaryCard value={summaryData.netProfit} label="Net Profit" />
               <SummaryCard value={summaryData.cashBalance} label="Cash Balance" />
             </div>
-
-            {/* Modules */}
             <h2 className="text-xl font-medium text-gray-900 mb-4">Accounting Modules</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <ModuleCard
@@ -117,7 +116,7 @@ const Accounts = () => {
               <ModuleCard
                 title="Balance Sheet"
                 subtitle="Assets & Liabilities"
-                onClick={() => handleModuleClick('balance')}
+                href="/balance-sheet"
               />
             </div>
           </>
@@ -125,11 +124,7 @@ const Accounts = () => {
     }
   };
 
-  return (
-    <div>
-      {renderContent()}
-    </div>
-  );
+  return <div>{renderContent()}</div>;
 };
 
 export default Accounts;

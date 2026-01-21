@@ -58,6 +58,16 @@ export const shopkeeperBreadcrumbs = {
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Accounts" },
   ],
+  "/accounts/list": [
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Accounts", href: "/accounts" },
+    { label: "Accounts List" },
+  ],
+  "/balance-sheet": [
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Accounts", href: "/accounts" },
+    { label: "Balance Sheet" },
+  ],
   "/messages": [
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Messages" },
@@ -193,6 +203,8 @@ export const getBreadcrumbs = (path) => {
     normalizedPath.startsWith("/events") ||
     normalizedPath.startsWith("/add-events") ||
     normalizedPath.startsWith("/accounts") ||
+    normalizedPath.startsWith("/accounts/list") ||
+    normalizedPath.startsWith("/balance-sheet") ||
     normalizedPath.startsWith("/messages") ||
     normalizedPath.startsWith("/settings") ||
     normalizedPath.startsWith("/profile/setup");

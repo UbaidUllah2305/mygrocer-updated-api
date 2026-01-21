@@ -1,6 +1,4 @@
-// src/Components/Admin/accounts/IncomeStatementDetails.jsx
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 // Mock data
@@ -132,19 +130,16 @@ const NetAssetsTable = ({ data }) => {
   );
 };
 
-const IncomeStatementDetails = ({ statement, onBack }) => {
+const IncomeStatementDetails = ({ statementId }) => {
+  // In real app, fetch statement by ID
+  const statement = {
+    id: parseInt(statementId),
+    period: { start: 'Nov 1, 2025', end: 'Dec 1, 2025' }
+  };
+
   return (
     <>
       <div className="mb-6 space-y-4">
-        {/* Back Button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
-        >
-          <span className="text-base">←</span>
-          Back to Income Statement
-        </button>
-
         {/* Title Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -152,12 +147,11 @@ const IncomeStatementDetails = ({ statement, onBack }) => {
               Income Statement Details
             </h1>
             <p className="text-lg font-semibold text-[#6F9C3D] mt-1">
-              Nov 1, 2025 – Dec 1, 2025
+              {statement.period.start} – {statement.period.end}
             </p>
           </div>
         </div>
       </div>
-
 
       {/* Sections */}
       <Section title="Revenue Summary">

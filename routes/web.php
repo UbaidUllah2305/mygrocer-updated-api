@@ -250,6 +250,10 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
     Route::get('/income-statement', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'IncomeStatement']);
     })->name('income-statement');
+
+    Route::get('/income-statement/details/{id}', function ($id) {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'IncomeStatementDetails', 'statementId' => $id]);
+    })->name('details');
     
     Route::get('/balance-sheet', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'BalanceSheet']);

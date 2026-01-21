@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "@inertiajs/react";
-import IncomeStatement from "./IncomeStatement/IncomeStatement";
-import IncomeStatementDetails from "./IncomeStatement/IncomeStatementDetails";
 
 const SummaryCard = ({ value, label }) => (
   <div className="bg-[#6F9C3D4F] rounded-xl pl-8 py-8 min-w-[180px] h-31">

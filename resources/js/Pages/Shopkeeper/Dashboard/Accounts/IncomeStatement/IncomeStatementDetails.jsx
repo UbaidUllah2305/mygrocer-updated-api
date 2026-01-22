@@ -1,6 +1,4 @@
-// src/Components/Admin/accounts/IncomeStatementDetails.jsx
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 // Mock data
@@ -74,9 +72,9 @@ const SummaryTable = ({ headers, data, emptyMessage, subTotalValue = '0.00' }) =
               key={index}
               className="text-base text-gray-700 bg-[#f7f7f7] border-b border-gray-200 hover:bg-[#f3f3f3]"
             >
-              <td className="p-4 text-center">{row.reference}</td>
+              <td className="p-4 text-center rounded-tl-xl rounded-bl-xl">{row.reference}</td>
               <td className="p-4 text-center">{row.accountName}</td>
-              <td className="p-4 text-center">{row.amount}</td>
+              <td className="p-4 text-center rounded-tr-xl rounded-br-xl">{row.amount}</td>
             </tr>
           ))}
           {/* Subtotal Row */}
@@ -98,10 +96,10 @@ const NetAssetsTable = ({ data }) => {
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#E8EFE0] text-gray-700 text-lg font-medium">
-            <th className="p-4 text-center">Net Assets Summary</th>
+            <th className="p-4 text-center rounded-tl-xl rounded-bl-xl">Net Assets Summary</th>
             <th className="p-4 text-center">Regular Funds</th>
             <th className="p-4 text-center">Restricted Funds</th>
-            <th className="p-4 text-center">Total</th>
+            <th className="p-4 text-center rounded-tr-xl rounded-br-xl">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -113,10 +111,10 @@ const NetAssetsTable = ({ data }) => {
               key={index}
               className="text-base text-gray-700 bg-[#f7f7f7] border-b border-gray-200 hover:bg-[#f3f3f3]"
             >
-              <td className="p-4 text-center">{row.label}</td>
+              <td className="p-4 text-center rounded-tl-xl rounded-bl-xl">{row.label}</td>
               <td className="p-4 text-center">{row.regularFunds}</td>
               <td className="p-4 text-center">{row.restrictedFunds}</td>
-              <td className="p-4 text-center">{row.total}</td>
+              <td className="p-4 text-center rounded-tr-xl rounded-br-xl">{row.total}</td>
             </tr>
           ))}
           {/* Subtotal Row */}
@@ -132,19 +130,16 @@ const NetAssetsTable = ({ data }) => {
   );
 };
 
-const IncomeStatementDetails = ({ statement, onBack }) => {
+const IncomeStatementDetails = ({ statementId }) => {
+  // In real app, fetch statement by ID
+  const statement = {
+    id: parseInt(statementId),
+    period: { start: 'Nov 1, 2025', end: 'Dec 1, 2025' }
+  };
+
   return (
     <>
       <div className="mb-6 space-y-4">
-        {/* Back Button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
-        >
-          <span className="text-base">←</span>
-          Back to Income Statement
-        </button>
-
         {/* Title Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -152,12 +147,11 @@ const IncomeStatementDetails = ({ statement, onBack }) => {
               Income Statement Details
             </h1>
             <p className="text-lg font-semibold text-[#6F9C3D] mt-1">
-              Nov 1, 2025 – Dec 1, 2025
+              {statement.period.start} – {statement.period.end}
             </p>
           </div>
         </div>
       </div>
-
 
       {/* Sections */}
       <Section title="Revenue Summary">

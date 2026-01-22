@@ -12,6 +12,11 @@ import Analytics from "./Dashboard/Analytics/Analytics";
 import Trends from "./Dashboard/Trends/Trends";
 import Overheads from "./Dashboard/Overheads/Overheads";
 import Accounts from "./Dashboard/Accounts/Accounts";
+import AccountsList from "./Dashboard/Accounts/AccountsList/AccountsList";
+import AccountDetails from "./Dashboard/Accounts/AccountsList/AccountDetails";
+import IncomeStatement from "./Dashboard/Accounts/IncomeStatement/IncomeStatement";
+import IncomeStatementDetails from "./Dashboard/Accounts/IncomeStatement/IncomeStatementDetails";
+import BalanceSheet from "./Dashboard/Accounts/BalanceSheet";
 import Events from "./Dashboard/Events/Events";
 import AddEvents from "./Dashboard/Events/AddEvents";
 import Offers from "./Dashboard/Offers/Offers";
@@ -42,6 +47,11 @@ export default function Dashboard({ auth, page: pageName }) {
         // // Financial Management
         "Overheads": Overheads,
         "Accounts": Accounts,
+        "AccountsList": AccountsList,
+        "AccountDetails": AccountDetails,
+        "IncomeStatement": IncomeStatement,
+        "IncomeStatementDetails": IncomeStatementDetails,
+        "BalanceSheet": BalanceSheet,
         
         // // Marketing & Promotions
         "Events": Events,
@@ -79,6 +89,11 @@ export default function Dashboard({ auth, page: pageName }) {
             "Trends": "Trends",
             "Overheads": "Overheads",
             "Accounts": "Accounts",
+            "AccountsList": "Accounts List",
+            "AccountDetails": "Account Details",
+            "IncomeStatement": "Income Statement",
+            "IncomeStatementDetails": "Income Statement Details",
+            "BalanceSheet": "Balance Sheet",
             "Events": "Events",
             "AddEvents": "Add Event",
             "Offers": "Offers",

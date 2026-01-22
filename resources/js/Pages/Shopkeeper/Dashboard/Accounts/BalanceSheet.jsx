@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
-import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 // Collapsible Category Header
 const CategoryHeader = ({ title, isOpen, onToggle }) => (
@@ -47,7 +46,7 @@ const BalanceSection = ({ title, items, totals }) => {
   );
 };
 
-const BalanceSheet = ({ onBack }) => {
+const BalanceSheet = () => {
   // Assets Data
   const currentAssetsItems = [
     { label: 'Assets', value: '0.00' },
@@ -70,27 +69,13 @@ const BalanceSheet = ({ onBack }) => {
   return (
     <>
       {/* Page Header */}
-      <div className="mb-6 space-y-4">
-        {/* Back Button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
-        >
-          <ArrowLeft />
-          Back to Accounts
-        </button>
-
-        {/* Title Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-              Comprehensive Balance Sheet
-            </h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-1">
-              View your assets, liabilities, and equity
-            </p>
-          </div>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          Comprehensive Balance Sheet
+        </h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-1">
+          View your assets, liabilities, and equity
+        </p>
       </div>
 
       {/* Assets Section */}

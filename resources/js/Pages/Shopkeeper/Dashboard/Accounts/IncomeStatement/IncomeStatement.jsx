@@ -1,8 +1,7 @@
-// src/Components/Admin/accounts/IncomeStatement.jsx
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import DateInput from "@/Components/Admin/DateInput";
-import { Eye, ArrowLeft } from "lucide-react";
+import { Eye } from "lucide-react";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
 // Mock data
@@ -19,25 +18,15 @@ const mockStatements = [
   },
 ];
 
-const IncomeStatement = ({ onBack, onViewDetails }) => {
+const IncomeStatement = () => {
   const [statements] = useState(mockStatements);
   const [fromDate, setFromDate] = useState('01-11-25');
   const [toDate, setToDate] = useState('01-12-25');
 
   return (
     <>
-
       {/* Page Header */}
       <div className="mb-6 space-y-4">
-        {/* Back Button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Accounts
-        </button>
-
         {/* Title + Filters Row */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {/* Title & Subtitle */}
@@ -106,13 +95,14 @@ const IncomeStatement = ({ onBack, onViewDetails }) => {
                 <td className="p-4 text-center">{statement.vatPaid}</td>
                 <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                   <div className="flex items-center justify-center gap-2">
-                    <button
-                      onClick={() => onViewDetails(statement)}
+                    {/*  Navigate to details page */}
+                    <Link
+                      href={`/income-statement/details/${statement.id}`}
                       className="p-1.5 text-gray-500 hover:text-gray-700 transition"
                       aria-label="View details"
                     >
                       <Eye size={16} />
-                    </button>
+                    </Link>
                     <button
                       className="p-1.5 text-red-600 hover:text-red-700 transition"
                       title="Export as PDF"

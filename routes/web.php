@@ -238,6 +238,26 @@ Route::middleware(['auth:shopkeeper', 'shopkeeper.profile.completed'])->group(fu
     Route::get('/accounts', function () {
         return Inertia::render('Shopkeeper/Dashboard', ['page' => 'Accounts']);
     })->name('accounts');
+
+    Route::get('/list', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'AccountsList']);
+    })->name('list');
+
+    Route::get('/list/details/{id}', function ($id) {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'AccountDetails', 'accountId' => $id]);
+    })->name('details');
+
+    Route::get('/income-statement', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'IncomeStatement']);
+    })->name('income-statement');
+
+    Route::get('/income-statement/details/{id}', function ($id) {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'IncomeStatementDetails', 'statementId' => $id]);
+    })->name('details');
+    
+    Route::get('/balance-sheet', function () {
+        return Inertia::render('Shopkeeper/Dashboard', ['page' => 'BalanceSheet']);
+    })->name('balance-sheet');
     
     // Marketing & Promotions
     Route::get('/events', function () {

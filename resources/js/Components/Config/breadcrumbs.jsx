@@ -58,6 +58,21 @@ export const shopkeeperBreadcrumbs = {
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Accounts" },
   ],
+  "/list": [
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Accounts", href: "/accounts" },
+    { label: "Accounts List" },
+  ],
+  "/income-statement": [
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Accounts", href: "/accounts" },
+    { label: "Income Statement" },
+  ],
+  "/balance-sheet": [
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Accounts", href: "/accounts" },
+    { label: "Balance Sheet" },
+  ],
   "/messages": [
     { label: "Dashboard", icon: Home, href: "/dashboard" },
     { label: "Messages" },
@@ -193,6 +208,10 @@ export const getBreadcrumbs = (path) => {
     normalizedPath.startsWith("/events") ||
     normalizedPath.startsWith("/add-events") ||
     normalizedPath.startsWith("/accounts") ||
+    normalizedPath.startsWith("/list") ||
+    normalizedPath.startsWith("/details") ||
+    normalizedPath.startsWith("/income-statement") ||
+    normalizedPath.startsWith("/balance-sheet") ||
     normalizedPath.startsWith("/messages") ||
     normalizedPath.startsWith("/settings") ||
     normalizedPath.startsWith("/profile/setup");
@@ -210,6 +229,26 @@ export const getBreadcrumbs = (path) => {
       { label: "Dashboard", icon: Home, href: "/dashboard" },
       { label: "Inventory", href: "/inventory" },
       { label: "Edit Product" },
+    ];
+  }
+
+  // Check for account details path with ID
+  if (normalizedPath.startsWith("/list/detail")) {
+    return [
+      { label: "Dashboard", icon: Home, href: "/dashboard" },
+      { label: "Accounts", href: "/accounts" },
+      { label: "Accounts List", href: "/list" },
+      { label: "Account Details" },
+    ];
+  }
+
+  // Check for income statement details path with ID
+  if (normalizedPath.startsWith("/income-statement/details/")) {
+    return [
+      { label: "Dashboard", icon: Home, href: "/dashboard" },
+      { label: "Accounts", href: "/accounts" },
+      { label: "Income Statement", href: "/income-statement" },
+      { label: "Income Statement Details" },
     ];
   }
 

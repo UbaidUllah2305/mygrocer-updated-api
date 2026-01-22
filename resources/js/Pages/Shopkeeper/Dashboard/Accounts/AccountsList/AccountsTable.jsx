@@ -1,7 +1,8 @@
 import React from "react";
 import { Pencil, ChevronRight } from "lucide-react";
+import { Link } from "@inertiajs/react";
 
-const AccountsTable = ({ accounts, onViewAccount }) => {
+const AccountsTable = ({ accounts }) => {
   if (accounts.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-600">
@@ -55,13 +56,14 @@ const AccountsTable = ({ accounts, onViewAccount }) => {
                   >
                     <Pencil className="w-4 h-4 text-[#6F9C3D]" />
                   </button>
-                  <button
-                    onClick={() => onViewAccount(account)}
+                  {/* Navigate to account details */}
+                  <Link
+                    href={`/list/details/${account.id}`}
                     className="p-1.5 hover:bg-gray-100 rounded transition"
                     aria-label="View account details"
                   >
                     <ChevronRight className="w-5 h-6 text-[#B2B2B2]" />
-                  </button>
+                  </Link>
                 </div>
               </td>
             </tr>

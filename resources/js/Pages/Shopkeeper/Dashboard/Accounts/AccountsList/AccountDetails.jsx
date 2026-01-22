@@ -1,7 +1,5 @@
 import React from "react";
-import { ArrowLeft } from "lucide-react";
 import { FaFilePdf } from "react-icons/fa";
-import { Link } from "@inertiajs/react";
 
 // Mock transaction data
 const mockTransactions = [
@@ -10,7 +8,21 @@ const mockTransactions = [
   { id: 3, date: '09/09/25', reference: 'INV-003', description: 'Sales', debit: '0', credit: '15,000' },
 ];
 
-const AccountDetails = ({ account, onBack }) => {
+// Mock account data 
+const getAccountById = (id) => ({
+  id: parseInt(id),
+  name: 'Sales',
+  code: '1,000',
+  type: 'Revenue',
+  description: 'Income gener..',
+  debit: '25,000',
+  credit: '15,000',
+  balance: '10,000'
+});
+
+const AccountDetailsPage = ({ accountId }) => {
+  const account = getAccountById(accountId);
+
   // Calculate totals
   const totalDebit = mockTransactions.reduce((sum, t) =>
     sum + parseFloat(t.debit.replace(/,/g, '') || 0), 0
@@ -21,23 +33,12 @@ const AccountDetails = ({ account, onBack }) => {
 
   const handleExportPDF = (transactionId) => {
     console.log(`Exporting PDF for transaction ${transactionId}`);
-    // TODO: Implement actual PDF export
   };
 
   return (
     <>
       {/* Page Header */}
       <div className="mb-6 space-y-4">
-        {/* Back Button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition focus:outline-none"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Accounts List
-        </button>
-
-        {/* Title Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -120,4 +121,4 @@ const AccountDetails = ({ account, onBack }) => {
   );
 };
 
-export default AccountDetails;
+export default AccountDetailsPage;

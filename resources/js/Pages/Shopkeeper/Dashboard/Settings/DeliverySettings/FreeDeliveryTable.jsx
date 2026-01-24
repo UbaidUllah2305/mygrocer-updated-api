@@ -1,6 +1,5 @@
-// src/Components/Admin/FreeDeliveryTable.jsx
 import React from "react";
-import { Pencil, Eye } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 const FreeDeliveryTable = ({ settings, onToggleStatus, onView, onEdit }) => {
   if (settings.length === 0) {
@@ -54,14 +53,6 @@ const FreeDeliveryTable = ({ settings, onToggleStatus, onView, onEdit }) => {
               </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    className="p-1.5 text-gray-500 hover:text-blue-600 transition"
-                    title="View"
-                    onClick={() => onView(setting, 'free')}
-                  >
-                    <Eye size={16} />
-                  </button>
                   <button
                     type="button"
                     className="p-1.5 text-[#6F9C3D] hover:text-[#5a7d31] transition"

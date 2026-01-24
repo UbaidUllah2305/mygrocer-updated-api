@@ -12,7 +12,12 @@ const mockCategories = ["Beauty", "Electronics", "Apparel", "Home", "Food"];
 const mockProducts = ["Bread", "Eggs", "Meat", "Diputix"];
 
 const CreateOffers = () => {
+  // Get offerId from URL search params
+  const urlParams = new URLSearchParams(window.location.search);
+  const offerId = urlParams.get('offerId');
+  const isEdit = !!offerId;
   const [formData, setFormData] = useState({
+    offerName: "",
     startTime: "",
     endTime: "",
     storeName: "",
@@ -43,6 +48,39 @@ const CreateOffers = () => {
   const [tempCategory, setTempCategory] = useState("");
   const [tempProduct, setTempProduct] = useState("");
   const [showSaveModal, setShowSaveModal] = useState(false);
+
+  // Fetch offer data if editing
+  useEffect(() => {
+    if (isEdit && offerId) {
+      // Mock data for editing - replace with actual API call
+      // In a real app, you'd fetch data from `/api/offers/${offerId}`
+      const mockOfferData = {
+        offerName: `Offer ${offerId}`,
+        startTime: "2025-11-29T10:00",
+        endTime: "2025-11-29T18:00",
+        storeName: "Store A",
+        customer: "All Customers",
+        status: "Active",
+        discountValue: "25",
+        selectStore: "Store A",
+        minimumPurchase: "50",
+        displayMessage: "Get 25% off on all beauty products. Limited time only!",
+        productSelection: "all",
+        categories: ["Beauty", "Electronics"],
+        specificProducts: [],
+        excludedProducts: [],
+        offerBudget: "1000",
+        targetRevenue: "5000",
+        priorityLevel: "Medium",
+        targetConversion: "15",
+        promotionalText: "Black Friday Mega Sale! Get 25% off on all beauty products. Limited time only!",
+        emailNotification: true,
+        pushNotification: true,
+        showCountdownTimer: true,
+      };
+      setFormData(mockOfferData);
+    }
+  }, [isEdit, offerId]);
 
   // Update preview when form changes
   useEffect(() => {
@@ -101,21 +139,22 @@ const CreateOffers = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    alert("Offer created successfully!");
-    router.visit("/offers"); 
+    console.log(`${isEdit ? "Update" : "Create"} offer:`, formData);
+    alert(`Offer ${isEdit ? "updated" : "created"} successfully!`);
+    router.visit("/offers");
   };
 
   return (
     <div className="max-w-316">
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
-            Create New Offer
+            {isEdit ? "Edit Offer" : "Create New Offer"}
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
-            Set up a new promotion for your customers
+            {isEdit ? "Update offer information" : "Set up a new promotion for your customers"}
           </p>
         </div>
       </div>
@@ -128,6 +167,26 @@ const CreateOffers = () => {
           <section className="rounded-xl">
             <h2 className="text-xl font-medium mb-5">Basic Offer Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+              {/* Offer Name */}
+              <InputFloating
+                id="offerName"
+                label="Offer Name"
+                name="offerName"
+                value={formData.offerName}
+                onChange={handleChange}
+              />
+
+              {/* Status */}
+              <SelectFloating
+                id="status"
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                options={["Active", "Scheduled", "Expired"].map(s => ({ value: s, label: s }))}
+                placeholder="Select Status"
+              />
 
               {/* Start Time */}
               <InputFloating
@@ -168,17 +227,6 @@ const CreateOffers = () => {
                 options={mockCustomers.map(c => ({ value: c, label: c }))}
               />
 
-              {/* Status */}
-              <SelectFloating
-                id="status"
-                label="Status"
-                name="status"
-                value={formData.status}
-                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                options={["Active", "Scheduled", "Expired"].map(s => ({ value: s, label: s }))}
-                placeholder="Select Status"
-              />
-
               {/* Discount Value */}
               <InputFloating
                 id="discountValue"
@@ -210,7 +258,10 @@ const CreateOffers = () => {
                 onChange={handleChange}
               />
 
-              {/* Display Message */}
+            </div>
+
+            {/* Display Message */}
+            <div className="mt-4">
               <FloatingTextarea
                 id="displayMessage"
                 label="Display Message"
@@ -547,7 +598,7 @@ const CreateOffers = () => {
               onClick={() => setShowSaveModal(true)}
               className="px-6 py-2 bg-[#6F9C3D] text-white rounded-lg font-medium hover:bg-[#5a8232] transition"
             >
-              Save Offer
+              {isEdit ? "Update Offer" : "Save Offer"}
             </button>
           </div>
         </div>
@@ -557,8 +608,8 @@ const CreateOffers = () => {
       {showSaveModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-lg p-6 w-96 max-w-[90%]">
-            <h3 className="text-lg font-medium mb-2">Save Offer</h3>
-            <p className="text-gray-600 mb-4">Are you sure you want to save this offer?</p>
+            <h3 className="text-lg font-medium mb-2">{isEdit ? "Update Offer" : "Save Offer"}</h3>
+            <p className="text-gray-600 mb-4">Are you sure you want to {isEdit ? "update" : "save"} this offer?</p>
             <div className="flex justify-end gap-3">
               <button
                 type="button"
@@ -575,7 +626,7 @@ const CreateOffers = () => {
                 }}
                 className="px-4 py-2 bg-[#6F9C3D] text-white rounded hover:bg-[#5a8232]"
               >
-                Save
+                {isEdit ? "Update" : "Save"}
               </button>
             </div>
           </div>

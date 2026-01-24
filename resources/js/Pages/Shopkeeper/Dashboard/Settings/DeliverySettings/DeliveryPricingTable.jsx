@@ -1,8 +1,7 @@
-// src/Components/Admin/DeliveryPricingTable.jsx
 import React from "react";
-import { Pencil, Eye } from "lucide-react";
+import { Pencil } from "lucide-react";
 
-const DeliveryPricingTable = ({ deliveryTypes, onView, onEdit }) => {
+const DeliveryPricingTable = ({ deliveryTypes, onToggleStatus, onView, onEdit }) => {
   if (deliveryTypes.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-600">
@@ -43,19 +42,19 @@ const DeliveryPricingTable = ({ deliveryTypes, onView, onEdit }) => {
               <td className="p-4 text-left">Rs. {type.minOrder}</td>
               <td className="p-4 text-left">{type.maxDistance}</td>
               <td className="p-4 text-left">{type.estimatedTime}</td>
-              <td className={`p-4 text-left font-medium ${type.status === "Active" ? "text-[#6F9C3D]" : "text-[#df3a3a]"}`}>
-                {type.status}
+              <td className="p-4 text-left">
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={type.status}
+                    onChange={() => onToggleStatus(type.id)}
+                  />
+                  <div className="relative w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#6F9C3D]/30 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6F9C3D]"></div>
+                </label>
               </td>
               <td className={`p-4 text-center ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    className="p-1.5 text-gray-500 hover:text-blue-600 transition"
-                    title="View"
-                    onClick={() => onView(type, 'pricing')}
-                  >
-                    <Eye size={16} />
-                  </button>
                   <button
                     type="button"
                     className="p-1.5 text-[#6F9C3D] hover:text-[#5a7d31] transition"

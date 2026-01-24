@@ -1,12 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import OrdersTable from "./OrdersTable";
-import OrderDetailModal from "./OrderDetailModal";
-import OrderProcessingModal from "./OrderProcessingModal";
-import OrderInProgressModal from "./OrderInProgressModal";
-import OrderReadyModal from "./OrderReadyModal";
-import OrderDispatchedModal from "./OrderDispatchedModal";
-import OrderDeliveredModal from "./OrderDeliveredModal";
-import OrderRejectedModal from "./OrderRejectedModal";
+import OrderDetailModal from "./Modals/OrderDetailModal";
+import OrderProcessingModal from "./Modals/OrderProcessingModal";
+import OrderInProgressModal from "./Modals/OrderInProgressModal";
+import OrderReadyModal from "./Modals/OrderReadyModal";
+import OrderDispatchedModal from "./Modals/OrderDispatchedModal";
+import OrderDeliveredModal from "./Modals/OrderDeliveredModal";
+import OrderRejectedModal from "./Modals/OrderRejectedModal";
 import Pagination from "@/Components/Pagination";
 
 const Orders = () => {
@@ -24,8 +24,8 @@ const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  // Mock order data
-  const orders = [
+  // Mock order data - now using useState to make it mutable
+  const [orders, setOrders] = useState([
     { id: 1, orderNumber: "ORD-01", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "New" },
     { id: 2, orderNumber: "ORD-02", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Pending" },
     { id: 3, orderNumber: "ORD-03", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Processing" },
@@ -38,7 +38,7 @@ const Orders = () => {
     { id: 10, orderNumber: "ORD-10", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Pending" },
     { id: 11, orderNumber: "ORD-11", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Processing" },
     { id: 12, orderNumber: "ORD-12", customer: "Noor Fatima", phone: "03487654323", paymentTerms: "Cash", totalAmount: "1,200", status: "Canceled" },
-  ];
+  ]);
 
   // Filter orders
   const filteredOrders =
@@ -90,6 +90,14 @@ const Orders = () => {
 
   const handlePrintOrder = () => {
     console.log("Printing order...");
+  };
+
+  const handleStatusUpdate = (orderId, newStatus) => {
+    setOrders(prevOrders =>
+      prevOrders.map(order =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
   };
 
   const handlePageChange = (newPage) => {
@@ -163,6 +171,7 @@ const Orders = () => {
         onViewOrder={setViewingOrder}
         onCallCustomer={handleCallCustomer}
         onPrintOrder={handlePrintOrder}
+        onStatusUpdate={handleStatusUpdate}
         getStatusColor={getStatusColor}
       />
 

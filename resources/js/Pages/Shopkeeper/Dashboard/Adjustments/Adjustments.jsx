@@ -6,7 +6,6 @@ import AdjustmentsModal from "./AddAdjustmentsModal";
 import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
 import Pagination from "@/Components/Pagination";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
-import { Plus } from "lucide-react";
 
 const fallbackData = [
   {
@@ -25,7 +24,7 @@ const AdjustmentsPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [modalMode, setModalMode] = useState(null); // 'add' or 'edit'
+  const [modalMode, setModalMode] = useState(null); // 'edit'
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -65,21 +64,10 @@ const AdjustmentsPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleCreateAdjustment = (data) => {
-    console.log("Creating adjustment:", data);
-    // TODO: POST to /api/adjustments
-    setModalMode(null);
-  };
-
   const handleUpdateAdjustment = (data) => {
     console.log("Updating adjustment:", data);
     // TODO: PUT / PATCH to /api/adjustments/{code}
     setModalMode(null);
-  };
-
-  const openAddModal = () => {
-    setModalMode("add");
-    setSelectedItem(null);
   };
 
   const openEditModal = (item) => {
@@ -147,15 +135,6 @@ const AdjustmentsPage = () => {
           >
             <FaFileExcel className="h-8 w-8 text-green-600 hover:text-green-700" />
           </button>
-
-          <button
-            type="button"
-            onClick={openAddModal}
-            className="flex items-center gap-2 rounded-xl bg-[#6F9C3D] px-4 sm:px-6 py-2.5 text-sm sm:text-base font-medium text-white shadow-sm transition hover:bg-[#5d8a32] hover:shadow-md active:scale-95"
-          >
-            <Plus className="h-4 w-4" />
-            <span>Add Adjustment</span>
-          </button>
         </div>
       </div>
 
@@ -192,7 +171,6 @@ const AdjustmentsPage = () => {
           mode={modalMode}
           item={selectedItem}
           onClose={closeModal}
-          onCreate={handleCreateAdjustment}
           onUpdate={handleUpdateAdjustment}
         />
       )}

@@ -92,7 +92,7 @@ const EventsPage = () => {
 
   const handleEditEvent = (event) => {
     console.log("Edit event:", event.id);
-    router.visit(`/edit-event/${event.id}`);
+    router.visit(`/add-events?eventId=${event.id}`);
   };
 
   return (

@@ -1,7 +1,36 @@
-import React from "react";
-import { Eye, PhoneCall, Printer } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Eye, PhoneCall, Printer, ChevronDown } from "lucide-react";
 
-const OrdersTable = ({ orders, onViewOrder, onCallCustomer, onPrintOrder, getStatusColor }) => {
+const OrdersTable = ({ orders, onViewOrder, onCallCustomer, onPrintOrder, onStatusUpdate, getStatusColor }) => {
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  // Status options with their colors
+  const statusOptions = [
+    { value: "New", label: "New", color: "text-black" },
+    { value: "Pending", label: "Pending", color: "text-[#C33100]" },
+    { value: "Processing", label: "Processing", color: "text-[#E978FF]" },
+    { value: "Ready", label: "Ready", color: "text-[#FF8829]" },
+    { value: "Dispatched", label: "Dispatched", color: "text-[#2F47FF]" },
+    { value: "Delivered", label: "Delivered", color: "text-[#6F9C3D]" },
+    { value: "Canceled", label: "Canceled", color: "text-[#FF2121]" },
+  ];
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (openDropdown && !event.target.closest('.status-dropdown')) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown]);
+
+  const handleStatusChange = (orderId, newStatus) => {
+    onStatusUpdate(orderId, newStatus);
+    setOpenDropdown(null);
+  };
   if (orders.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-600">
@@ -44,8 +73,32 @@ const OrdersTable = ({ orders, onViewOrder, onCallCustomer, onPrintOrder, getSta
               <td className="p-4">{order.phone}</td>
               <td className="p-4">{order.paymentTerms}</td>
               <td className="p-4">Rs. {order.totalAmount}</td>
-              <td className={`p-4 ${getStatusColor(order.status)}`}>
-                {order.status}
+              <td className="p-4">
+                <div className="relative status-dropdown">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === order.id ? null : order.id)}
+                    className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6F9C3D] focus:border-transparent flex items-center justify-between transition-colors ${getStatusColor(order.status)}`}
+                  >
+                    <span>{order.status}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === order.id ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {openDropdown === order.id && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto">
+                      {statusOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => handleStatusChange(order.id, option.value)}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors ${option.color} ${
+                            order.status === option.value ? 'bg-[#6F9C3D]/10 font-medium' : ''
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </td>
               <td className={`p-4 ${index === 0 ? "rounded-tr-xl" : ""}`}>
                 <div className="flex justify-center items-center gap-2">

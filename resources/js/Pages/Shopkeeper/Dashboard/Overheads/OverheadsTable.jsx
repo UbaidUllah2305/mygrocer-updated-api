@@ -1,8 +1,23 @@
-// src/Components/Admin/OverheadsTable.jsx
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Pencil, Trash2, Package } from "lucide-react";
 
-const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
+const OverheadsTable = ({ items, loading, onEdit, onDelete, onReceiptSelect }) => {
+  const fileInputRef = useRef(null);
+  const [selectedItemForReceipt, setSelectedItemForReceipt] = useState(null);
+
+  const handleReceiptClick = (item) => {
+    setSelectedItemForReceipt(item);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && selectedItemForReceipt && onReceiptSelect) {
+      onReceiptSelect(selectedItemForReceipt, file);
+    }
+    setSelectedItemForReceipt(null);
+    event.target.value = null; // Reset input
+  };
   if (loading) {
     return (
       <div className="p-8 text-center">
@@ -22,6 +37,13 @@ const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
 
   return (
     <div className="overflow-x-auto">
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
       <table className="w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-[#6F9C3D4F] text-[#3A3E47] text-lg md:text-xl font-medium">
@@ -55,8 +77,9 @@ const OverheadsTable = ({ items, loading, onEdit, onDelete }) => {
               <td className="p-4 text-center">
                 <div className="flex justify-center">
                   <div
-                    className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 overflow-hidden"
-                    title="Product image"
+                    className="h-10 w-10 rounded-lg border-2 border-gray-300 bg-gray-100 overflow-hidden cursor-pointer hover:border-gray-400 transition-colors"
+                    title="Click to select receipt image"
+                    onClick={() => handleReceiptClick(item)}
                   >
                     {item.receipt ? (
                       <img

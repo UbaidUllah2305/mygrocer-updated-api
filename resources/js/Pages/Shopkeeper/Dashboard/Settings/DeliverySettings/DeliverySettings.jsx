@@ -1,4 +1,3 @@
-// src/Pages/Admin/DeliverySettings.jsx
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import DeliveryPricingTable from "./DeliveryPricingTable";
@@ -6,6 +5,7 @@ import FreeDeliveryTable from "./FreeDeliveryTable";
 import OffersTable from "./OffersTable";
 import AddDeliveryTypeModal from "./AddDeliveryTypeModal";
 import ViewDeliveryTypeModal from "./ViewDeliveryTypeModal";
+import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
 
 const DeliverySettings = () => {
   const [activeTab, setActiveTab] = useState("pricing");
@@ -13,12 +13,16 @@ const DeliverySettings = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedDeliveryType, setSelectedDeliveryType] = useState(null);
   const [viewTabType, setViewTabType] = useState('pricing');
+  const [editingItem, setEditingItem] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   // Mock data
   const [deliveryTypes, setDeliveryTypes] = useState([
-    { id: 1, name: "Standard", fee: 50, minOrder: 500, maxDistance: 15, estimatedTime: "2 Days", status: "Active" },
-    { id: 2, name: "Scheduled", fee: 30, minOrder: 300, maxDistance: 20, estimatedTime: "Customer selected", status: "Inactive" },
-    { id: 3, name: "Express", fee: 150, minOrder: 1000, maxDistance: 5, estimatedTime: "1-2 hours", status: "Active" },
+    { id: 1, name: "Standard", fee: 50, minOrder: 500, maxDistance: 15, estimatedTime: "2 Days", status: true },
+    { id: 2, name: "Scheduled", fee: 30, minOrder: 300, maxDistance: 20, estimatedTime: "Customer selected", status: false },
+    { id: 3, name: "Express", fee: 150, minOrder: 1000, maxDistance: 5, estimatedTime: "1-2 hours", status: true },
   ]);
 
   const [freeDeliverySettings, setFreeDeliverySettings] = useState([
@@ -45,7 +49,17 @@ const DeliverySettings = () => {
     );
   };
 
-  const handleAddDeliveryType = () => setShowAddModal(true);
+  const toggleDeliveryTypeStatus = (id) => {
+    setDeliveryTypes(prev =>
+      prev.map(type => type.id === id ? { ...type, status: !type.status } : type)
+    );
+  };
+
+  const handleAddDeliveryType = () => {
+    setEditingItem(null);
+    setIsEditMode(false);
+    setShowAddModal(true);
+  };
 
   const handleViewDeliveryType = (deliveryType, tabType) => {
     setSelectedDeliveryType(deliveryType);
@@ -53,8 +67,48 @@ const DeliverySettings = () => {
     setShowViewModal(true);
   };
 
-  const handleEdit = (item) => console.log("Edit", item.id);
-  const handleDelete = (item) => console.log("Delete", item.id);
+  const handleEdit = (item) => {
+    setEditingItem(item);
+    setIsEditMode(true);
+    setShowAddModal(true);
+  };
+
+  const handleUpdateDeliveryType = (updatedItem) => {
+    if (activeTab === 'pricing') {
+      setDeliveryTypes(prev =>
+        prev.map(type => type.id === updatedItem.id ? updatedItem : type)
+      );
+    } else if (activeTab === 'free') {
+      setFreeDeliverySettings(prev =>
+        prev.map(setting => setting.id === updatedItem.id ? updatedItem : setting)
+      );
+    } else if (activeTab === 'offers') {
+      setOffers(prev =>
+        prev.map(offer => offer.id === updatedItem.id ? updatedItem : offer)
+      );
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowAddModal(false);
+    setEditingItem(null);
+    setIsEditMode(false);
+  };
+  const handleDelete = (item) => {
+    setItemToDelete(item);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (itemToDelete) {
+      if (activeTab === 'offers') {
+        setOffers(prev => prev.filter(offer => offer.id !== itemToDelete.id));
+      }
+      // Add similar logic for other tabs if needed
+      setShowDeleteModal(false);
+      setItemToDelete(null);
+    }
+  };
 
   return (
     <>
@@ -121,6 +175,7 @@ const DeliverySettings = () => {
       {activeTab === "pricing" && (
         <DeliveryPricingTable
           deliveryTypes={deliveryTypes}
+          onToggleStatus={toggleDeliveryTypeStatus}
           onView={handleViewDeliveryType}
           onEdit={handleEdit}
         />
@@ -147,8 +202,11 @@ const DeliverySettings = () => {
       {/* Modals */}
       <AddDeliveryTypeModal
         isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
+        onClose={handleCloseModal}
         activeTab={activeTab}
+        isEditMode={isEditMode}
+        editingItem={editingItem}
+        onUpdate={handleUpdateDeliveryType}
       />
 
       <ViewDeliveryTypeModal
@@ -159,6 +217,17 @@ const DeliverySettings = () => {
         }}
         deliveryType={selectedDeliveryType}
         tabType={viewTabType}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setItemToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Item"
+        message={`Are you sure you want to delete this ${activeTab === 'offers' ? 'offer' : 'item'}? This action cannot be undone.`}
       />
     </>
   );

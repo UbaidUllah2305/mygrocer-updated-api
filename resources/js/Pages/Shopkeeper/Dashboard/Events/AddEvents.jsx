@@ -12,13 +12,18 @@ const mockCategories = ["Beauty", "Electronics", "Apparel", "Home", "Food"];
 const mockProducts = ["Bread", "Eggs", "Meat", "Dupatta"];
 
 const AddEventsPage = () => {
+  // Get eventId from URL search params
+  const urlParams = new URLSearchParams(window.location.search);
+  const eventId = urlParams.get('eventId');
+  const isEdit = !!eventId;
   const [formData, setFormData] = useState({
     eventName: "",
     storeName: "",
     startDate: "",
     endDate: "",
-    discountType: "Percentage",
+    eventPriority: "Medium",
     discountValue: "",
+    status: "Draft",
     eventDescription: "",
     productSelection: "all",
     categories: [],
@@ -37,6 +42,33 @@ const AddEventsPage = () => {
   const [tempCategory, setTempCategory] = useState("");
   const [tempProduct, setTempProduct] = useState("");
   const [showSaveModal, setShowSaveModal] = useState(false);
+
+  // Fetch event data if editing
+  useEffect(() => {
+    if (isEdit && eventId) {
+      // Mock data for editing - replace with actual API call
+      // In a real app, you'd fetch data from `/api/events/${eventId}`
+      const mockEventData = {
+        eventName: `Event ${eventId}`,
+        storeName: "Store A",
+        startDate: "2025-11-29",
+        endDate: "2025-12-01",
+        eventPriority: "High",
+        discountValue: "25",
+        status: "Active",
+        eventDescription: `Description for event ${eventId}`,
+        productSelection: "all",
+        categories: ["Beauty", "Electronics"],
+        specificProducts: [],
+        excludedProducts: [],
+        promotionalText: "Black Friday Mega Sale! Get 25% off on all beauty products. Limited time only!",
+        emailNotification: true,
+        pushNotification: true,
+        showCountdownTimer: true,
+      };
+      setFormData(mockEventData);
+    }
+  }, [isEdit, eventId]);
 
   // Update preview when form changes
   useEffect(() => {
@@ -95,9 +127,9 @@ const AddEventsPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    alert("Event created successfully!");
-    router.visit("/events"); 
+    console.log(`${isEdit ? "Update" : "Create"} event:`, formData);
+    alert(`Event ${isEdit ? "updated" : "created"} successfully!`);
+    router.visit("/events");
   };
 
   return (
@@ -106,10 +138,10 @@ const AddEventsPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
-            Add New Event
+            {isEdit ? "Edit Event" : "Add New Event"}
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
-            Set up a new promotional event
+            {isEdit ? "Update event information" : "Set up a new promotional event"}
           </p>
         </div>
       </div>
@@ -160,13 +192,13 @@ const AddEventsPage = () => {
               />
 
               <SelectFloating
-                id="discountType"
-                label="Discount Type"
-                name="discountType"
-                value={formData.discountType}
-                onChange={(e) => setFormData(prev => ({ ...prev, discountType: e.target.value }))}
-                options={["Percentage", "Fixed Amount"].map(t => ({ value: t, label: t }))}
-                placeholder="Select Discount Type"
+                id="eventPriority"
+                label="Event Priority"
+                name="eventPriority"
+                value={formData.eventPriority}
+                onChange={(e) => setFormData(prev => ({ ...prev, eventPriority: e.target.value }))}
+                options={["Low", "Medium", "High"].map(p => ({ value: p, label: p }))}
+                placeholder="Select Priority"
               />
 
               <InputFloating
@@ -178,6 +210,19 @@ const AddEventsPage = () => {
                 onChange={handleChange}
               />
 
+              <SelectFloating
+                id="status"
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                options={["Draft", "Active", "Inactive", "Completed"].map(s => ({ value: s, label: s }))}
+                placeholder="Select Status"
+              />
+
+            </div>
+
+            <div className="mt-4">
               <FloatingTextarea
                 id="eventDescription"
                 label="Event Description"
@@ -403,13 +448,13 @@ const AddEventsPage = () => {
             />
 
             {/* Notifications */}
-            <div className="mt-4 space-y-3">
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-3">
               {[
                 { label: "Email Notification", name: "emailNotification", desc: "Send email alerts" },
                 { label: "Push Notification", name: "pushNotification", desc: "Send mobile notifications" },
                 { label: "Show Countdown Timer", name: "showCountdownTimer", desc: "Display urgency timer" }
               ].map((item) => (
-                <div key={item.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={item.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-neutral-300">
                   <div>
                     <div className="text-sm font-medium">{item.label}</div>
                     <div className="text-xs text-gray-500">{item.desc}</div>
@@ -437,7 +482,7 @@ const AddEventsPage = () => {
               onClick={() => setShowSaveModal(true)}
               className="px-6 py-2 bg-[#6F9C3D] text-white rounded-lg font-medium hover:bg-[#5a8232] transition"
             >
-              Save Event
+              {isEdit ? "Update Event" : "Save Event"}
             </button>
           </div>
         </div>
@@ -446,8 +491,8 @@ const AddEventsPage = () => {
         {showSaveModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div className="bg-white rounded-lg p-6 w-96 max-w-[90%]">
-              <h3 className="text-lg font-medium mb-2">Save Event</h3>
-              <p className="text-gray-600 mb-4">Are you sure you want to save this event?</p>
+              <h3 className="text-lg font-medium mb-2">{isEdit ? "Update Event" : "Save Event"}</h3>
+              <p className="text-gray-600 mb-4">Are you sure you want to {isEdit ? "update" : "save"} this event?</p>
               <div className="flex justify-end gap-3">
                 <button
                   type="button"
@@ -464,7 +509,7 @@ const AddEventsPage = () => {
                   }}
                   className="px-4 py-2 bg-[#6F9C3D] text-white rounded hover:bg-[#5a8232]"
                 >
-                  Save
+                  {isEdit ? "Update" : "Save"}
                 </button>
               </div>
             </div>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputFloating from "@/Components/InputFloating";
 import SelectFloating from "@/Components/SelectFloating";
 
-const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
+const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab, isEditMode = false, editingItem = null, onUpdate }) => {
   const [formData, setFormData] = useState({
     name: '',
     fee: '',
@@ -11,6 +11,7 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
     estimatedTime: '',
     estimatedTimeUnit: '',
     enableFreeDelivery: false,
+    status: true,
     // For offers
     offerType: '',
     validFrom: '',
@@ -18,6 +19,78 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
     threshold: '',
     discount: '',
   });
+
+  // Populate form when editing
+  useEffect(() => {
+    if (isEditMode && editingItem) {
+      if (activeTab === 'offers') {
+        setFormData({
+          offerType: editingItem.type || '',
+          validFrom: editingItem.validFrom || '',
+          validTo: editingItem.validTo || '',
+          threshold: editingItem.threshold || '',
+          discount: editingItem.discount || '',
+          name: '',
+          fee: '',
+          minOrder: '',
+          maxDistance: '',
+          estimatedTime: '',
+          estimatedTimeUnit: '',
+          enableFreeDelivery: false,
+        });
+      } else if (activeTab === 'free') {
+        setFormData({
+          name: editingItem.name || '',
+          fee: editingItem.fee || '',
+          freeAbove: editingItem.freeAbove || '',
+          enableFreeDelivery: true,
+          offerType: '',
+          validFrom: '',
+          validTo: '',
+          threshold: '',
+          discount: '',
+          minOrder: '',
+          maxDistance: '',
+          estimatedTime: '',
+          estimatedTimeUnit: '',
+        });
+      } else {
+        // pricing tab
+        setFormData({
+          name: editingItem.name || '',
+          fee: editingItem.fee || '',
+          minOrder: editingItem.minOrder || '',
+          maxDistance: editingItem.maxDistance || '',
+          estimatedTime: editingItem.estimatedTime || '',
+          estimatedTimeUnit: '',
+          enableFreeDelivery: false,
+          status: editingItem.status !== undefined ? editingItem.status : true,
+          offerType: '',
+          validFrom: '',
+          validTo: '',
+          threshold: '',
+          discount: '',
+        });
+      }
+    } else {
+      // Reset form for add mode
+      setFormData({
+        name: '',
+        fee: '',
+        minOrder: '',
+        maxDistance: '',
+        estimatedTime: '',
+        estimatedTimeUnit: '',
+        enableFreeDelivery: false,
+        status: true,
+        offerType: '',
+        validFrom: '',
+        validTo: '',
+        threshold: '',
+        discount: '',
+      });
+    }
+  }, [isEditMode, editingItem, activeTab]);
 
   if (!isOpen) return null;
 
@@ -35,7 +108,35 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    if (isEditMode && editingItem) {
+      // Update existing item
+      const updatedItem = {
+        ...editingItem,
+        ...(activeTab === 'offers' ? {
+          type: formData.offerType,
+          validFrom: formData.validFrom,
+          validTo: formData.validTo,
+          threshold: formData.threshold,
+          discount: formData.discount,
+        } : activeTab === 'free' ? {
+          name: formData.name,
+          fee: formData.fee,
+          freeAbove: formData.freeAbove,
+        } : {
+          name: formData.name,
+          fee: formData.fee,
+          minOrder: formData.minOrder,
+          maxDistance: formData.maxDistance,
+          estimatedTime: formData.estimatedTime,
+        })
+      };
+      onUpdate(updatedItem);
+    } else {
+      // Add new item
+      console.log('Form submitted:', formData);
+    }
+
     onClose();
   };
 
@@ -57,13 +158,86 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
         </button>
 
         <div className="p-6">
-          <h2 className="text-xl font-bold text-[#2c323c] mb-6">
-            {isOfferTab ? 'Add Offers' : 'Add New Delivery Type'}
-          </h2>
+          {/* Edit Mode - Different Header */}
+          {isEditMode && activeTab !== 'offers' ? (
+            <>
+              <h2 className="text-2xl font-bold text-[#2c323c] mb-1">
+                {formData.name}
+              </h2>
+              <p className="text-sm text-gray-600 mb-6">
+                {activeTab === 'free' ? `Free delivery above Rs. ${formData.freeAbove}` : `Regular delivery within ${formData.estimatedTime}`}
+              </p>
+            </>
+          ) : (
+            <h2 className="text-xl font-bold text-[#2c323c] mb-6">
+              {isOfferTab ? 'Add Offers' : 'Add New Delivery Type'}
+            </h2>
+          )}
 
           <form onSubmit={handleSubmit}>
-            {!isOfferTab ? (
+            {/* Edit Mode for Pricing/Free Delivery */}
+            {isEditMode && activeTab !== 'offers' ? (
               <>
+                {/* Row 1: Fee | Min Order */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <InputFloating
+                    id="deliveryFee"
+                    label="Delivery Fee (Rs.)"
+                    value={formData.fee}
+                    onChange={(value) => handleInputChange('fee', value)}
+                  />
+                  <InputFloating
+                    id="minOrder"
+                    label="Min Order Amount (Rs.)"
+                    value={formData.minOrder}
+                    onChange={(value) => handleInputChange('minOrder', value)}
+                  />
+                </div>
+
+                {/* Row 2: Max Distance | Estimated Time */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <InputFloating
+                    id="maxDistance"
+                    label="Max Distance (Km)"
+                    value={formData.maxDistance}
+                    onChange={(value) => handleInputChange('maxDistance', value)}
+                  />
+                  <SelectFloating
+                    id="estimatedTime"
+                    label="Select Estimated Time"
+                    value={formData.estimatedTime}
+                    onChange={handleSelectChange('estimatedTime')} 
+                    options={[
+                      { value: "1-2 hours", label: "1-2 hours" },
+                      { value: "2-4 hours", label: "2-4 hours" },
+                      { value: "Same day", label: "Same day" },
+                      { value: "1 Day", label: "1 Day" },
+                      { value: "2 Days", label: "2 Days" },
+                      { value: "3-5 Days", label: "3-5 Days" },
+                      { value: "Customer selected", label: "Customer selected" }
+                    ]}
+                    placeholder="Select Estimated Time"
+                  />
+                </div>
+
+                {/* Status Field */}
+                <div className="grid grid-cols-1 mb-6">
+                  <SelectFloating
+                    id="status"
+                    label="Status"
+                    value={formData.status ? 'active' : 'inactive'}
+                    onChange={(e) => handleInputChange('status', e.target.value === 'active')}
+                    options={[
+                      { value: "active", label: "Active" },
+                      { value: "inactive", label: "Inactive" }
+                    ]}
+                    placeholder="Select Status"
+                  />
+                </div>
+              </>
+            ) : !isOfferTab ? (
+              <>
+                {/* Add Mode */}
                 {/* Row 1: Name | Fee */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <InputFloating
@@ -191,7 +365,7 @@ const AddDeliveryTypeModal = ({ isOpen, onClose, activeTab }) => {
               type="submit"
               className="w-full bg-[#6F9C3D] hover:bg-[#5a7d31] text-white py-3 rounded-lg font-semibold text-base transition"
             >
-              {isOfferTab ? 'Submit' : 'Add'}
+              {isEditMode ? 'Update' : (isOfferTab ? 'Submit' : 'Add')}
             </button>
           </form>
         </div>

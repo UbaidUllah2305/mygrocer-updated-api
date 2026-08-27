@@ -175,6 +175,15 @@ const OverheadsPage = () => {
     setDeleteConfirmation(null);
   };
 
+  const handleReceiptSelect = (item, file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      setItems(prev => prev.map(i => i === item ? { ...i, receipt: dataUrl } : i));
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       {/* Page Header */}
@@ -291,6 +300,7 @@ const OverheadsPage = () => {
         loading={loading}
         onEdit={openEditModal}
         onDelete={handleDelete}
+        onReceiptSelect={handleReceiptSelect}
       />
 
       {/* Pagination */}

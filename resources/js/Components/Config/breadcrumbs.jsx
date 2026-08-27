@@ -232,6 +232,24 @@ export const getBreadcrumbs = (path) => {
     ];
   }
 
+  // Check for offers edit path with query parameter
+  if (normalizedPath === "/create-offers" && path.includes("?offerId=")) {
+    return [
+      { label: "Dashboard", icon: Home, href: "/dashboard" },
+      { label: "Offers", href: "/offers" },
+      { label: "Edit Offer" },
+    ];
+  }
+
+  // Check for events edit path with query parameter
+  if (normalizedPath === "/add-events" && path.includes("?eventId=")) {
+    return [
+      { label: "Dashboard", icon: Home, href: "/dashboard" },
+      { label: "Events", href: "/events" },
+      { label: "Edit Event" },
+    ];
+  }
+
   // Check for account details path with ID
   if (normalizedPath.startsWith("/list/detail")) {
     return [

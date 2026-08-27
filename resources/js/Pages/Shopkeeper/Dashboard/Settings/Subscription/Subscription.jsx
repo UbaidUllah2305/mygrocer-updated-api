@@ -58,7 +58,7 @@ const Subscription = () => {
           </ul>
           <button
             onClick={() => handlePlanSelect("per-order")}
-            className={`w-full py-3 px-4 rounded-lg font-medium text-base transition ${
+            className={`w-full py-3 px-4 rounded-lg font-medium text-base mt-12 transition ${
               selectedPlan === "per-order"
                 ? "bg-[#6F9C3D] text-white hover:bg-[#5a8232]"
                 : "bg-gray-400 text-white hover:bg-gray-500"

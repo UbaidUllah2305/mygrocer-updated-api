@@ -93,7 +93,7 @@ const OffersPage = () => {
 
   const handleEditOffer = (offer) => {
     console.log("Edit offer:", offer.id);
-    // router.visit(`/edit-offer/${offer.id}`);
+    router.visit(`/create-offers?offerId=${offer.id}`);
   };
 
   return (
